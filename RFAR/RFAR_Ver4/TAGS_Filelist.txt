@@ -1,0 +1,28 @@
+delay.c
+ds3231.c
+eeprom.c
+i2c.c
+main.c
+stm8_interrupt_vector.c
+stm8s_adc2.c
+stm8s_clk.c
+stm8s_gpio.c
+stm8s_i2c.c
+stm8s_tim4.c
+stm8s_uart3.c
+delay.h
+ds3231.h
+ds3231_internal.h
+eeprom.h
+i2c.h
+stm8s.h
+stm8s_adc2.h
+stm8s_clk.h
+stm8s_conf.h
+stm8s_gpio.h
+stm8s_i2c.h
+stm8s_tim4.h
+stm8s_uart3.h
+c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\mods.h
+c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h
+c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h

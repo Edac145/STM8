@@ -44,7 +44,7 @@ ptn_Child33=Bar-32
 
 [WorkState_v1_2.DockState.Bar-0]
 BarID=59419
-Bars=21
+Bars=24
 Bar#0=0
 Bar#1=59647
 Bar#2=0
@@ -63,9 +63,12 @@ Bar#14=124933
 Bar#15=124938
 Bar#16=0
 Bar#17=0
-Bar#18=32768
+Bar#18=0
 Bar#19=0
 Bar#20=0
+Bar#21=32768
+Bar#22=0
+Bar#23=0
 Style=0
 ExStyle=0
 PrevFloating=False
@@ -346,7 +349,7 @@ AutoHide=False
 AutoHidePinned=False
 LastAlignedDocking=0
 PctWidth=1000000
-MRUFloatCX=306
+MRUFloatCX=309
 MRUFloatCY=50
 MRUHorzDockCX=1536
 MRUHorzDockCY=29
@@ -727,7 +730,7 @@ Docking=True
 MRUDockID=0
 MRUDockLeftPos=1
 MRUDockTopPos=-2
-MRUDockRightPos=276
+MRUDockRightPos=225
 MRUDockBottomPos=527
 MRUFloatStyle=4
 MRUFloatXPos=-1
@@ -744,7 +747,7 @@ MRUFloatCX=300
 MRUFloatCY=180
 MRUHorzDockCX=300
 MRUHorzDockCY=180
-MRUVertDockCX=275
+MRUVertDockCX=224
 MRUVertDockCY=529
 MRUDockingState=0
 DockingStyle=61440
@@ -758,7 +761,7 @@ BarID=5721
 XPos=1
 YPos=5
 Docking=True
-MRUDockID=0
+MRUDockID=59422
 MRUDockLeftPos=1
 MRUDockTopPos=5
 MRUDockRightPos=1536
@@ -1023,7 +1026,7 @@ MRUFloatCX=300
 MRUFloatCY=180
 MRUHorzDockCX=300
 MRUHorzDockCY=180
-MRUVertDockCX=275
+MRUVertDockCX=224
 MRUVertDockCY=180
 MRUDockingState=0
 DockingStyle=61440
@@ -1240,8 +1243,8 @@ ptn_Child1=MainFrame
 ptn_Child2=ChildFrames
 
 [WorkState_v1_2.Frames.MainFrame]
-WindowPlacement=MCAAAAAACAAAAAAADAAAAAAAAADIPPPPAADIPPPPPPPPPPPPPPPPPPPPJBCAAAAABOAAAAAAGMFAAAAAAIDAAAAA
-Title=ST Visual Develop - RFAR_Ver1.stw - [main.c]
+WindowPlacement=MCAAAAAACAAAAAAADAAAAAAAAADIPPPPAADIPPPPPPPPPPPPPPPPPPPPKKPPPPPPILBAAAAAHFDAAAAAHFEAAAAA
+Title=ST Visual Develop - RFAR_Ver4.stw - [main.c]
 
 [WorkState_v1_2.Frames.ChildFrames]
 ptn_Child1=Document-0
@@ -1251,6 +1254,9 @@ ptn_Child4=Document-3
 ptn_Child5=Document-4
 ptn_Child6=Document-5
 ptn_Child7=Document-6
+ptn_Child8=Document-7
+ptn_Child9=Document-8
+ptn_Child10=Document-9
 
 [WorkState_v1_2.Frames.ChildFrames.Document-0]
 ptn_Child1=ViewFrame-0
@@ -1259,7 +1265,7 @@ ptn_Child1=ViewFrame-0
 DocPathName=main.c
 DocumentString=
 DocTemplateIndex=0
-WindowPlacement=MCAAAAAACAAAAAAADAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPMJAAAAAAMJAAAAAAIMEAAAAANNBAAAAA
+WindowPlacement=MCAAAAAACAAAAAAADAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPEDAAAAAAEDAAAAAADJEAAAAAFHBAAAAA
 IsActiveChildFrame=True
 IsFrameVisible=True
 
@@ -1267,10 +1273,10 @@ IsFrameVisible=True
 ptn_Child1=ViewFrame-0
 
 [WorkState_v1_2.Frames.ChildFrames.Document-1.ViewFrame-0]
-DocPathName=stm8s.h
+DocPathName=ds3231_internal.h
 DocumentString=
 DocTemplateIndex=0
-WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPAAAAAAAAAAAAAAAAADEAAAAAFEBAAAAA
+WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPOEAAAAAAOEAAAAAABLEAAAAADJBAAAAA
 IsActiveChildFrame=False
 IsFrameVisible=True
 
@@ -1278,10 +1284,10 @@ IsFrameVisible=True
 ptn_Child1=ViewFrame-0
 
 [WorkState_v1_2.Frames.ChildFrames.Document-2.ViewFrame-0]
-DocPathName=stm8s_conf.h
+DocPathName=stm8s_i2c.c
 DocumentString=
 DocTemplateIndex=0
-WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPKBAAAAAAKBAAAAAAKEEAAAAAPFBAAAAA
+WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPIGAAAAAAIGAAAAAALMEAAAAANKBAAAAA
 IsActiveChildFrame=False
 IsFrameVisible=True
 
@@ -1289,10 +1295,10 @@ IsFrameVisible=True
 ptn_Child1=ViewFrame-0
 
 [WorkState_v1_2.Frames.ChildFrames.Document-3.ViewFrame-0]
-DocPathName=stm8_interrupt_vector.c
+DocPathName=stm8s_uart3.h
 DocumentString=
 DocTemplateIndex=0
-WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPEDAAAAAAEDAAAAAAEGEAAAAAJHBAAAAA
+WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPOEAAAAAAOEAAAAAABLEAAAAADJBAAAAA
 IsActiveChildFrame=False
 IsFrameVisible=True
 
@@ -1300,10 +1306,10 @@ IsFrameVisible=True
 ptn_Child1=ViewFrame-0
 
 [WorkState_v1_2.Frames.ChildFrames.Document-4.ViewFrame-0]
-DocPathName=stm8s_adc2.h
+DocPathName=stm8s_tim4.h
 DocumentString=
 DocTemplateIndex=0
-WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPOEAAAAAAOEAAAAAAOHEAAAAADJBAAAAA
+WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPIGAAAAAAIGAAAAAALMEAAAAANKBAAAAA
 IsActiveChildFrame=False
 IsFrameVisible=True
 
@@ -1311,10 +1317,10 @@ IsFrameVisible=True
 ptn_Child1=ViewFrame-0
 
 [WorkState_v1_2.Frames.ChildFrames.Document-5.ViewFrame-0]
-DocPathName=stm8s_adc2.c
+DocPathName=stm8s_uart3.c
 DocumentString=
 DocTemplateIndex=0
-WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPIGAAAAAAIGAAAAAAIJEAAAAANKBAAAAA
+WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPCIAAAAAACIAAAAAAFOEAAAAAHMBAAAAA
 IsActiveChildFrame=False
 IsFrameVisible=True
 
@@ -1322,9 +1328,42 @@ IsFrameVisible=True
 ptn_Child1=ViewFrame-0
 
 [WorkState_v1_2.Frames.ChildFrames.Document-6.ViewFrame-0]
-DocPathName=debug\rfar_ver1.lkf
+DocPathName=ds3231.h
 DocumentString=
 DocTemplateIndex=0
-WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPCIAAAAAACIAAAAAACLEAAAAAHMBAAAAA
+WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPMJAAAAAAMJAAAAAAPPEAAAAABOBAAAAA
+IsActiveChildFrame=False
+IsFrameVisible=True
+
+[WorkState_v1_2.Frames.ChildFrames.Document-7]
+ptn_Child1=ViewFrame-0
+
+[WorkState_v1_2.Frames.ChildFrames.Document-7.ViewFrame-0]
+DocPathName=ds3231.c
+DocumentString=
+DocTemplateIndex=0
+WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPAAAAAAAAAAAAAAAADGEAAAAAFEBAAAAA
+IsActiveChildFrame=False
+IsFrameVisible=True
+
+[WorkState_v1_2.Frames.ChildFrames.Document-8]
+ptn_Child1=ViewFrame-0
+
+[WorkState_v1_2.Frames.ChildFrames.Document-8.ViewFrame-0]
+DocPathName=i2c.c
+DocumentString=
+DocTemplateIndex=0
+WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPKBAAAAAAKBAAAAAANHEAAAAAPFBAAAAA
+IsActiveChildFrame=False
+IsFrameVisible=True
+
+[WorkState_v1_2.Frames.ChildFrames.Document-9]
+ptn_Child1=ViewFrame-0
+
+[WorkState_v1_2.Frames.ChildFrames.Document-9.ViewFrame-0]
+DocPathName=i2c.h
+DocumentString=
+DocTemplateIndex=0
+WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPEDAAAAAAEDAAAAAAHJEAAAAAJHBAAAAA
 IsActiveChildFrame=False
 IsFrameVisible=True
