@@ -1,403 +1,383 @@
    1                     ; C Compiler for STM8 (COSMIC Software)
    2                     ; Parser V4.13.2 - 04 Jun 2024
    3                     ; Generator (Limited) V4.6.3 - 22 Aug 2024
-  42                     ; 54 void ADC2_DeInit(void)
-  42                     ; 55 {
-  43                     	switch	.text
-  44  0000               f_ADC2_DeInit:
-  48                     ; 56   ADC2->CSR  = ADC2_CSR_RESET_VALUE;
-  50  0000 725f5400      	clr	21504
-  51                     ; 57   ADC2->CR1  = ADC2_CR1_RESET_VALUE;
-  53  0004 725f5401      	clr	21505
-  54                     ; 58   ADC2->CR2  = ADC2_CR2_RESET_VALUE;
-  56  0008 725f5402      	clr	21506
-  57                     ; 59   ADC2->TDRH = ADC2_TDRH_RESET_VALUE;
-  59  000c 725f5406      	clr	21510
-  60                     ; 60   ADC2->TDRL = ADC2_TDRL_RESET_VALUE;
-  62  0010 725f5407      	clr	21511
-  63                     ; 61 }
-  66  0014 87            	retf
- 591                     ; 83 void ADC2_Init(ADC2_ConvMode_TypeDef ADC2_ConversionMode, ADC2_Channel_TypeDef ADC2_Channel, ADC2_PresSel_TypeDef ADC2_PrescalerSelection, ADC2_ExtTrig_TypeDef ADC2_ExtTrigger, FunctionalState ADC2_ExtTriggerState, ADC2_Align_TypeDef ADC2_Align, ADC2_SchmittTrigg_TypeDef ADC2_SchmittTriggerChannel, FunctionalState ADC2_SchmittTriggerState)
- 591                     ; 84 {
- 592                     	switch	.text
- 593  0015               f_ADC2_Init:
- 595  0015 89            	pushw	x
- 596       00000000      OFST:	set	0
- 599                     ; 86   assert_param(IS_ADC2_CONVERSIONMODE_OK(ADC2_ConversionMode));
- 601                     ; 87   assert_param(IS_ADC2_CHANNEL_OK(ADC2_Channel));
- 603                     ; 88   assert_param(IS_ADC2_PRESSEL_OK(ADC2_PrescalerSelection));
- 605                     ; 89   assert_param(IS_ADC2_EXTTRIG_OK(ADC2_ExtTrigger));
- 607                     ; 90   assert_param(IS_FUNCTIONALSTATE_OK(((ADC2_ExtTriggerState))));
- 609                     ; 91   assert_param(IS_ADC2_ALIGN_OK(ADC2_Align));
- 611                     ; 92   assert_param(IS_ADC2_SCHMITTTRIG_OK(ADC2_SchmittTriggerChannel));
- 613                     ; 93   assert_param(IS_FUNCTIONALSTATE_OK(ADC2_SchmittTriggerState));
- 615                     ; 98   ADC2_ConversionConfig(ADC2_ConversionMode, ADC2_Channel, ADC2_Align);
- 617  0016 7b09          	ld	a,(OFST+9,sp)
- 618  0018 88            	push	a
- 619  0019 9f            	ld	a,xl
- 620  001a 97            	ld	xl,a
- 621  001b 7b02          	ld	a,(OFST+2,sp)
- 622  001d 95            	ld	xh,a
- 623  001e 8d000100      	callf	f_ADC2_ConversionConfig
- 625  0022 84            	pop	a
- 626                     ; 100   ADC2_PrescalerConfig(ADC2_PrescalerSelection);
- 628  0023 7b06          	ld	a,(OFST+6,sp)
- 629  0025 8d5f005f      	callf	f_ADC2_PrescalerConfig
- 631                     ; 105   ADC2_ExternalTriggerConfig(ADC2_ExtTrigger, ADC2_ExtTriggerState);
- 633  0029 7b08          	ld	a,(OFST+8,sp)
- 634  002b 97            	ld	xl,a
- 635  002c 7b07          	ld	a,(OFST+7,sp)
- 636  002e 95            	ld	xh,a
- 637  002f 8d2e012e      	callf	f_ADC2_ExternalTriggerConfig
- 639                     ; 110   ADC2_SchmittTriggerConfig(ADC2_SchmittTriggerChannel, ADC2_SchmittTriggerState);
- 641  0033 7b0b          	ld	a,(OFST+11,sp)
- 642  0035 97            	ld	xl,a
- 643  0036 7b0a          	ld	a,(OFST+10,sp)
- 644  0038 95            	ld	xh,a
- 645  0039 8d720072      	callf	f_ADC2_SchmittTriggerConfig
- 647                     ; 113   ADC2->CR1 |= ADC2_CR1_ADON;
- 649  003d 72105401      	bset	21505,#0
- 650                     ; 114 }
- 653  0041 85            	popw	x
- 654  0042 87            	retf
- 688                     ; 121 void ADC2_Cmd(FunctionalState NewState)
- 688                     ; 122 {
- 689                     	switch	.text
- 690  0043               f_ADC2_Cmd:
- 694                     ; 124   assert_param(IS_FUNCTIONALSTATE_OK(NewState));
- 696                     ; 126   if (NewState != DISABLE)
- 698  0043 4d            	tnz	a
- 699  0044 2706          	jreq	L703
- 700                     ; 128     ADC2->CR1 |= ADC2_CR1_ADON;
- 702  0046 72105401      	bset	21505,#0
- 704  004a 2004          	jra	L113
- 705  004c               L703:
- 706                     ; 132     ADC2->CR1 &= (uint8_t)(~ADC2_CR1_ADON);
- 708  004c 72115401      	bres	21505,#0
- 709  0050               L113:
- 710                     ; 134 }
- 713  0050 87            	retf
- 747                     ; 141 void ADC2_ITConfig(FunctionalState NewState)
- 747                     ; 142 {
- 748                     	switch	.text
- 749  0051               f_ADC2_ITConfig:
- 753                     ; 144   assert_param(IS_FUNCTIONALSTATE_OK(NewState));
- 755                     ; 146   if (NewState != DISABLE)
- 757  0051 4d            	tnz	a
- 758  0052 2706          	jreq	L133
- 759                     ; 149     ADC2->CSR |= (uint8_t)ADC2_CSR_EOCIE;
- 761  0054 721a5400      	bset	21504,#5
- 763  0058 2004          	jra	L333
- 764  005a               L133:
- 765                     ; 154     ADC2->CSR &= (uint8_t)(~ADC2_CSR_EOCIE);
- 767  005a 721b5400      	bres	21504,#5
- 768  005e               L333:
- 769                     ; 156 }
- 772  005e 87            	retf
- 807                     ; 164 void ADC2_PrescalerConfig(ADC2_PresSel_TypeDef ADC2_Prescaler)
- 807                     ; 165 {
- 808                     	switch	.text
- 809  005f               f_ADC2_PrescalerConfig:
- 811  005f 88            	push	a
- 812       00000000      OFST:	set	0
- 815                     ; 167   assert_param(IS_ADC2_PRESSEL_OK(ADC2_Prescaler));
- 817                     ; 170   ADC2->CR1 &= (uint8_t)(~ADC2_CR1_SPSEL);
- 819  0060 c65401        	ld	a,21505
- 820  0063 a48f          	and	a,#143
- 821  0065 c75401        	ld	21505,a
- 822                     ; 172   ADC2->CR1 |= (uint8_t)(ADC2_Prescaler);
- 824  0068 c65401        	ld	a,21505
- 825  006b 1a01          	or	a,(OFST+1,sp)
- 826  006d c75401        	ld	21505,a
- 827                     ; 173 }
- 830  0070 84            	pop	a
- 831  0071 87            	retf
- 877                     ; 183 void ADC2_SchmittTriggerConfig(ADC2_SchmittTrigg_TypeDef ADC2_SchmittTriggerChannel, FunctionalState NewState)
- 877                     ; 184 {
- 878                     	switch	.text
- 879  0072               f_ADC2_SchmittTriggerConfig:
- 881  0072 89            	pushw	x
- 882       00000000      OFST:	set	0
- 885                     ; 186   assert_param(IS_ADC2_SCHMITTTRIG_OK(ADC2_SchmittTriggerChannel));
- 887                     ; 187   assert_param(IS_FUNCTIONALSTATE_OK(NewState));
- 889                     ; 189   if (ADC2_SchmittTriggerChannel == ADC2_SCHMITTTRIG_ALL)
- 891  0073 9e            	ld	a,xh
- 892  0074 a11f          	cp	a,#31
- 893  0076 2620          	jrne	L573
- 894                     ; 191     if (NewState != DISABLE)
- 896  0078 9f            	ld	a,xl
- 897  0079 4d            	tnz	a
- 898  007a 270a          	jreq	L773
- 899                     ; 193       ADC2->TDRL &= (uint8_t)0x0;
- 901  007c 725f5407      	clr	21511
- 902                     ; 194       ADC2->TDRH &= (uint8_t)0x0;
- 904  0080 725f5406      	clr	21510
- 906  0084 2078          	jra	L304
- 907  0086               L773:
- 908                     ; 198       ADC2->TDRL |= (uint8_t)0xFF;
- 910  0086 c65407        	ld	a,21511
- 911  0089 aaff          	or	a,#255
- 912  008b c75407        	ld	21511,a
- 913                     ; 199       ADC2->TDRH |= (uint8_t)0xFF;
- 915  008e c65406        	ld	a,21510
- 916  0091 aaff          	or	a,#255
- 917  0093 c75406        	ld	21510,a
- 918  0096 2066          	jra	L304
- 919  0098               L573:
+   4                     ; Optimizer V4.6.3 - 22 Aug 2024
+  45                     ; 54 void ADC2_DeInit(void)
+  45                     ; 55 {
+  46                     	switch	.text
+  47  0000               f_ADC2_DeInit:
+  51                     ; 56   ADC2->CSR  = ADC2_CSR_RESET_VALUE;
+  53  0000 725f5400      	clr	21504
+  54                     ; 57   ADC2->CR1  = ADC2_CR1_RESET_VALUE;
+  56  0004 725f5401      	clr	21505
+  57                     ; 58   ADC2->CR2  = ADC2_CR2_RESET_VALUE;
+  59  0008 725f5402      	clr	21506
+  60                     ; 59   ADC2->TDRH = ADC2_TDRH_RESET_VALUE;
+  62  000c 725f5406      	clr	21510
+  63                     ; 60   ADC2->TDRL = ADC2_TDRL_RESET_VALUE;
+  65  0010 725f5407      	clr	21511
+  66                     ; 61 }
+  69  0014 87            	retf	
+ 594                     ; 83 void ADC2_Init(ADC2_ConvMode_TypeDef ADC2_ConversionMode, ADC2_Channel_TypeDef ADC2_Channel, ADC2_PresSel_TypeDef ADC2_PrescalerSelection, ADC2_ExtTrig_TypeDef ADC2_ExtTrigger, FunctionalState ADC2_ExtTriggerState, ADC2_Align_TypeDef ADC2_Align, ADC2_SchmittTrigg_TypeDef ADC2_SchmittTriggerChannel, FunctionalState ADC2_SchmittTriggerState)
+ 594                     ; 84 {
+ 595                     	switch	.text
+ 596  0015               f_ADC2_Init:
+ 598  0015 89            	pushw	x
+ 599       00000000      OFST:	set	0
+ 602                     ; 86   assert_param(IS_ADC2_CONVERSIONMODE_OK(ADC2_ConversionMode));
+ 604                     ; 87   assert_param(IS_ADC2_CHANNEL_OK(ADC2_Channel));
+ 606                     ; 88   assert_param(IS_ADC2_PRESSEL_OK(ADC2_PrescalerSelection));
+ 608                     ; 89   assert_param(IS_ADC2_EXTTRIG_OK(ADC2_ExtTrigger));
+ 610                     ; 90   assert_param(IS_FUNCTIONALSTATE_OK(((ADC2_ExtTriggerState))));
+ 612                     ; 91   assert_param(IS_ADC2_ALIGN_OK(ADC2_Align));
+ 614                     ; 92   assert_param(IS_ADC2_SCHMITTTRIG_OK(ADC2_SchmittTriggerChannel));
+ 616                     ; 93   assert_param(IS_FUNCTIONALSTATE_OK(ADC2_SchmittTriggerState));
+ 618                     ; 98   ADC2_ConversionConfig(ADC2_ConversionMode, ADC2_Channel, ADC2_Align);
+ 620  0016 7b09          	ld	a,(OFST+9,sp)
+ 621  0018 88            	push	a
+ 622  0019 7b02          	ld	a,(OFST+2,sp)
+ 623  001b 95            	ld	xh,a
+ 624  001c 8de900e9      	callf	f_ADC2_ConversionConfig
+ 626  0020 84            	pop	a
+ 627                     ; 100   ADC2_PrescalerConfig(ADC2_PrescalerSelection);
+ 629  0021 7b06          	ld	a,(OFST+6,sp)
+ 630  0023 8d5b005b      	callf	f_ADC2_PrescalerConfig
+ 632                     ; 105   ADC2_ExternalTriggerConfig(ADC2_ExtTrigger, ADC2_ExtTriggerState);
+ 634  0027 7b08          	ld	a,(OFST+8,sp)
+ 635  0029 97            	ld	xl,a
+ 636  002a 7b07          	ld	a,(OFST+7,sp)
+ 637  002c 95            	ld	xh,a
+ 638  002d 8d160116      	callf	f_ADC2_ExternalTriggerConfig
+ 640                     ; 110   ADC2_SchmittTriggerConfig(ADC2_SchmittTriggerChannel, ADC2_SchmittTriggerState);
+ 642  0031 7b0b          	ld	a,(OFST+11,sp)
+ 643  0033 97            	ld	xl,a
+ 644  0034 7b0a          	ld	a,(OFST+10,sp)
+ 645  0036 95            	ld	xh,a
+ 646  0037 8d6e006e      	callf	f_ADC2_SchmittTriggerConfig
+ 648                     ; 113   ADC2->CR1 |= ADC2_CR1_ADON;
+ 650  003b 72105401      	bset	21505,#0
+ 651                     ; 114 }
+ 654  003f 85            	popw	x
+ 655  0040 87            	retf	
+ 689                     ; 121 void ADC2_Cmd(FunctionalState NewState)
+ 689                     ; 122 {
+ 690                     	switch	.text
+ 691  0041               f_ADC2_Cmd:
+ 695                     ; 124   assert_param(IS_FUNCTIONALSTATE_OK(NewState));
+ 697                     ; 126   if (NewState != DISABLE)
+ 699  0041 4d            	tnz	a
+ 700  0042 2705          	jreq	L703
+ 701                     ; 128     ADC2->CR1 |= ADC2_CR1_ADON;
+ 703  0044 72105401      	bset	21505,#0
+ 706  0048 87            	retf	
+ 707  0049               L703:
+ 708                     ; 132     ADC2->CR1 &= (uint8_t)(~ADC2_CR1_ADON);
+ 710  0049 72115401      	bres	21505,#0
+ 711                     ; 134 }
+ 714  004d 87            	retf	
+ 748                     ; 141 void ADC2_ITConfig(FunctionalState NewState)
+ 748                     ; 142 {
+ 749                     	switch	.text
+ 750  004e               f_ADC2_ITConfig:
+ 754                     ; 144   assert_param(IS_FUNCTIONALSTATE_OK(NewState));
+ 756                     ; 146   if (NewState != DISABLE)
+ 758  004e 4d            	tnz	a
+ 759  004f 2705          	jreq	L133
+ 760                     ; 149     ADC2->CSR |= (uint8_t)ADC2_CSR_EOCIE;
+ 762  0051 721a5400      	bset	21504,#5
+ 765  0055 87            	retf	
+ 766  0056               L133:
+ 767                     ; 154     ADC2->CSR &= (uint8_t)(~ADC2_CSR_EOCIE);
+ 769  0056 721b5400      	bres	21504,#5
+ 770                     ; 156 }
+ 773  005a 87            	retf	
+ 808                     ; 164 void ADC2_PrescalerConfig(ADC2_PresSel_TypeDef ADC2_Prescaler)
+ 808                     ; 165 {
+ 809                     	switch	.text
+ 810  005b               f_ADC2_PrescalerConfig:
+ 812  005b 88            	push	a
+ 813       00000000      OFST:	set	0
+ 816                     ; 167   assert_param(IS_ADC2_PRESSEL_OK(ADC2_Prescaler));
+ 818                     ; 170   ADC2->CR1 &= (uint8_t)(~ADC2_CR1_SPSEL);
+ 820  005c c65401        	ld	a,21505
+ 821  005f a48f          	and	a,#143
+ 822  0061 c75401        	ld	21505,a
+ 823                     ; 172   ADC2->CR1 |= (uint8_t)(ADC2_Prescaler);
+ 825  0064 c65401        	ld	a,21505
+ 826  0067 1a01          	or	a,(OFST+1,sp)
+ 827  0069 c75401        	ld	21505,a
+ 828                     ; 173 }
+ 831  006c 84            	pop	a
+ 832  006d 87            	retf	
+ 878                     ; 183 void ADC2_SchmittTriggerConfig(ADC2_SchmittTrigg_TypeDef ADC2_SchmittTriggerChannel, FunctionalState NewState)
+ 878                     ; 184 {
+ 879                     	switch	.text
+ 880  006e               f_ADC2_SchmittTriggerConfig:
+ 882  006e 89            	pushw	x
+ 883       00000000      OFST:	set	0
+ 886                     ; 186   assert_param(IS_ADC2_SCHMITTTRIG_OK(ADC2_SchmittTriggerChannel));
+ 888                     ; 187   assert_param(IS_FUNCTIONALSTATE_OK(NewState));
+ 890                     ; 189   if (ADC2_SchmittTriggerChannel == ADC2_SCHMITTTRIG_ALL)
+ 892  006f 9e            	ld	a,xh
+ 893  0070 a11f          	cp	a,#31
+ 894  0072 261d          	jrne	L573
+ 895                     ; 191     if (NewState != DISABLE)
+ 897  0074 9f            	ld	a,xl
+ 898  0075 4d            	tnz	a
+ 899  0076 270a          	jreq	L773
+ 900                     ; 193       ADC2->TDRL &= (uint8_t)0x0;
+ 902  0078 725f5407      	clr	21511
+ 903                     ; 194       ADC2->TDRH &= (uint8_t)0x0;
+ 905  007c 725f5406      	clr	21510
+ 907  0080 2065          	jra	L304
+ 908  0082               L773:
+ 909                     ; 198       ADC2->TDRL |= (uint8_t)0xFF;
+ 911  0082 c65407        	ld	a,21511
+ 912  0085 aaff          	or	a,#255
+ 913  0087 c75407        	ld	21511,a
+ 914                     ; 199       ADC2->TDRH |= (uint8_t)0xFF;
+ 916  008a c65406        	ld	a,21510
+ 917  008d aaff          	or	a,#255
+ 918  008f 2053          	jpf	LC001
+ 919  0091               L573:
  920                     ; 202   else if (ADC2_SchmittTriggerChannel < ADC2_SCHMITTTRIG_CHANNEL8)
- 922  0098 7b01          	ld	a,(OFST+1,sp)
- 923  009a a108          	cp	a,#8
- 924  009c 242f          	jruge	L504
- 925                     ; 204     if (NewState != DISABLE)
- 927  009e 0d02          	tnz	(OFST+2,sp)
- 928  00a0 2716          	jreq	L704
+ 922  0091 7b01          	ld	a,(OFST+1,sp)
+ 923  0093 a108          	cp	a,#8
+ 924  0095 0d02          	tnz	(OFST+2,sp)
+ 925  0097 2426          	jruge	L504
+ 926                     ; 204     if (NewState != DISABLE)
+ 928  0099 2714          	jreq	L704
  929                     ; 206       ADC2->TDRL &= (uint8_t)(~(uint8_t)((uint8_t)0x01 << (uint8_t)ADC2_SchmittTriggerChannel));
- 931  00a2 7b01          	ld	a,(OFST+1,sp)
- 932  00a4 5f            	clrw	x
- 933  00a5 97            	ld	xl,a
- 934  00a6 a601          	ld	a,#1
- 935  00a8 5d            	tnzw	x
- 936  00a9 2704          	jreq	L02
- 937  00ab               L22:
- 938  00ab 48            	sll	a
- 939  00ac 5a            	decw	x
- 940  00ad 26fc          	jrne	L22
- 941  00af               L02:
- 942  00af 43            	cpl	a
- 943  00b0 c45407        	and	a,21511
- 944  00b3 c75407        	ld	21511,a
- 946  00b6 2046          	jra	L304
- 947  00b8               L704:
+ 931  009b 5f            	clrw	x
+ 932  009c 97            	ld	xl,a
+ 933  009d a601          	ld	a,#1
+ 934  009f 5d            	tnzw	x
+ 935  00a0 2704          	jreq	L03
+ 936  00a2               L23:
+ 937  00a2 48            	sll	a
+ 938  00a3 5a            	decw	x
+ 939  00a4 26fc          	jrne	L23
+ 940  00a6               L03:
+ 941  00a6 43            	cpl	a
+ 942  00a7 c45407        	and	a,21511
+ 943  00aa               LC002:
+ 944  00aa c75407        	ld	21511,a
+ 946  00ad 2038          	jra	L304
+ 947  00af               L704:
  948                     ; 210       ADC2->TDRL |= (uint8_t)((uint8_t)0x01 << (uint8_t)ADC2_SchmittTriggerChannel);
- 950  00b8 7b01          	ld	a,(OFST+1,sp)
- 951  00ba 5f            	clrw	x
- 952  00bb 97            	ld	xl,a
- 953  00bc a601          	ld	a,#1
- 954  00be 5d            	tnzw	x
- 955  00bf 2704          	jreq	L42
- 956  00c1               L62:
- 957  00c1 48            	sll	a
- 958  00c2 5a            	decw	x
- 959  00c3 26fc          	jrne	L62
- 960  00c5               L42:
- 961  00c5 ca5407        	or	a,21511
- 962  00c8 c75407        	ld	21511,a
- 963  00cb 2031          	jra	L304
- 964  00cd               L504:
- 965                     ; 215     if (NewState != DISABLE)
- 967  00cd 0d02          	tnz	(OFST+2,sp)
- 968  00cf 2718          	jreq	L514
- 969                     ; 217       ADC2->TDRH &= (uint8_t)(~(uint8_t)((uint8_t)0x01 << ((uint8_t)ADC2_SchmittTriggerChannel - (uint8_t)8)));
- 971  00d1 7b01          	ld	a,(OFST+1,sp)
- 972  00d3 a008          	sub	a,#8
- 973  00d5 5f            	clrw	x
- 974  00d6 97            	ld	xl,a
- 975  00d7 a601          	ld	a,#1
- 976  00d9 5d            	tnzw	x
- 977  00da 2704          	jreq	L03
- 978  00dc               L23:
- 979  00dc 48            	sll	a
- 980  00dd 5a            	decw	x
- 981  00de 26fc          	jrne	L23
- 982  00e0               L03:
- 983  00e0 43            	cpl	a
- 984  00e1 c45406        	and	a,21510
- 985  00e4 c75406        	ld	21510,a
- 987  00e7 2015          	jra	L304
- 988  00e9               L514:
- 989                     ; 221       ADC2->TDRH |= (uint8_t)((uint8_t)0x01 << ((uint8_t)ADC2_SchmittTriggerChannel - (uint8_t)8));
- 991  00e9 7b01          	ld	a,(OFST+1,sp)
- 992  00eb a008          	sub	a,#8
- 993  00ed 5f            	clrw	x
- 994  00ee 97            	ld	xl,a
- 995  00ef a601          	ld	a,#1
- 996  00f1 5d            	tnzw	x
- 997  00f2 2704          	jreq	L43
- 998  00f4               L63:
- 999  00f4 48            	sll	a
-1000  00f5 5a            	decw	x
-1001  00f6 26fc          	jrne	L63
-1002  00f8               L43:
-1003  00f8 ca5406        	or	a,21510
-1004  00fb c75406        	ld	21510,a
-1005  00fe               L304:
-1006                     ; 224 }
-1009  00fe 85            	popw	x
-1010  00ff 87            	retf
-1066                     ; 236 void ADC2_ConversionConfig(ADC2_ConvMode_TypeDef ADC2_ConversionMode, ADC2_Channel_TypeDef ADC2_Channel, ADC2_Align_TypeDef ADC2_Align)
-1066                     ; 237 {
-1067                     	switch	.text
-1068  0100               f_ADC2_ConversionConfig:
-1070  0100 89            	pushw	x
-1071       00000000      OFST:	set	0
-1074                     ; 239   assert_param(IS_ADC2_CONVERSIONMODE_OK(ADC2_ConversionMode));
-1076                     ; 240   assert_param(IS_ADC2_CHANNEL_OK(ADC2_Channel));
-1078                     ; 241   assert_param(IS_ADC2_ALIGN_OK(ADC2_Align));
-1080                     ; 244   ADC2->CR2 &= (uint8_t)(~ADC2_CR2_ALIGN);
-1082  0101 72175402      	bres	21506,#3
-1083                     ; 246   ADC2->CR2 |= (uint8_t)(ADC2_Align);
-1085  0105 c65402        	ld	a,21506
-1086  0108 1a06          	or	a,(OFST+6,sp)
-1087  010a c75402        	ld	21506,a
-1088                     ; 248   if (ADC2_ConversionMode == ADC2_CONVERSIONMODE_CONTINUOUS)
-1090  010d 9e            	ld	a,xh
-1091  010e a101          	cp	a,#1
-1092  0110 2606          	jrne	L744
-1093                     ; 251     ADC2->CR1 |= ADC2_CR1_CONT;
-1095  0112 72125401      	bset	21505,#1
-1097  0116 2004          	jra	L154
-1098  0118               L744:
-1099                     ; 256     ADC2->CR1 &= (uint8_t)(~ADC2_CR1_CONT);
-1101  0118 72135401      	bres	21505,#1
-1102  011c               L154:
-1103                     ; 260   ADC2->CSR &= (uint8_t)(~ADC2_CSR_CH);
-1105  011c c65400        	ld	a,21504
-1106  011f a4f0          	and	a,#240
-1107  0121 c75400        	ld	21504,a
-1108                     ; 262   ADC2->CSR |= (uint8_t)(ADC2_Channel);
-1110  0124 c65400        	ld	a,21504
-1111  0127 1a02          	or	a,(OFST+2,sp)
-1112  0129 c75400        	ld	21504,a
-1113                     ; 263 }
-1116  012c 85            	popw	x
-1117  012d 87            	retf
-1162                     ; 275 void ADC2_ExternalTriggerConfig(ADC2_ExtTrig_TypeDef ADC2_ExtTrigger, FunctionalState NewState)
-1162                     ; 276 {
-1163                     	switch	.text
-1164  012e               f_ADC2_ExternalTriggerConfig:
-1166  012e 89            	pushw	x
-1167       00000000      OFST:	set	0
-1170                     ; 278   assert_param(IS_ADC2_EXTTRIG_OK(ADC2_ExtTrigger));
-1172                     ; 279   assert_param(IS_FUNCTIONALSTATE_OK(NewState));
-1174                     ; 282   ADC2->CR2 &= (uint8_t)(~ADC2_CR2_EXTSEL);
-1176  012f c65402        	ld	a,21506
-1177  0132 a4cf          	and	a,#207
-1178  0134 c75402        	ld	21506,a
-1179                     ; 284   if (NewState != DISABLE)
-1181  0137 9f            	ld	a,xl
-1182  0138 4d            	tnz	a
-1183  0139 2706          	jreq	L574
-1184                     ; 287     ADC2->CR2 |= (uint8_t)(ADC2_CR2_EXTTRIG);
-1186  013b 721c5402      	bset	21506,#6
-1188  013f 2004          	jra	L774
-1189  0141               L574:
-1190                     ; 292     ADC2->CR2 &= (uint8_t)(~ADC2_CR2_EXTTRIG);
-1192  0141 721d5402      	bres	21506,#6
-1193  0145               L774:
-1194                     ; 296   ADC2->CR2 |= (uint8_t)(ADC2_ExtTrigger);
-1196  0145 c65402        	ld	a,21506
-1197  0148 1a01          	or	a,(OFST+1,sp)
-1198  014a c75402        	ld	21506,a
-1199                     ; 297 }
-1202  014d 85            	popw	x
-1203  014e 87            	retf
-1226                     ; 308 void ADC2_StartConversion(void)
-1226                     ; 309 {
-1227                     	switch	.text
-1228  014f               f_ADC2_StartConversion:
-1232                     ; 310   ADC2->CR1 |= ADC2_CR1_ADON;
-1234  014f 72105401      	bset	21505,#0
-1235                     ; 311 }
-1238  0153 87            	retf
-1281                     ; 320 uint16_t ADC2_GetConversionValue(void)
-1281                     ; 321 {
-1282                     	switch	.text
-1283  0154               f_ADC2_GetConversionValue:
-1285  0154 5205          	subw	sp,#5
-1286       00000005      OFST:	set	5
-1289                     ; 322   uint16_t temph = 0;
-1291                     ; 323   uint8_t templ = 0;
-1293                     ; 325   if ((ADC2->CR2 & ADC2_CR2_ALIGN) != 0) /* Right alignment */
-1295  0156 c65402        	ld	a,21506
-1296  0159 a508          	bcp	a,#8
-1297  015b 2715          	jreq	L335
-1298                     ; 328     templ = ADC2->DRL;
-1300  015d c65405        	ld	a,21509
-1301  0160 6b03          	ld	(OFST-2,sp),a
-1303                     ; 330     temph = ADC2->DRH;
-1305  0162 c65404        	ld	a,21508
-1306  0165 5f            	clrw	x
-1307  0166 97            	ld	xl,a
-1308  0167 1f04          	ldw	(OFST-1,sp),x
-1310                     ; 332     temph = (uint16_t)(templ | (uint16_t)(temph << (uint8_t)8));
-1312  0169 1e04          	ldw	x,(OFST-1,sp)
-1313  016b 7b03          	ld	a,(OFST-2,sp)
-1314  016d 02            	rlwa	x,a
-1315  016e 1f04          	ldw	(OFST-1,sp),x
-1318  0170 2021          	jra	L535
-1319  0172               L335:
-1320                     ; 337     temph = ADC2->DRH;
-1322  0172 c65404        	ld	a,21508
-1323  0175 5f            	clrw	x
-1324  0176 97            	ld	xl,a
-1325  0177 1f04          	ldw	(OFST-1,sp),x
-1327                     ; 339     templ = ADC2->DRL;
-1329  0179 c65405        	ld	a,21509
-1330  017c 6b03          	ld	(OFST-2,sp),a
-1332                     ; 341     temph = (uint16_t)((uint16_t)((uint16_t)templ << 6) | (uint16_t)((uint16_t)temph << 8));
-1334  017e 1e04          	ldw	x,(OFST-1,sp)
-1335  0180 4f            	clr	a
-1336  0181 02            	rlwa	x,a
-1337  0182 1f01          	ldw	(OFST-4,sp),x
-1339  0184 7b03          	ld	a,(OFST-2,sp)
-1340  0186 97            	ld	xl,a
-1341  0187 a640          	ld	a,#64
-1342  0189 42            	mul	x,a
-1343  018a 01            	rrwa	x,a
-1344  018b 1a02          	or	a,(OFST-3,sp)
-1345  018d 01            	rrwa	x,a
-1346  018e 1a01          	or	a,(OFST-4,sp)
-1347  0190 01            	rrwa	x,a
-1348  0191 1f04          	ldw	(OFST-1,sp),x
-1350  0193               L535:
-1351                     ; 344   return ((uint16_t)temph);
-1353  0193 1e04          	ldw	x,(OFST-1,sp)
-1356  0195 5b05          	addw	sp,#5
-1357  0197 87            	retf
-1400                     ; 352 FlagStatus ADC2_GetFlagStatus(void)
-1400                     ; 353 {
-1401                     	switch	.text
-1402  0198               f_ADC2_GetFlagStatus:
-1406                     ; 355   return (FlagStatus)(ADC2->CSR & ADC2_CSR_EOC);
-1408  0198 c65400        	ld	a,21504
-1409  019b a480          	and	a,#128
-1412  019d 87            	retf
-1434                     ; 363 void ADC2_ClearFlag(void)
-1434                     ; 364 {
-1435                     	switch	.text
-1436  019e               f_ADC2_ClearFlag:
-1440                     ; 365   ADC2->CSR &= (uint8_t)(~ADC2_CSR_EOC);
-1442  019e 721f5400      	bres	21504,#7
-1443                     ; 366 }
-1446  01a2 87            	retf
-1469                     ; 374 ITStatus ADC2_GetITStatus(void)
-1469                     ; 375 {
-1470                     	switch	.text
-1471  01a3               f_ADC2_GetITStatus:
-1475                     ; 376   return (ITStatus)(ADC2->CSR & ADC2_CSR_EOC);
-1477  01a3 c65400        	ld	a,21504
-1478  01a6 a480          	and	a,#128
-1481  01a8 87            	retf
-1504                     ; 384 void ADC2_ClearITPendingBit(void)
-1504                     ; 385 {
-1505                     	switch	.text
-1506  01a9               f_ADC2_ClearITPendingBit:
-1510                     ; 386   ADC2->CSR &= (uint8_t)(~ADC2_CSR_EOC);
-1512  01a9 721f5400      	bres	21504,#7
-1513                     ; 387 }
-1516  01ad 87            	retf
-1528                     	xdef	f_ADC2_ClearITPendingBit
-1529                     	xdef	f_ADC2_GetITStatus
-1530                     	xdef	f_ADC2_ClearFlag
-1531                     	xdef	f_ADC2_GetFlagStatus
-1532                     	xdef	f_ADC2_GetConversionValue
-1533                     	xdef	f_ADC2_StartConversion
-1534                     	xdef	f_ADC2_ExternalTriggerConfig
-1535                     	xdef	f_ADC2_ConversionConfig
-1536                     	xdef	f_ADC2_SchmittTriggerConfig
-1537                     	xdef	f_ADC2_PrescalerConfig
-1538                     	xdef	f_ADC2_ITConfig
-1539                     	xdef	f_ADC2_Cmd
-1540                     	xdef	f_ADC2_Init
-1541                     	xdef	f_ADC2_DeInit
-1560                     	end
+ 950  00af 5f            	clrw	x
+ 951  00b0 97            	ld	xl,a
+ 952  00b1 a601          	ld	a,#1
+ 953  00b3 5d            	tnzw	x
+ 954  00b4 2704          	jreq	L43
+ 955  00b6               L63:
+ 956  00b6 48            	sll	a
+ 957  00b7 5a            	decw	x
+ 958  00b8 26fc          	jrne	L63
+ 959  00ba               L43:
+ 960  00ba ca5407        	or	a,21511
+ 961  00bd 20eb          	jpf	LC002
+ 962  00bf               L504:
+ 963                     ; 215     if (NewState != DISABLE)
+ 965  00bf 2713          	jreq	L514
+ 966                     ; 217       ADC2->TDRH &= (uint8_t)(~(uint8_t)((uint8_t)0x01 << ((uint8_t)ADC2_SchmittTriggerChannel - (uint8_t)8)));
+ 968  00c1 a008          	sub	a,#8
+ 969  00c3 5f            	clrw	x
+ 970  00c4 97            	ld	xl,a
+ 971  00c5 a601          	ld	a,#1
+ 972  00c7 5d            	tnzw	x
+ 973  00c8 2704          	jreq	L04
+ 974  00ca               L24:
+ 975  00ca 48            	sll	a
+ 976  00cb 5a            	decw	x
+ 977  00cc 26fc          	jrne	L24
+ 978  00ce               L04:
+ 979  00ce 43            	cpl	a
+ 980  00cf c45406        	and	a,21510
+ 982  00d2 2010          	jpf	LC001
+ 983  00d4               L514:
+ 984                     ; 221       ADC2->TDRH |= (uint8_t)((uint8_t)0x01 << ((uint8_t)ADC2_SchmittTriggerChannel - (uint8_t)8));
+ 986  00d4 a008          	sub	a,#8
+ 987  00d6 5f            	clrw	x
+ 988  00d7 97            	ld	xl,a
+ 989  00d8 a601          	ld	a,#1
+ 990  00da 5d            	tnzw	x
+ 991  00db 2704          	jreq	L44
+ 992  00dd               L64:
+ 993  00dd 48            	sll	a
+ 994  00de 5a            	decw	x
+ 995  00df 26fc          	jrne	L64
+ 996  00e1               L44:
+ 997  00e1 ca5406        	or	a,21510
+ 998  00e4               LC001:
+ 999  00e4 c75406        	ld	21510,a
+1000  00e7               L304:
+1001                     ; 224 }
+1004  00e7 85            	popw	x
+1005  00e8 87            	retf	
+1061                     ; 236 void ADC2_ConversionConfig(ADC2_ConvMode_TypeDef ADC2_ConversionMode, ADC2_Channel_TypeDef ADC2_Channel, ADC2_Align_TypeDef ADC2_Align)
+1061                     ; 237 {
+1062                     	switch	.text
+1063  00e9               f_ADC2_ConversionConfig:
+1065  00e9 89            	pushw	x
+1066       00000000      OFST:	set	0
+1069                     ; 239   assert_param(IS_ADC2_CONVERSIONMODE_OK(ADC2_ConversionMode));
+1071                     ; 240   assert_param(IS_ADC2_CHANNEL_OK(ADC2_Channel));
+1073                     ; 241   assert_param(IS_ADC2_ALIGN_OK(ADC2_Align));
+1075                     ; 244   ADC2->CR2 &= (uint8_t)(~ADC2_CR2_ALIGN);
+1077  00ea 72175402      	bres	21506,#3
+1078                     ; 246   ADC2->CR2 |= (uint8_t)(ADC2_Align);
+1080  00ee c65402        	ld	a,21506
+1081  00f1 1a06          	or	a,(OFST+6,sp)
+1082  00f3 c75402        	ld	21506,a
+1083                     ; 248   if (ADC2_ConversionMode == ADC2_CONVERSIONMODE_CONTINUOUS)
+1085  00f6 9e            	ld	a,xh
+1086  00f7 4a            	dec	a
+1087  00f8 2606          	jrne	L744
+1088                     ; 251     ADC2->CR1 |= ADC2_CR1_CONT;
+1090  00fa 72125401      	bset	21505,#1
+1092  00fe 2004          	jra	L154
+1093  0100               L744:
+1094                     ; 256     ADC2->CR1 &= (uint8_t)(~ADC2_CR1_CONT);
+1096  0100 72135401      	bres	21505,#1
+1097  0104               L154:
+1098                     ; 260   ADC2->CSR &= (uint8_t)(~ADC2_CSR_CH);
+1100  0104 c65400        	ld	a,21504
+1101  0107 a4f0          	and	a,#240
+1102  0109 c75400        	ld	21504,a
+1103                     ; 262   ADC2->CSR |= (uint8_t)(ADC2_Channel);
+1105  010c c65400        	ld	a,21504
+1106  010f 1a02          	or	a,(OFST+2,sp)
+1107  0111 c75400        	ld	21504,a
+1108                     ; 263 }
+1111  0114 85            	popw	x
+1112  0115 87            	retf	
+1157                     ; 275 void ADC2_ExternalTriggerConfig(ADC2_ExtTrig_TypeDef ADC2_ExtTrigger, FunctionalState NewState)
+1157                     ; 276 {
+1158                     	switch	.text
+1159  0116               f_ADC2_ExternalTriggerConfig:
+1161  0116 89            	pushw	x
+1162       00000000      OFST:	set	0
+1165                     ; 278   assert_param(IS_ADC2_EXTTRIG_OK(ADC2_ExtTrigger));
+1167                     ; 279   assert_param(IS_FUNCTIONALSTATE_OK(NewState));
+1169                     ; 282   ADC2->CR2 &= (uint8_t)(~ADC2_CR2_EXTSEL);
+1171  0117 c65402        	ld	a,21506
+1172  011a a4cf          	and	a,#207
+1173  011c c75402        	ld	21506,a
+1174                     ; 284   if (NewState != DISABLE)
+1176  011f 9f            	ld	a,xl
+1177  0120 4d            	tnz	a
+1178  0121 2706          	jreq	L574
+1179                     ; 287     ADC2->CR2 |= (uint8_t)(ADC2_CR2_EXTTRIG);
+1181  0123 721c5402      	bset	21506,#6
+1183  0127 2004          	jra	L774
+1184  0129               L574:
+1185                     ; 292     ADC2->CR2 &= (uint8_t)(~ADC2_CR2_EXTTRIG);
+1187  0129 721d5402      	bres	21506,#6
+1188  012d               L774:
+1189                     ; 296   ADC2->CR2 |= (uint8_t)(ADC2_ExtTrigger);
+1191  012d c65402        	ld	a,21506
+1192  0130 1a01          	or	a,(OFST+1,sp)
+1193  0132 c75402        	ld	21506,a
+1194                     ; 297 }
+1197  0135 85            	popw	x
+1198  0136 87            	retf	
+1221                     ; 308 void ADC2_StartConversion(void)
+1221                     ; 309 {
+1222                     	switch	.text
+1223  0137               f_ADC2_StartConversion:
+1227                     ; 310   ADC2->CR1 |= ADC2_CR1_ADON;
+1229  0137 72105401      	bset	21505,#0
+1230                     ; 311 }
+1233  013b 87            	retf	
+1276                     ; 320 uint16_t ADC2_GetConversionValue(void)
+1276                     ; 321 {
+1277                     	switch	.text
+1278  013c               f_ADC2_GetConversionValue:
+1280  013c 5205          	subw	sp,#5
+1281       00000005      OFST:	set	5
+1284                     ; 322   uint16_t temph = 0;
+1286                     ; 323   uint8_t templ = 0;
+1288                     ; 325   if ((ADC2->CR2 & ADC2_CR2_ALIGN) != 0) /* Right alignment */
+1290  013e 720754020e    	btjf	21506,#3,L335
+1291                     ; 328     templ = ADC2->DRL;
+1293  0143 c65405        	ld	a,21509
+1294  0146 6b03          	ld	(OFST-2,sp),a
+1296                     ; 330     temph = ADC2->DRH;
+1298  0148 c65404        	ld	a,21508
+1299  014b 97            	ld	xl,a
+1301                     ; 332     temph = (uint16_t)(templ | (uint16_t)(temph << (uint8_t)8));
+1303  014c 7b03          	ld	a,(OFST-2,sp)
+1304  014e 02            	rlwa	x,a
+1307  014f 201a          	jra	L535
+1308  0151               L335:
+1309                     ; 337     temph = ADC2->DRH;
+1311  0151 c65404        	ld	a,21508
+1312  0154 97            	ld	xl,a
+1314                     ; 339     templ = ADC2->DRL;
+1316  0155 c65405        	ld	a,21509
+1317  0158 6b03          	ld	(OFST-2,sp),a
+1319                     ; 341     temph = (uint16_t)((uint16_t)((uint16_t)templ << 6) | (uint16_t)((uint16_t)temph << 8));
+1321  015a 4f            	clr	a
+1322  015b 02            	rlwa	x,a
+1323  015c 1f01          	ldw	(OFST-4,sp),x
+1325  015e 7b03          	ld	a,(OFST-2,sp)
+1326  0160 97            	ld	xl,a
+1327  0161 a640          	ld	a,#64
+1328  0163 42            	mul	x,a
+1329  0164 01            	rrwa	x,a
+1330  0165 1a02          	or	a,(OFST-3,sp)
+1331  0167 01            	rrwa	x,a
+1332  0168 1a01          	or	a,(OFST-4,sp)
+1333  016a 01            	rrwa	x,a
+1335  016b               L535:
+1336                     ; 344   return ((uint16_t)temph);
+1340  016b 5b05          	addw	sp,#5
+1341  016d 87            	retf	
+1384                     ; 352 FlagStatus ADC2_GetFlagStatus(void)
+1384                     ; 353 {
+1385                     	switch	.text
+1386  016e               f_ADC2_GetFlagStatus:
+1390                     ; 355   return (FlagStatus)(ADC2->CSR & ADC2_CSR_EOC);
+1392  016e c65400        	ld	a,21504
+1393  0171 a480          	and	a,#128
+1396  0173 87            	retf	
+1418                     ; 363 void ADC2_ClearFlag(void)
+1418                     ; 364 {
+1419                     	switch	.text
+1420  0174               f_ADC2_ClearFlag:
+1424                     ; 365   ADC2->CSR &= (uint8_t)(~ADC2_CSR_EOC);
+1426  0174 721f5400      	bres	21504,#7
+1427                     ; 366 }
+1430  0178 87            	retf	
+1453                     ; 374 ITStatus ADC2_GetITStatus(void)
+1453                     ; 375 {
+1454                     	switch	.text
+1455  0179               f_ADC2_GetITStatus:
+1459                     ; 376   return (ITStatus)(ADC2->CSR & ADC2_CSR_EOC);
+1461  0179 c65400        	ld	a,21504
+1462  017c a480          	and	a,#128
+1465  017e 87            	retf	
+1488                     ; 384 void ADC2_ClearITPendingBit(void)
+1488                     ; 385 {
+1489                     	switch	.text
+1490  017f               f_ADC2_ClearITPendingBit:
+1494                     ; 386   ADC2->CSR &= (uint8_t)(~ADC2_CSR_EOC);
+1496  017f 721f5400      	bres	21504,#7
+1497                     ; 387 }
+1500  0183 87            	retf	
+1512                     	xdef	f_ADC2_ClearITPendingBit
+1513                     	xdef	f_ADC2_GetITStatus
+1514                     	xdef	f_ADC2_ClearFlag
+1515                     	xdef	f_ADC2_GetFlagStatus
+1516                     	xdef	f_ADC2_GetConversionValue
+1517                     	xdef	f_ADC2_StartConversion
+1518                     	xdef	f_ADC2_ExternalTriggerConfig
+1519                     	xdef	f_ADC2_ConversionConfig
+1520                     	xdef	f_ADC2_SchmittTriggerConfig
+1521                     	xdef	f_ADC2_PrescalerConfig
+1522                     	xdef	f_ADC2_ITConfig
+1523                     	xdef	f_ADC2_Cmd
+1524                     	xdef	f_ADC2_Init
+1525                     	xdef	f_ADC2_DeInit
+1544                     	end

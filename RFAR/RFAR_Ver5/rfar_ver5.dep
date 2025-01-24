@@ -20,7 +20,7 @@ ExternDep= i2c.c  "C:\Program Files (x86)\COSMIC\FSE_Compilers\CXSTM8\HSTM8\mods
 ExternDep= init.c  "C:\Program Files (x86)\COSMIC\FSE_Compilers\CXSTM8\HSTM8\mods.h" init.h  stm8s.h stm8s_conf.h stm8s_adc2.h stm8s_clk.h stm8s_gpio.h stm8s_tim4.h  stm8s_uart3.h
 
 [Root.Source Files.main.c.Config.0]
-ExternDep= main.c  "C:\Program Files (x86)\COSMIC\FSE_Compilers\CXSTM8\HSTM8\mods.h" stm8s.h  stm8s_conf.h stm8s_adc2.h stm8s_clk.h stm8s_gpio.h stm8s_tim4.h stm8s_uart3.h  "C:\Program Files (x86)\COSMIC\FSE_Compilers\CXSTM8\HSTM8\stdio.h" delay.h  eeprom.h stm8s_i2c.h i2c.h ds3231.h init.h main.h
+ExternDep= main.c  "C:\Program Files (x86)\COSMIC\FSE_Compilers\CXSTM8\HSTM8\mods.h" stm8s.h  stm8s_conf.h stm8s_adc2.h stm8s_clk.h stm8s_gpio.h stm8s_tim4.h stm8s_uart3.h  "C:\Program Files (x86)\COSMIC\FSE_Compilers\CXSTM8\HSTM8\stdio.h"  "C:\Program Files (x86)\COSMIC\FSE_Compilers\CXSTM8\HSTM8\stdlib.h" delay.h  eeprom.h stm8s_i2c.h i2c.h ds3231.h init.h main.h
 
 [Root.Source Files.stm8_interrupt_vector.c.Config.0]
 ExternDep= stm8_interrupt_vector.c  "C:\Program Files (x86)\COSMIC\FSE_Compilers\CXSTM8\HSTM8\mods.h" stm8s.h  stm8s_conf.h stm8s_adc2.h stm8s_clk.h stm8s_gpio.h stm8s_tim4.h stm8s_uart3.h

@@ -20,6 +20,7 @@ void EEPROM_WriteByte (uint16_t memoryAddress, uint8_t data);
 uint8_t EEPROM_ReadByte (uint16_t memoryAddress);
 void EEPROM_ReadString (uint16_t memoryAddress, char *buffer);
 void EEPROM_WriteString (uint16_t memoryAddress, char *data);
+void EEPROM_ReadData(const char *data);
 void EEPROM_LogData(const char *data);
 void EEPROM_Init(uint8_t defaultValue);
 void EEPROM_Test (void);

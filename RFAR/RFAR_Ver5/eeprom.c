@@ -150,6 +150,25 @@ void EEPROM_LogData(const char *data)
 	printf("Data Logged: %s at address: 0x%04X\n", data, memoryAddress);
 }
 
+void EEPROM_ReadData(const char *data)
+{
+	uint16_t memoryAddress = EEPROM_START_ADDRESS; // Start writing at the current write pointer
+
+	// Write the log string to EEPROM (including null terminator '\0')
+	EEPROM_ReadString(memoryAddress, data);
+
+	// Move the pointer to the next log entry
+	writePointer += LOG_ENTRY_SIZE;
+
+	// If the pointer exceeds the EEPROM size, wrap it around to the start (FIFO)
+	if (writePointer >= EEPROM_SIZE)
+	{
+			writePointer = EEPROM_START_ADDRESS;
+	}
+
+	printf("Data Logged: %s at address: 0x%04X\n", data, memoryAddress);
+}
+
 void EEPROM_Init(uint8_t defaultValue)
 {
 	uint16_t address = 0;

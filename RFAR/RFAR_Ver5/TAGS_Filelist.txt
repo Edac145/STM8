@@ -28,4 +28,5 @@ stm8s_tim4.h
 stm8s_uart3.h
 c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\mods.h
 c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h
+c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdlib.h
 c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h

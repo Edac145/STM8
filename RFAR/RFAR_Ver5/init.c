@@ -20,6 +20,24 @@ void clock_setup(void) {
 }
 
 /** Setup UART communication at 9600 baud **/
+void GPIO_setup(void) {
+	GPIO_DeInit(GPIOC);     // Reset GPIO settings for port C
+	GPIO_DeInit(GPIOA);     // Reset GPIO settings for port C
+	GPIO_DeInit(GPIOB);     // Reset GPIO settings for port C
+	GPIO_DeInit(GPIOD);     // Reset GPIO settings for port C
+	GPIO_DeInit(GPIOE);     // Reset GPIO settings for port C
+	GPIO_Init(GPIOB, GPIO_PIN_5, GPIO_MODE_IN_FL_NO_IT);
+	GPIO_Init(GPIOB, GPIO_PIN_6, GPIO_MODE_IN_FL_NO_IT);
+	GPIO_Init(GPIOC, GPIO_PIN_3, GPIO_MODE_OUT_PP_LOW_FAST); // Initialize pin for GPIO
+	GPIO_Init(GPIOC, GPIO_PIN_4, GPIO_MODE_OUT_PP_LOW_FAST); // Initialize pin for GPIO
+	GPIO_Init(GPIOC, GPIO_PIN_2, GPIO_MODE_OUT_PP_LOW_FAST); // Initialize pin for GPIO
+	GPIO_Init(GPIOE, GPIO_PIN_3, GPIO_MODE_OUT_PP_LOW_FAST); // Initialize pin for GPIO
+	GPIO_Init(GPIOD, GPIO_PIN_0, GPIO_MODE_OUT_PP_LOW_FAST); // Initialize pin for GPIO
+	GPIO_Init(GPIOD, GPIO_PIN_3, GPIO_MODE_OUT_PP_LOW_FAST); // Initialize pin for GPIO
+	GPIO_Init(GPIOA, GPIO_PIN_3, GPIO_MODE_OUT_PP_LOW_FAST); // Initialize pin for GPIO
+}
+
+/** Setup UART communication at 9600 baud **/
 void UART3_setup(void) {
 	UART3_DeInit();
 	UART3_Init(9600, UART3_WORDLENGTH_8D, UART3_STOPBITS_1, UART3_PARITY_NO, UART3_MODE_TXRX_ENABLE);
@@ -61,28 +79,27 @@ void UART3_ClearBuffer(void) {
 }
 
 void UART3_ReceiveString(char *buffer, uint16_t max_length) {
-    uint16_t i = 0;
-    char receivedChar;
+	uint16_t i = 0;
+	char receivedChar;
 
-    for (i = 0; i < max_length; i++) {
-        buffer[i] = '\0';
-    }
-    i = 0;
+	for (i = 0; i < max_length; i++) {
+			buffer[i] = '\0';
+	}
+	i = 0;
 
-    // Receive characters until newline or max length is reached
-    while (i < max_length - 1) {
-        while (UART3_GetFlagStatus(UART3_FLAG_RXNE) == RESET);
+	// Receive characters until newline or max length is reached
+	while (i < max_length - 1) {
+			while (UART3_GetFlagStatus(UART3_FLAG_RXNE) == RESET);
 
-        receivedChar = UART3_ReceiveData8();
+			receivedChar = UART3_ReceiveData8();
 
-        if (receivedChar == '\n' || receivedChar == '\r') {
-            break; // Stop on newline or carriage return
-        }
+			if (receivedChar == '\n' || receivedChar == '\r') {
+					break; // Stop on newline or carriage return
+			}
+			buffer[i++] = receivedChar;
+	}
 
-        buffer[i++] = receivedChar;
-    }
-
-    buffer[i] = '\0'; // Null-terminate the string
+	buffer[i] = '\0'; // Null-terminate the string
 }
 
 /** Measure elapsed time, accounting for timer rollover **/
@@ -100,5 +117,22 @@ unsigned int read_ADC_Channel(uint8_t channel) {
 	// Get and return ADC value
 	adcValue = ADC2_GetConversionValue();
 	ADC2_ClearFlag();
+	//printf("%d ,", adcValue);
 	return adcValue;
+}
+
+void printDateTime(void){
+	uint8_t rtc_buf[7], init_time[7];
+	//DS3231_SetTime(init_time, 7);
+	DS3231_GetTime(rtc_buf, 7);
+	printf("%02d/%02d/%02d ",
+		(rtc_buf[4] >> 4) * 10 + (rtc_buf[4] & 0x0F), // Convert Hours from BCD
+		(rtc_buf[5] >> 4) * 10 + (rtc_buf[5] & 0x0F), // Convert Minutes from BCD
+		(rtc_buf[6] >> 4) * 10 + (rtc_buf[6] & 0x0F)  // Convert Seconds from BCD
+		);
+		printf("%02d:%02d:%02d",
+			(rtc_buf[2] >> 4) * 10 + (rtc_buf[2] & 0x0F), // Convert Hours from BCD
+			(rtc_buf[1] >> 4) * 10 + (rtc_buf[1] & 0x0F), // Convert Minutes from BCD
+			(rtc_buf[0] >> 4) * 10 + (rtc_buf[0] & 0x0F)  // Convert Seconds from BCD
+		);
 }
