@@ -1,250 +1,407 @@
    1                     ; C Compiler for STM8 (COSMIC Software)
    2                     ; Parser V4.13.2 - 04 Jun 2024
    3                     ; Generator (Limited) V4.6.3 - 22 Aug 2024
-  68                     ; 17 void main() {
-  70                     	switch	.text
-  71  0000               _main:
-  73  0000 5204          	subw	sp,#4
-  74       00000004      OFST:	set	4
-  77                     ; 20     clock_setup();
-  79  0002 ad27          	call	_clock_setup
-  81                     ; 21     GPIO_setup();
-  83  0004 cd008d        	call	_GPIO_setup
-  85                     ; 22     ADC2_setup();
-  87  0007 cd00aa        	call	_ADC2_setup
-  89                     ; 23     UART3_setup();
-  91  000a cd00e8        	call	_UART3_setup
-  93  000d               L33:
-  94                     ; 26         A0 = read_ADC_Channel(5);
-  96  000d a605          	ld	a,#5
-  97  000f cd00c7        	call	_read_ADC_Channel
-  99  0012 1f01          	ldw	(OFST-3,sp),x
- 101                     ; 27         A1 = read_ADC_Channel(6);
- 103  0014 a606          	ld	a,#6
- 104  0016 cd00c7        	call	_read_ADC_Channel
- 106  0019 1f03          	ldw	(OFST-1,sp),x
- 108                     ; 29         printf("Adc Value 0: %d  Adc Value 1: %d\n", A0, A1);
- 110  001b 1e03          	ldw	x,(OFST-1,sp)
- 111  001d 89            	pushw	x
- 112  001e 1e03          	ldw	x,(OFST-1,sp)
- 113  0020 89            	pushw	x
- 114  0021 ae0000        	ldw	x,#L73
- 115  0024 cd0000        	call	_printf
- 117  0027 5b04          	addw	sp,#4
- 119  0029 20e2          	jra	L33
- 152                     ; 33 void clock_setup(void) {
- 153                     	switch	.text
- 154  002b               _clock_setup:
- 158                     ; 34     CLK_DeInit();
- 160  002b cd0000        	call	_CLK_DeInit
- 162                     ; 36     CLK_HSECmd(DISABLE);
- 164  002e 4f            	clr	a
- 165  002f cd0000        	call	_CLK_HSECmd
- 167                     ; 37     CLK_LSICmd(DISABLE);
- 169  0032 4f            	clr	a
- 170  0033 cd0000        	call	_CLK_LSICmd
- 172                     ; 38     CLK_HSICmd(ENABLE);
- 174  0036 a601          	ld	a,#1
- 175  0038 cd0000        	call	_CLK_HSICmd
- 178  003b               L35:
- 179                     ; 39     while (CLK_GetFlagStatus(CLK_FLAG_HSIRDY) == FALSE);
- 181  003b ae0102        	ldw	x,#258
- 182  003e cd0000        	call	_CLK_GetFlagStatus
- 184  0041 4d            	tnz	a
- 185  0042 27f7          	jreq	L35
- 186                     ; 41     CLK_ClockSwitchCmd(ENABLE);
- 188  0044 a601          	ld	a,#1
- 189  0046 cd0000        	call	_CLK_ClockSwitchCmd
- 191                     ; 42     CLK_HSIPrescalerConfig(CLK_PRESCALER_HSIDIV2);
- 193  0049 a608          	ld	a,#8
- 194  004b cd0000        	call	_CLK_HSIPrescalerConfig
- 196                     ; 43     CLK_SYSCLKConfig(CLK_PRESCALER_CPUDIV4);
- 198  004e a682          	ld	a,#130
- 199  0050 cd0000        	call	_CLK_SYSCLKConfig
- 201                     ; 45     CLK_ClockSwitchConfig(CLK_SWITCHMODE_AUTO, CLK_SOURCE_HSI,
- 201                     ; 46                           DISABLE, CLK_CURRENTCLOCKSTATE_ENABLE);
- 203  0053 4b01          	push	#1
- 204  0055 4b00          	push	#0
- 205  0057 ae01e1        	ldw	x,#481
- 206  005a cd0000        	call	_CLK_ClockSwitchConfig
- 208  005d 85            	popw	x
- 209                     ; 48     CLK_PeripheralClockConfig(CLK_PERIPHERAL_SPI, DISABLE);
- 211  005e ae0100        	ldw	x,#256
- 212  0061 cd0000        	call	_CLK_PeripheralClockConfig
- 214                     ; 49     CLK_PeripheralClockConfig(CLK_PERIPHERAL_I2C, DISABLE);
- 216  0064 5f            	clrw	x
- 217  0065 cd0000        	call	_CLK_PeripheralClockConfig
- 219                     ; 50     CLK_PeripheralClockConfig(CLK_PERIPHERAL_ADC, ENABLE);
- 221  0068 ae1301        	ldw	x,#4865
- 222  006b cd0000        	call	_CLK_PeripheralClockConfig
- 224                     ; 51     CLK_PeripheralClockConfig(CLK_PERIPHERAL_AWU, DISABLE);
- 226  006e ae1200        	ldw	x,#4608
- 227  0071 cd0000        	call	_CLK_PeripheralClockConfig
- 229                     ; 52     CLK_PeripheralClockConfig(CLK_PERIPHERAL_UART1, DISABLE);
- 231  0074 ae0200        	ldw	x,#512
- 232  0077 cd0000        	call	_CLK_PeripheralClockConfig
- 234                     ; 53     CLK_PeripheralClockConfig(CLK_PERIPHERAL_TIMER1, DISABLE);
- 236  007a ae0700        	ldw	x,#1792
- 237  007d cd0000        	call	_CLK_PeripheralClockConfig
- 239                     ; 54     CLK_PeripheralClockConfig(CLK_PERIPHERAL_TIMER2, DISABLE);
- 241  0080 ae0500        	ldw	x,#1280
- 242  0083 cd0000        	call	_CLK_PeripheralClockConfig
- 244                     ; 55     CLK_PeripheralClockConfig(CLK_PERIPHERAL_TIMER4, DISABLE);
- 246  0086 ae0400        	ldw	x,#1024
- 247  0089 cd0000        	call	_CLK_PeripheralClockConfig
- 249                     ; 56 }
- 252  008c 81            	ret
- 277                     ; 58 void GPIO_setup(void) {
- 278                     	switch	.text
- 279  008d               _GPIO_setup:
- 283                     ; 59     GPIO_DeInit(GPIOB);
- 285  008d ae5005        	ldw	x,#20485
- 286  0090 cd0000        	call	_GPIO_DeInit
- 288                     ; 60     GPIO_Init(GPIOB, GPIO_PIN_5, GPIO_MODE_IN_FL_NO_IT);
- 290  0093 4b00          	push	#0
- 291  0095 4b20          	push	#32
- 292  0097 ae5005        	ldw	x,#20485
- 293  009a cd0000        	call	_GPIO_Init
- 295  009d 85            	popw	x
- 296                     ; 61     GPIO_Init(GPIOB, GPIO_PIN_6, GPIO_MODE_IN_FL_NO_IT);
- 298  009e 4b00          	push	#0
- 299  00a0 4b40          	push	#64
- 300  00a2 ae5005        	ldw	x,#20485
- 301  00a5 cd0000        	call	_GPIO_Init
- 303  00a8 85            	popw	x
- 304                     ; 62 }
- 307  00a9 81            	ret
- 333                     ; 64 void ADC2_setup(void) {
- 334                     	switch	.text
- 335  00aa               _ADC2_setup:
- 339                     ; 65     ADC2_DeInit();
- 341  00aa cd0000        	call	_ADC2_DeInit
- 343                     ; 67     ADC2_Init(ADC2_CONVERSIONMODE_CONTINUOUS,
- 343                     ; 68               ADC2_CHANNEL_5,
- 343                     ; 69               ADC2_PRESSEL_FCPU_D2,
- 343                     ; 70               ADC2_EXTTRIG_GPIO,
- 343                     ; 71               DISABLE,
- 343                     ; 72               ADC2_ALIGN_RIGHT,
- 343                     ; 73               ADC2_SCHMITTTRIG_CHANNEL5 | ADC2_SCHMITTTRIG_CHANNEL6,
- 343                     ; 74               DISABLE);
- 345  00ad 4b00          	push	#0
- 346  00af 4b07          	push	#7
- 347  00b1 4b08          	push	#8
- 348  00b3 4b00          	push	#0
- 349  00b5 4b01          	push	#1
- 350  00b7 4b00          	push	#0
- 351  00b9 ae0105        	ldw	x,#261
- 352  00bc cd0000        	call	_ADC2_Init
- 354  00bf 5b06          	addw	sp,#6
- 355                     ; 76     ADC2_Cmd(ENABLE);
- 357  00c1 a601          	ld	a,#1
- 358  00c3 cd0000        	call	_ADC2_Cmd
- 360                     ; 77 }
- 363  00c6 81            	ret
- 411                     ; 79 unsigned int read_ADC_Channel(uint8_t channel) {
- 412                     	switch	.text
- 413  00c7               _read_ADC_Channel:
- 415  00c7 89            	pushw	x
- 416       00000002      OFST:	set	2
- 419                     ; 80     unsigned int adcValue = 0;
- 421                     ; 83     ADC2_ConversionConfig(ADC2_CONVERSIONMODE_CONTINUOUS,
- 421                     ; 84                           channel,
- 421                     ; 85                           ADC2_ALIGN_RIGHT);
- 423  00c8 4b08          	push	#8
- 424  00ca ae0100        	ldw	x,#256
- 425  00cd 97            	ld	xl,a
- 426  00ce cd0000        	call	_ADC2_ConversionConfig
- 428  00d1 84            	pop	a
- 429                     ; 88     ADC2_StartConversion();
- 431  00d2 cd0000        	call	_ADC2_StartConversion
- 434  00d5               L321:
- 435                     ; 91     while (ADC2_GetFlagStatus() == RESET);
- 437  00d5 cd0000        	call	_ADC2_GetFlagStatus
- 439  00d8 4d            	tnz	a
- 440  00d9 27fa          	jreq	L321
- 441                     ; 94     adcValue = ADC2_GetConversionValue();
- 443  00db cd0000        	call	_ADC2_GetConversionValue
- 445  00de 1f01          	ldw	(OFST-1,sp),x
- 447                     ; 97     ADC2_ClearFlag();
- 449  00e0 cd0000        	call	_ADC2_ClearFlag
- 451                     ; 99     return adcValue;
- 453  00e3 1e01          	ldw	x,(OFST-1,sp)
- 456  00e5 5b02          	addw	sp,#2
- 457  00e7 81            	ret
- 483                     ; 102 void UART3_setup(void) {
- 484                     	switch	.text
- 485  00e8               _UART3_setup:
- 489                     ; 103     UART3_DeInit();
- 491  00e8 cd0000        	call	_UART3_DeInit
- 493                     ; 106     UART3_Init(9600, UART3_WORDLENGTH_8D, UART3_STOPBITS_1, UART3_PARITY_NO,
- 493                     ; 107                UART3_MODE_TX_ENABLE);
- 495  00eb 4b04          	push	#4
- 496  00ed 4b00          	push	#0
- 497  00ef 4b00          	push	#0
- 498  00f1 4b00          	push	#0
- 499  00f3 ae2580        	ldw	x,#9600
- 500  00f6 89            	pushw	x
- 501  00f7 ae0000        	ldw	x,#0
- 502  00fa 89            	pushw	x
- 503  00fb cd0000        	call	_UART3_Init
- 505  00fe 5b08          	addw	sp,#8
- 506                     ; 109     UART3_Cmd(ENABLE);  // Enable UART3
- 508  0100 a601          	ld	a,#1
- 509  0102 cd0000        	call	_UART3_Cmd
- 511                     ; 110 }
- 514  0105 81            	ret
- 550                     ; 112 PUTCHAR_PROTOTYPE {
- 551                     	switch	.text
- 552  0106               _putchar:
- 554  0106 88            	push	a
- 555       00000000      OFST:	set	0
- 558                     ; 114     UART3_SendData8(c);
- 560  0107 cd0000        	call	_UART3_SendData8
- 563  010a               L751:
- 564                     ; 117     while (UART3_GetFlagStatus(UART3_FLAG_TXE) == RESET);
- 566  010a ae0080        	ldw	x,#128
- 567  010d cd0000        	call	_UART3_GetFlagStatus
- 569  0110 4d            	tnz	a
- 570  0111 27f7          	jreq	L751
- 571                     ; 119     return (c);
- 573  0113 7b01          	ld	a,(OFST+1,sp)
- 576  0115 5b01          	addw	sp,#1
- 577  0117 81            	ret
- 590                     	xdef	_main
- 591                     	xdef	_read_ADC_Channel
- 592                     	xdef	_UART3_setup
- 593                     	xdef	_ADC2_setup
- 594                     	xdef	_GPIO_setup
- 595                     	xdef	_clock_setup
- 596                     	xref	_UART3_GetFlagStatus
- 597                     	xref	_UART3_SendData8
- 598                     	xref	_UART3_Cmd
- 599                     	xref	_UART3_Init
- 600                     	xref	_UART3_DeInit
- 601                     	xref	_GPIO_Init
- 602                     	xref	_GPIO_DeInit
- 603                     	xref	_CLK_GetFlagStatus
- 604                     	xref	_CLK_SYSCLKConfig
- 605                     	xref	_CLK_HSIPrescalerConfig
- 606                     	xref	_CLK_ClockSwitchConfig
- 607                     	xref	_CLK_PeripheralClockConfig
- 608                     	xref	_CLK_ClockSwitchCmd
- 609                     	xref	_CLK_LSICmd
- 610                     	xref	_CLK_HSICmd
- 611                     	xref	_CLK_HSECmd
- 612                     	xref	_CLK_DeInit
- 613                     	xref	_ADC2_ClearFlag
- 614                     	xref	_ADC2_GetFlagStatus
- 615                     	xref	_ADC2_GetConversionValue
- 616                     	xref	_ADC2_StartConversion
- 617                     	xref	_ADC2_ConversionConfig
- 618                     	xref	_ADC2_Cmd
- 619                     	xref	_ADC2_Init
- 620                     	xref	_ADC2_DeInit
- 621                     	xdef	_putchar
- 622                     	xref	_printf
- 623                     .const:	section	.text
- 624  0000               L73:
- 625  0000 416463205661  	dc.b	"Adc Value 0: %d  A"
- 626  0012 64632056616c  	dc.b	"dc Value 1: %d",10,0
- 646                     	end
+  14                     	bsct
+  15  0000               _adc_value:
+  16  0000 0000          	dc.w	0
+  17  0002               _prev_value:
+  18  0002 0000          	dc.w	0
+  19  0004               _curr_value:
+  20  0004 0000          	dc.w	0
+  89                     ; 13 void main() {
+  90                     	switch	.text
+  91  0000               f_main:
+  93  0000 5208          	subw	sp,#8
+  94       00000008      OFST:	set	8
+  97                     ; 15 		unsigned int prev_adc_value = 0;
+  99                     ; 16 		unsigned int curr_adc_value = 0;
+ 101                     ; 17 		float voltage = 0;
+ 103                     ; 18     clock_setup();
+ 105  0002 8d540054      	callf	f_clock_setup
+ 107                     ; 19 		TIM4_Config();
+ 109  0006 8d000000      	callf	f_TIM4_Config
+ 111                     ; 20 		enableInterrupts();
+ 114  000a 9a            rim
+ 116                     ; 21 		UART3_setup();
+ 119  000b 8d580158      	callf	f_UART3_setup
+ 121                     ; 23     GPIO_setup();
+ 123  000f 8dc600c6      	callf	f_GPIO_setup
+ 125                     ; 24     ADC2_setup();
+ 127  0013 8d050105      	callf	f_ADC2_setup
+ 129                     ; 26 		printf("Startin\n");
+ 131  0017 ae0025        	ldw	x,#L73
+ 132  001a 8d000000      	callf	f_printf
+ 134                     ; 27     delay_ms(1000);
+ 136  001e ae03e8        	ldw	x,#1000
+ 137  0021 8d000000      	callf	f_delay_ms
+ 139  0025               L14:
+ 140                     ; 29 			GPIO_WriteHigh(GPIOC, GPIO_PIN_2); // Initialize pin for GPIO
+ 142  0025 4b04          	push	#4
+ 143  0027 ae500a        	ldw	x,#20490
+ 144  002a 8d000000      	callf	f_GPIO_WriteHigh
+ 146  002e 84            	pop	a
+ 147                     ; 30 			delay_ms(1000);
+ 149  002f ae03e8        	ldw	x,#1000
+ 150  0032 8d000000      	callf	f_delay_ms
+ 152                     ; 31 			GPIO_WriteLow(GPIOC, GPIO_PIN_2); 
+ 154  0036 4b04          	push	#4
+ 155  0038 ae500a        	ldw	x,#20490
+ 156  003b 8d000000      	callf	f_GPIO_WriteLow
+ 158  003f 84            	pop	a
+ 159                     ; 32 			delay_ms(1000);
+ 161  0040 ae03e8        	ldw	x,#1000
+ 162  0043 8d000000      	callf	f_delay_ms
+ 164                     ; 51 			printf("Conversion Startin\n");
+ 166  0047 ae0011        	ldw	x,#L54
+ 167  004a 8d000000      	callf	f_printf
+ 169                     ; 52 			ADC2_StartConversion();	
+ 171  004e 8d000000      	callf	f_ADC2_StartConversion
+ 174  0052 20d1          	jra	L14
+ 206                     ; 58 void clock_setup(void) {
+ 207                     	switch	.text
+ 208  0054               f_clock_setup:
+ 212                     ; 59     CLK_DeInit();
+ 214  0054 8d000000      	callf	f_CLK_DeInit
+ 216                     ; 61     CLK_HSECmd(DISABLE);
+ 218  0058 4f            	clr	a
+ 219  0059 8d000000      	callf	f_CLK_HSECmd
+ 221                     ; 62     CLK_LSICmd(DISABLE);
+ 223  005d 4f            	clr	a
+ 224  005e 8d000000      	callf	f_CLK_LSICmd
+ 226                     ; 63     CLK_HSICmd(ENABLE);
+ 228  0062 a601          	ld	a,#1
+ 229  0064 8d000000      	callf	f_CLK_HSICmd
+ 232  0068               L16:
+ 233                     ; 64     while (CLK_GetFlagStatus(CLK_FLAG_HSIRDY) == FALSE);
+ 235  0068 ae0102        	ldw	x,#258
+ 236  006b 8d000000      	callf	f_CLK_GetFlagStatus
+ 238  006f 4d            	tnz	a
+ 239  0070 27f6          	jreq	L16
+ 240                     ; 66     CLK_ClockSwitchCmd(ENABLE);
+ 242  0072 a601          	ld	a,#1
+ 243  0074 8d000000      	callf	f_CLK_ClockSwitchCmd
+ 245                     ; 67     CLK_HSIPrescalerConfig(CLK_PRESCALER_HSIDIV1);
+ 247  0078 4f            	clr	a
+ 248  0079 8d000000      	callf	f_CLK_HSIPrescalerConfig
+ 250                     ; 68     CLK_SYSCLKConfig(CLK_PRESCALER_CPUDIV1);
+ 252  007d a680          	ld	a,#128
+ 253  007f 8d000000      	callf	f_CLK_SYSCLKConfig
+ 255                     ; 70     CLK_ClockSwitchConfig(CLK_SWITCHMODE_AUTO, CLK_SOURCE_HSI,
+ 255                     ; 71                           DISABLE, CLK_CURRENTCLOCKSTATE_ENABLE);
+ 257  0083 4b01          	push	#1
+ 258  0085 4b00          	push	#0
+ 259  0087 ae01e1        	ldw	x,#481
+ 260  008a 8d000000      	callf	f_CLK_ClockSwitchConfig
+ 262  008e 85            	popw	x
+ 263                     ; 73     CLK_PeripheralClockConfig(CLK_PERIPHERAL_SPI, DISABLE);
+ 265  008f ae0100        	ldw	x,#256
+ 266  0092 8d000000      	callf	f_CLK_PeripheralClockConfig
+ 268                     ; 74     CLK_PeripheralClockConfig(CLK_PERIPHERAL_I2C, DISABLE);
+ 270  0096 5f            	clrw	x
+ 271  0097 8d000000      	callf	f_CLK_PeripheralClockConfig
+ 273                     ; 75     CLK_PeripheralClockConfig(CLK_PERIPHERAL_ADC, ENABLE);
+ 275  009b ae1301        	ldw	x,#4865
+ 276  009e 8d000000      	callf	f_CLK_PeripheralClockConfig
+ 278                     ; 76     CLK_PeripheralClockConfig(CLK_PERIPHERAL_AWU, DISABLE);
+ 280  00a2 ae1200        	ldw	x,#4608
+ 281  00a5 8d000000      	callf	f_CLK_PeripheralClockConfig
+ 283                     ; 77     CLK_PeripheralClockConfig(CLK_PERIPHERAL_UART3, ENABLE);
+ 285  00a9 ae0301        	ldw	x,#769
+ 286  00ac 8d000000      	callf	f_CLK_PeripheralClockConfig
+ 288                     ; 78     CLK_PeripheralClockConfig(CLK_PERIPHERAL_TIMER1, DISABLE);
+ 290  00b0 ae0700        	ldw	x,#1792
+ 291  00b3 8d000000      	callf	f_CLK_PeripheralClockConfig
+ 293                     ; 79     CLK_PeripheralClockConfig(CLK_PERIPHERAL_TIMER2, DISABLE);
+ 295  00b7 ae0500        	ldw	x,#1280
+ 296  00ba 8d000000      	callf	f_CLK_PeripheralClockConfig
+ 298                     ; 80     CLK_PeripheralClockConfig(CLK_PERIPHERAL_TIMER4, ENABLE);
+ 300  00be ae0401        	ldw	x,#1025
+ 301  00c1 8d000000      	callf	f_CLK_PeripheralClockConfig
+ 303                     ; 81 }
+ 306  00c5 87            	retf
+ 330                     ; 83 void GPIO_setup(void) {
+ 331                     	switch	.text
+ 332  00c6               f_GPIO_setup:
+ 336                     ; 84     GPIO_DeInit(GPIOB);
+ 338  00c6 ae5005        	ldw	x,#20485
+ 339  00c9 8d000000      	callf	f_GPIO_DeInit
+ 341                     ; 85 		GPIO_DeInit(GPIOC);
+ 343  00cd ae500a        	ldw	x,#20490
+ 344  00d0 8d000000      	callf	f_GPIO_DeInit
+ 346                     ; 86     GPIO_Init(GPIOB, GPIO_PIN_5, GPIO_MODE_IN_FL_IT);
+ 348  00d4 4b20          	push	#32
+ 349  00d6 4b20          	push	#32
+ 350  00d8 ae5005        	ldw	x,#20485
+ 351  00db 8d000000      	callf	f_GPIO_Init
+ 353  00df 85            	popw	x
+ 354                     ; 87     GPIO_Init(GPIOB, GPIO_PIN_6, GPIO_MODE_IN_FL_NO_IT);
+ 356  00e0 4b00          	push	#0
+ 357  00e2 4b40          	push	#64
+ 358  00e4 ae5005        	ldw	x,#20485
+ 359  00e7 8d000000      	callf	f_GPIO_Init
+ 361  00eb 85            	popw	x
+ 362                     ; 88 		GPIO_Init(GPIOC, GPIO_PIN_4, GPIO_MODE_OUT_PP_LOW_FAST); // Initialize pin for GPIO
+ 364  00ec 4be0          	push	#224
+ 365  00ee 4b10          	push	#16
+ 366  00f0 ae500a        	ldw	x,#20490
+ 367  00f3 8d000000      	callf	f_GPIO_Init
+ 369  00f7 85            	popw	x
+ 370                     ; 89 		GPIO_Init(GPIOC, GPIO_PIN_2, GPIO_MODE_OUT_PP_LOW_FAST); 
+ 372  00f8 4be0          	push	#224
+ 373  00fa 4b04          	push	#4
+ 374  00fc ae500a        	ldw	x,#20490
+ 375  00ff 8d000000      	callf	f_GPIO_Init
+ 377  0103 85            	popw	x
+ 378                     ; 90 }
+ 381  0104 87            	retf
+ 408                     ; 92 void ADC2_setup(void) {
+ 409                     	switch	.text
+ 410  0105               f_ADC2_setup:
+ 414                     ; 93 	CLK_PeripheralClockConfig(CLK_PERIPHERAL_ADC, ENABLE);
+ 416  0105 ae1301        	ldw	x,#4865
+ 417  0108 8d000000      	callf	f_CLK_PeripheralClockConfig
+ 419                     ; 94 	ADC2_DeInit();
+ 421  010c 8d000000      	callf	f_ADC2_DeInit
+ 423                     ; 96 ADC2_Init(ADC2_CONVERSIONMODE_SINGLE,
+ 423                     ; 97 			ADC2_CHANNEL_5,
+ 423                     ; 98 			ADC2_PRESSEL_FCPU_D2,
+ 423                     ; 99 			ADC2_EXTTRIG_TIM,
+ 423                     ; 100 			DISABLE,
+ 423                     ; 101 			ADC2_ALIGN_RIGHT,
+ 423                     ; 102 			ADC2_SCHMITTTRIG_CHANNEL5,
+ 423                     ; 103 			DISABLE);	
+ 425  0110 4b00          	push	#0
+ 426  0112 4b05          	push	#5
+ 427  0114 4b08          	push	#8
+ 428  0116 4b00          	push	#0
+ 429  0118 4b00          	push	#0
+ 430  011a 4b00          	push	#0
+ 431  011c ae0005        	ldw	x,#5
+ 432  011f 8d000000      	callf	f_ADC2_Init
+ 434  0123 5b06          	addw	sp,#6
+ 435                     ; 104 	ADC2_ITConfig(ENABLE);
+ 437  0125 a601          	ld	a,#1
+ 438  0127 8d000000      	callf	f_ADC2_ITConfig
+ 440                     ; 106 	ADC2_Cmd(ENABLE);
+ 442  012b a601          	ld	a,#1
+ 443  012d 8d000000      	callf	f_ADC2_Cmd
+ 445                     ; 108 }
+ 448  0131 87            	retf
+ 495                     ; 110 unsigned int read_ADC_Channel(uint8_t channel) {
+ 496                     	switch	.text
+ 497  0132               f_read_ADC_Channel:
+ 499  0132 89            	pushw	x
+ 500       00000002      OFST:	set	2
+ 503                     ; 111     unsigned int adcValue = 0;
+ 505                     ; 114     ADC2_ConversionConfig(ADC2_CONVERSIONMODE_CONTINUOUS,
+ 505                     ; 115                           channel,
+ 505                     ; 116                           ADC2_ALIGN_RIGHT);
+ 507  0133 4b08          	push	#8
+ 508  0135 ae0100        	ldw	x,#256
+ 509  0138 97            	ld	xl,a
+ 510  0139 8d000000      	callf	f_ADC2_ConversionConfig
+ 512  013d 84            	pop	a
+ 513                     ; 119     ADC2_StartConversion();
+ 515  013e 8d000000      	callf	f_ADC2_StartConversion
+ 518  0142               L131:
+ 519                     ; 122     while (ADC2_GetFlagStatus() == RESET);
+ 521  0142 8d000000      	callf	f_ADC2_GetFlagStatus
+ 523  0146 4d            	tnz	a
+ 524  0147 27f9          	jreq	L131
+ 525                     ; 125     adcValue = ADC2_GetConversionValue();
+ 527  0149 8d000000      	callf	f_ADC2_GetConversionValue
+ 529  014d 1f01          	ldw	(OFST-1,sp),x
+ 531                     ; 128     ADC2_ClearFlag();
+ 533  014f 8d000000      	callf	f_ADC2_ClearFlag
+ 535                     ; 130     return adcValue;
+ 537  0153 1e01          	ldw	x,(OFST-1,sp)
+ 540  0155 5b02          	addw	sp,#2
+ 541  0157 87            	retf
+ 566                     ; 133 void UART3_setup(void) {
+ 567                     	switch	.text
+ 568  0158               f_UART3_setup:
+ 572                     ; 134     UART3_DeInit();
+ 574  0158 8d000000      	callf	f_UART3_DeInit
+ 576                     ; 137     UART3_Init(9600, UART3_WORDLENGTH_8D, UART3_STOPBITS_1, UART3_PARITY_NO,
+ 576                     ; 138                UART3_MODE_TX_ENABLE);
+ 578  015c 4b04          	push	#4
+ 579  015e 4b00          	push	#0
+ 580  0160 4b00          	push	#0
+ 581  0162 4b00          	push	#0
+ 582  0164 ae2580        	ldw	x,#9600
+ 583  0167 89            	pushw	x
+ 584  0168 ae0000        	ldw	x,#0
+ 585  016b 89            	pushw	x
+ 586  016c 8d000000      	callf	f_UART3_Init
+ 588  0170 5b08          	addw	sp,#8
+ 589                     ; 140     UART3_Cmd(ENABLE);  // Enable UART3
+ 591  0172 a601          	ld	a,#1
+ 592  0174 8d000000      	callf	f_UART3_Cmd
+ 594                     ; 141 }
+ 597  0178 87            	retf
+ 632                     ; 143 PUTCHAR_PROTOTYPE {
+ 633                     	switch	.text
+ 634  0179               f_putchar:
+ 636  0179 88            	push	a
+ 637       00000000      OFST:	set	0
+ 640                     ; 145     UART3_SendData8(c);
+ 642  017a 8d000000      	callf	f_UART3_SendData8
+ 645  017e               L561:
+ 646                     ; 148     while (UART3_GetFlagStatus(UART3_FLAG_TXE) == RESET);
+ 648  017e ae0080        	ldw	x,#128
+ 649  0181 8d000000      	callf	f_UART3_GetFlagStatus
+ 651  0185 4d            	tnz	a
+ 652  0186 27f6          	jreq	L561
+ 653                     ; 150     return (c);
+ 655  0188 7b01          	ld	a,(OFST+1,sp)
+ 658  018a 5b01          	addw	sp,#1
+ 659  018c 87            	retf
+ 726                     ; 153 bool check_negative_zero_crossing(void) {
+ 727                     	switch	.text
+ 728  018d               f_check_negative_zero_crossing:
+ 730  018d 5204          	subw	sp,#4
+ 731       00000004      OFST:	set	4
+ 734                     ; 154 	unsigned int prev_adc_value = 0;  // Store previous ADC sample value
+ 736  018f 5f            	clrw	x
+ 737  0190 1f01          	ldw	(OFST-3,sp),x
+ 739                     ; 155 	unsigned int current_adc_value = 0;  // Store current ADC sample value
+ 741  0192               L322:
+ 742                     ; 159 		current_adc_value = read_ADC_Channel(ADC2_CHANNEL_5);
+ 744  0192 a605          	ld	a,#5
+ 745  0194 8d320132      	callf	f_read_ADC_Channel
+ 747  0198 1f03          	ldw	(OFST-1,sp),x
+ 749                     ; 161 		if (detect_negative_zero_cross(prev_adc_value, current_adc_value, 512)) {
+ 751  019a ae0200        	ldw	x,#512
+ 752  019d 89            	pushw	x
+ 753  019e 1e05          	ldw	x,(OFST+1,sp)
+ 754  01a0 89            	pushw	x
+ 755  01a1 1e05          	ldw	x,(OFST+1,sp)
+ 756  01a3 8def01ef      	callf	f_detect_negative_zero_cross
+ 758  01a7 5b04          	addw	sp,#4
+ 759  01a9 4d            	tnz	a
+ 760  01aa 2714          	jreq	L722
+ 761                     ; 162 			printf("NZC: %u, %u\n", prev_adc_value, current_adc_value);
+ 763  01ac 1e03          	ldw	x,(OFST-1,sp)
+ 764  01ae 89            	pushw	x
+ 765  01af 1e03          	ldw	x,(OFST-1,sp)
+ 766  01b1 89            	pushw	x
+ 767  01b2 ae0004        	ldw	x,#L132
+ 768  01b5 8d000000      	callf	f_printf
+ 770  01b9 5b04          	addw	sp,#4
+ 771                     ; 163 			return true;
+ 773  01bb a601          	ld	a,#1
+ 776  01bd 5b04          	addw	sp,#4
+ 777  01bf 87            	retf
+ 778  01c0               L722:
+ 779                     ; 166 		prev_adc_value = current_adc_value;
+ 781  01c0 1e03          	ldw	x,(OFST-1,sp)
+ 782  01c2 1f01          	ldw	(OFST-3,sp),x
+ 785  01c4 20cc          	jra	L322
+ 819                     ; 172 float convert_adc_to_voltage(unsigned int adcValue) {
+ 820                     	switch	.text
+ 821  01c6               f_convert_adc_to_voltage:
+ 825                     ; 173 	return adcValue * (4.60 / 1024);
+ 827  01c6 8d000000      	callf	d_uitof
+ 829  01ca ae0000        	ldw	x,#L552
+ 830  01cd 8d000000      	callf	d_fmul
+ 834  01d1 87            	retf
+ 870                     ; 177 void send_square_pulse(uint16_t duration_ms) {
+ 871                     	switch	.text
+ 872  01d2               f_send_square_pulse:
+ 874  01d2 89            	pushw	x
+ 875       00000000      OFST:	set	0
+ 878                     ; 178 	GPIO_WriteHigh(GPIOC, GPIO_PIN_4); // Set square pulse pin high
+ 880  01d3 4b10          	push	#16
+ 881  01d5 ae500a        	ldw	x,#20490
+ 882  01d8 8d000000      	callf	f_GPIO_WriteHigh
+ 884  01dc 84            	pop	a
+ 885                     ; 179 	delay_ms(duration_ms);            // Wait for the pulse duration
+ 887  01dd 1e01          	ldw	x,(OFST+1,sp)
+ 888  01df 8d000000      	callf	f_delay_ms
+ 890                     ; 180 	GPIO_WriteLow(GPIOC, GPIO_PIN_4); // Set square pulse pin low
+ 892  01e3 4b10          	push	#16
+ 893  01e5 ae500a        	ldw	x,#20490
+ 894  01e8 8d000000      	callf	f_GPIO_WriteLow
+ 896  01ec 84            	pop	a
+ 897                     ; 181 }
+ 900  01ed 85            	popw	x
+ 901  01ee 87            	retf
+ 954                     ; 189 bool detect_negative_zero_cross(unsigned int previous_sample, unsigned int current_sample, unsigned int threshold) {
+ 955                     	switch	.text
+ 956  01ef               f_detect_negative_zero_cross:
+ 958  01ef 89            	pushw	x
+ 959       00000000      OFST:	set	0
+ 962                     ; 191     if(previous_sample > threshold  && current_sample <= threshold )
+ 964  01f0 1308          	cpw	x,(OFST+8,sp)
+ 965  01f2 230a          	jrule	L523
+ 967  01f4 1e06          	ldw	x,(OFST+6,sp)
+ 968  01f6 1308          	cpw	x,(OFST+8,sp)
+ 969  01f8 2204          	jrugt	L523
+ 970                     ; 192 			return 1;
+ 972  01fa a601          	ld	a,#1
+ 974  01fc 2001          	jra	L23
+ 975  01fe               L523:
+ 976                     ; 194 		 return 0;
+ 978  01fe 4f            	clr	a
+ 980  01ff               L23:
+ 982  01ff 85            	popw	x
+ 983  0200 87            	retf
+1024                     	xdef	f_main
+1025                     	xdef	_curr_value
+1026                     	xdef	_prev_value
+1027                     	xdef	_adc_value
+1028                     	xdef	f_send_square_pulse
+1029                     	xdef	f_detect_negative_zero_cross
+1030                     	xdef	f_convert_adc_to_voltage
+1031                     	xdef	f_check_negative_zero_crossing
+1032                     	xdef	f_read_ADC_Channel
+1033                     	xdef	f_UART3_setup
+1034                     	xdef	f_ADC2_setup
+1035                     	xdef	f_GPIO_setup
+1036                     	xdef	f_clock_setup
+1037                     	xref	f_delay_ms
+1038                     	xref	f_TIM4_Config
+1039                     	xdef	f_putchar
+1040                     	xref	f_printf
+1041                     	xref	f_UART3_GetFlagStatus
+1042                     	xref	f_UART3_SendData8
+1043                     	xref	f_UART3_Cmd
+1044                     	xref	f_UART3_Init
+1045                     	xref	f_UART3_DeInit
+1046                     	xref	f_GPIO_WriteLow
+1047                     	xref	f_GPIO_WriteHigh
+1048                     	xref	f_GPIO_Init
+1049                     	xref	f_GPIO_DeInit
+1050                     	xref	f_CLK_GetFlagStatus
+1051                     	xref	f_CLK_SYSCLKConfig
+1052                     	xref	f_CLK_HSIPrescalerConfig
+1053                     	xref	f_CLK_ClockSwitchConfig
+1054                     	xref	f_CLK_PeripheralClockConfig
+1055                     	xref	f_CLK_ClockSwitchCmd
+1056                     	xref	f_CLK_LSICmd
+1057                     	xref	f_CLK_HSICmd
+1058                     	xref	f_CLK_HSECmd
+1059                     	xref	f_CLK_DeInit
+1060                     	xref	f_ADC2_ClearFlag
+1061                     	xref	f_ADC2_GetFlagStatus
+1062                     	xref	f_ADC2_GetConversionValue
+1063                     	xref	f_ADC2_StartConversion
+1064                     	xref	f_ADC2_ConversionConfig
+1065                     	xref	f_ADC2_ITConfig
+1066                     	xref	f_ADC2_Cmd
+1067                     	xref	f_ADC2_Init
+1068                     	xref	f_ADC2_DeInit
+1069                     .const:	section	.text
+1070  0000               L552:
+1071  0000 3b933333      	dc.w	15251,13107
+1072  0004               L132:
+1073  0004 4e5a433a2025  	dc.b	"NZC: %u, %u",10,0
+1074  0011               L54:
+1075  0011 436f6e766572  	dc.b	"Conversion Startin"
+1076  0023 0a00          	dc.b	10,0
+1077  0025               L73:
+1078  0025 537461727469  	dc.b	"Startin",10,0
+1079                     	xref.b	c_x
+1099                     	xref	d_fmul
+1100                     	xref	d_uitof
+1101                     	end

@@ -1,0 +1,12 @@
+;	STMicroelectronics Workspace file
+
+[Version]
+Keyword=ST7Workspace-V0.7
+
+[Project0]
+Filename=ext_int_adc.stp
+Dependencies=
+[Options]
+ActiveProject=ext_int_adc
+ActiveConfig=Debug
+AddSortedElements=1

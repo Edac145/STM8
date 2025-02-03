@@ -1,17 +1,17 @@
    1                     ; C Compiler for STM8 (COSMIC Software)
    2                     ; Parser V4.13.2 - 04 Jun 2024
    3                     ; Generator (Limited) V4.6.3 - 22 Aug 2024
-  44                     ; 12 @far @interrupt void NonHandledInterrupt (void)
-  44                     ; 13 {
+  44                     ; 14 @far @interrupt void NonHandledInterrupt (void)
+  44                     ; 15 {
   45                     	switch	.text
   46  0000               f_NonHandledInterrupt:
-  50                     ; 17 	return;
+  50                     ; 16 	return;
   53  0000 80            	iret
   55                     .const:	section	.text
   56  0000               __vectab:
   57  0000 82            	dc.b	130
-  59  0001 00            	dc.b	page(__stext)
-  60  0002 0000          	dc.w	__stext
+  59  0001 00            	dc.b	page(f__stext)
+  60  0002 0000          	dc.w	f__stext
   61  0004 82            	dc.b	130
   63  0005 00            	dc.b	page(f_NonHandledInterrupt)
   64  0006 0000          	dc.w	f_NonHandledInterrupt
@@ -82,11 +82,11 @@
  151  005d 00            	dc.b	page(f_NonHandledInterrupt)
  152  005e 0000          	dc.w	f_NonHandledInterrupt
  153  0060 82            	dc.b	130
- 155  0061 00            	dc.b	page(f_NonHandledInterrupt)
- 156  0062 0000          	dc.w	f_NonHandledInterrupt
+ 155  0061 00            	dc.b	page(f_ADC2_IRQHandler)
+ 156  0062 0000          	dc.w	f_ADC2_IRQHandler
  157  0064 82            	dc.b	130
- 159  0065 00            	dc.b	page(f_NonHandledInterrupt)
- 160  0066 0000          	dc.w	f_NonHandledInterrupt
+ 159  0065 00            	dc.b	page(f_TIM4_IRQHandler)
+ 160  0066 0000          	dc.w	f_TIM4_IRQHandler
  161  0068 82            	dc.b	130
  163  0069 00            	dc.b	page(f_NonHandledInterrupt)
  164  006a 0000          	dc.w	f_NonHandledInterrupt
@@ -106,6 +106,8 @@
  183  007d 00            	dc.b	page(f_NonHandledInterrupt)
  184  007e 0000          	dc.w	f_NonHandledInterrupt
  235                     	xdef	__vectab
- 236                     	xref	__stext
- 237                     	xdef	f_NonHandledInterrupt
- 256                     	end
+ 236                     	xdef	f_NonHandledInterrupt
+ 237                     	xref	f_ADC2_IRQHandler
+ 238                     	xref	f__stext
+ 239                     	xref	f_TIM4_IRQHandler
+ 258                     	end

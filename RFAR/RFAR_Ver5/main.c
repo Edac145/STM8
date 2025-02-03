@@ -16,6 +16,7 @@ void main() {
 	// Initialize system and peripherals
 	initialize_system(); 
 	while(1){
+		//EEPROM_ReadData();
 		// Process Signal 2 (FDR): Only amplitude is calculated
 		FDR_amplitude = process_adc_signal(FDR_SIGNAL, NULL, &FDR_amplitude);
 		
@@ -25,12 +26,13 @@ void main() {
 			// Process Signal 1: Calculate both frequency and amplitude
 			VAR_amplitude = process_adc_signal(VAR_SIGNAL, &VAR_frequency, &VAR_amplitude);
 			//printDateTime();
-			//printf("%.3f,%.3f,%.3f,%.3f\n", VAR_frequency, VAR_amplitude, VAR_amplitude/4.7, FDR_amplitude);
-			//output_results(VAR_frequency, VAR_amplitude, FDR_amplitude);
+			printf(" Frequency: %.3f, Amplitude: %.3f, Current: %.3f, FDR_Voltage: %.3f\n", VAR_frequency, VAR_amplitude, VAR_amplitude/4.7, 							FDR_amplitude);
+			output_results(VAR_frequency, VAR_amplitude, FDR_amplitude);
 			if (VAR_frequency <= SET_FREQ){
-				//printf("Frequency Below Set Frequency.\n");
+				printf("Frequency Below Set Frequency.\n");
 				//GPIO_WriteHigh(GPIOA, GPIO_PIN_3); 
 				// Perform further processing on Signal 1
+				NEG_Cross:
 				if(check_negative_zero_crossing()){     // Wait for negative zero crossing
 					send_square_pulse(5); 
 					GPIO_WriteHigh(GPIOA, GPIO_PIN_3);  // Turn on LED if Signal is DC
@@ -57,7 +59,7 @@ void main() {
 						
 					}
 					else{	
-						while(1){
+					  //goto VAR_amplitude;
 							printf("Signal 1 AC and VarAmplitude: %f.\n", VAR_amplitude);
 							if (VAR_amplitude < AC_AMPLITUDE_THRESHOLD) {
 								printf("VarAmplitude below 10 mv.\n");
@@ -67,13 +69,13 @@ void main() {
 							} 
 							else{
 								printf("VarAmplitude Not below 10 mv.\n");
-								GPIO_WriteHigh(GPIOE, GPIO_PIN_3);  // Turn on LED if Signal is AC < 20 mV
-								break;
+								GPIO_WriteHigh(GPIOE, GPIO_PIN_3);  // Turn on LED if Signal is AC < 20 ms
 							}
-						}					
 					}
 					
 				}
+				
+				goto NEG_Cross;
 				
 			} 
 			
@@ -88,9 +90,9 @@ void main() {
 void initialize_system(void) {
 	clock_setup();          // Configure system clock
 	TIM4_Config();          // Timer 4 config for delay
+	GPIO_setup();
 	UART3_setup();          // Setup UART communication
 	ADC2_setup();						// Setup ADC
-	GPIO_setup();
 	EEPROM_Config();        // Configuring EEPROM
 	I2CInit();              // for Configuring RTC
 	printf("System Initialization Completed\n\r");
@@ -134,7 +136,7 @@ bool check_negative_zero_crossing(void) {
 		current_adc_value = convert_adc_to_voltage(read_ADC_Channel(VAR_SIGNAL));
 		// Step 2: Check for negative zero crossing
 		if (detect_negative_zero_cross(prev_adc_value, current_adc_value, ZEROCROSS_THRESHOLD)) {
-			printf("Negative zero crossing detected!\n");
+			//printf("Negative zero crossing detected!\n");
 			return true;
 		} 
 		// Step 3: Update previous ADC value for next iteration
@@ -213,7 +215,7 @@ float process_adc_signal(uint8_t channel, float *frequency, float *amplitude) {
 	}
 
 	// Step 3: Calculate and return amplitude for both channels
-	/**amplitude = calculate_amplitude(buffer, (freqCount > 0 ? count : NUM_SAMPLES));
+	*amplitude = calculate_amplitude(buffer, (freqCount > 0 ? count : NUM_SAMPLES));
 
 	// Step 4: Only return frequency if the signal is from Channel 1
 	if (isChannel1 && freqCount > 0) {
@@ -223,7 +225,7 @@ float process_adc_signal(uint8_t channel, float *frequency, float *amplitude) {
 		*frequency = 0;  // No crossings detected, return 0 frequency
 	}
 
-	return *amplitude;*/  // Always return amplitude
+	return *amplitude;  // Always return amplitude
 }
 
 /** Convert ADC value to voltage **/
@@ -243,10 +245,10 @@ void output_results(float frequency, float amplitude, float FDR_Voltage) {
 	char buffer[40]; // Adjust the size as necessary
 	
 	// Format the output string
-	sprintf(buffer, "%.3f,%.3f,%.3f,%.3f\n", frequency, amplitude, amplitude/4.7, FDR_Voltage);
-
+	sprintf(buffer, "%.3f,%.3f,%.3f,%.3f,\0", frequency, amplitude, amplitude/4.7, FDR_Voltage);
+  
 	// Send the formatted string via UART
-	printf("%s", buffer);
+	//printf("%s", buffer);
 	//EEPROM_LogData(buffer);
 }
 
@@ -266,7 +268,7 @@ void send_pulse_commutation(uint16_t duration_ms) {
 
 /** Check if signal is DC or AC, and turn on corresponding LED **/
 bool check_signal_dc(float amplitude) {
-	if (amplitude < 1.5) {
+	if (amplitude == 0) {
 		isThyristorON = true;
 		return true;
 	} else{

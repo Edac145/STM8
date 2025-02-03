@@ -1,7 +1,9 @@
 /*	BASIC INTERRUPT VECTOR TABLE FOR STM8 devices
  *	Copyright (c) 2007 STMicroelectronics
  */
-
+#include "stm8s.h"
+#include "delay.h"
+#include "stm8s_it.h"
 typedef void @far (*interrupt_handler_t)(void);
 
 struct interrupt_vector {
@@ -11,14 +13,12 @@ struct interrupt_vector {
 
 @far @interrupt void NonHandledInterrupt (void)
 {
-	/* in order to detect unexpected events during development, 
-	   it is recommended to set a breakpoint on the following instruction
-	*/
 	return;
 }
 
 extern void _stext();     /* startup routine */
-
+extern @far @interrupt void TIM4_IRQHandler(void);
+extern @svlreg INTERRUPT void ADC2_IRQHandler(void);
 struct interrupt_vector const _vectab[] = {
 	{0x82, (interrupt_handler_t)_stext}, /* reset */
 	{0x82, NonHandledInterrupt}, /* trap  */
@@ -44,8 +44,8 @@ struct interrupt_vector const _vectab[] = {
 	{0x82, NonHandledInterrupt}, /* irq19 */
 	{0x82, NonHandledInterrupt}, /* irq20 */
 	{0x82, NonHandledInterrupt}, /* irq21 */
-	{0x82, NonHandledInterrupt}, /* irq22 */
-	{0x82, NonHandledInterrupt}, /* irq23 */
+	{0x82, (interrupt_handler_t)ADC2_IRQHandler}, /* irq22 */
+	{0x82, (interrupt_handler_t)TIM4_IRQHandler}, /* irq23 */
 	{0x82, NonHandledInterrupt}, /* irq24 */
 	{0x82, NonHandledInterrupt}, /* irq25 */
 	{0x82, NonHandledInterrupt}, /* irq26 */

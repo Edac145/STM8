@@ -1,19 +1,26 @@
 #include "stm8s.h"
 #include "stdio.h"
 #include "delay.h"
+#include "string.h"
 
 // Define the EEPROM 7-bit address
 #define EEPROM_7BIT_ADDRESS  0x50  // A0, A1, A2 set to 0
 #define EEPROM_WRITE_ADDRESS (EEPROM_7BIT_ADDRESS << 1)  // 8-bit write address: 0xA0
 #define EEPROM_READ_ADDRESS  ((EEPROM_7BIT_ADDRESS << 1) | 1)  // 8-bit read address: 0xA1
 
-#define EEPROM_START_ADDRESS  0x0000 // Start address of EEPROM
-#define EEPROM_SIZE           32000   // Total size of EEPROM in bytes
 #define LOG_ENTRY_SIZE        37     // Fixed size of one log entry (including '\0')
 #define MAX_ENTRIES           (EEPROM_SIZE / LOG_ENTRY_SIZE) // Maximum number of entries
 
+#define EEPROM_START_ADDRESS  0x0000    // Start address of EEPROM
+#define EEPROM_SIZE           32000     // Total EEPROM size in bytes
+#define MAX_STRING_LENGTH     50        // Maximum string length (including '\n' and '\0')
+#define BATCH_BUFFER_SIZE     50        // Reading buffer size
+
 #define PUTCHAR_PROTOTYPE char putchar(char c)
 #define GETCHAR_PROTOTYPE char getchar(void)
+
+#define true  1
+#define false 0
 
 uint16_t writePointer = EEPROM_START_ADDRESS; // Pointer to the next log entry
 
@@ -26,13 +33,25 @@ uint8_t EEPROM_ReadByte (uint16_t memoryAddress);
 void EEPROM_ReadString (uint16_t memoryAddress, char *buffer);
 void EEPROM_WriteString (uint16_t memoryAddress, char *data);
 void EEPROM_LogData(const char *data);
-void EEPROM_Init(uint8_t defaultValue);
+void EEPROM_Init(uint16_t defaultValue);
 void EEPROM_Test (void);
+void EEPROM_ReadData(void);
+bool read_from_eeprom(uint16_t start_addr, char* buffer, uint16_t buffer_size);
+void process_eeprom_logs(void);
+void log_to_eeprom(const char* str);
+bool checkString(const char* str);
 
 void main (void)
 {
-  uint8_t i = 0;
+  int i = 0;
   char writeData[] = "17-01-25,14:36:00,50.000,5.000,1.230";
+	char sample_data1[] = "17-01-25,14:36:00,FDR AMPLITUDE: 24.5";
+	char sample_data2[] = "17-01-25,14:36:00,Freq < SetFreq";
+	char sample_data3[] = "17-01-25,14:36:00,ZeroCrosssing Detected";
+	char sample_data4[] = "17-01-25,14:36:00 Signal 1 DC";
+	char sample_data5[] = "17-01-25,14:36:00 Signal 1 AC";
+	char sample_data6[] = "17-01-25,14:36:00 Signal 1 AC below 10 mv";
+	char sample_data7[] = "17-01-25,14:36:00 pulse to Commutation Thyristor";
   char readData[40]; // Buffer to read data back (make sure it's large enough for expected strings)
   uint16_t startAddress = 0x0000;
   clock_setup ();
@@ -40,20 +59,28 @@ void main (void)
   UART3_setup ();
   GPIO_setup ();
   I2C_Configuration ();
-
+  delay_ms(1000);
   printf ("Starting:\n");
+	printf("EEPROM Logging and Reading Example\n");
+  
+	/*for(i = 0; i < 200; i++)
+	{
+		printf("%u,", i);
+		log_to_eeprom(writeData);
+		log_to_eeprom(sample_data1);
+		log_to_eeprom(sample_data2);	
+		log_to_eeprom(sample_data3);
+		log_to_eeprom(sample_data2);	
+		log_to_eeprom(sample_data4);
+		log_to_eeprom(sample_data5);	
+		log_to_eeprom(sample_data6);
+		log_to_eeprom(sample_data7);	
+  }*/
+	
+	// Process and read data logs from EEPROM
+	//process_eeprom_logs();
 
-  // Write the string to EEPROM
-  printf ("Writing string to EEPROM...\n");
-  EEPROM_WriteString (startAddress, writeData);
-  printf ("Write Complete.\n");
-
-  // Read the string back from EEPROM
-  printf ("Reading string from EEPROM...\n");
-  delay_ms (10);
-  EEPROM_ReadString (startAddress, readData);
-  printf ("Read Complete. Data: %s\n", readData);
-  //EEPROM_Test();
+  EEPROM_Test();
   while(1)
 	{
 	}
@@ -175,7 +202,7 @@ uint8_t EEPROM_ReadByte (uint16_t memoryAddress)
   receivedData = I2C_ReceiveData ();
   // Generate STOP condition
   I2C_GenerateSTOP (ENABLE);
-  delay_ms (5);
+  //delay_ms (5);
   return receivedData;
 }
 
@@ -219,7 +246,7 @@ void EEPROM_ReadString (uint16_t memoryAddress, char* buffer)
   }
   buffer[i] = '\0';
   // Generate STOP condition
-  delay_ms (5);
+  //delay_ms (5);
 }
 
 void EEPROM_WriteString (uint16_t memoryAddress, char *data)
@@ -253,16 +280,44 @@ void EEPROM_LogData(const char *data)
 	printf("Data Logged: %s at address: 0x%04X\n", data, memoryAddress);
 }
 
-void EEPROM_Init(uint8_t defaultValue)
+void EEPROM_ReadData(void)
 {
-	uint16_t address = 0;
-	for (address = EEPROM_START_ADDRESS; address < EEPROM_SIZE; address++)
-	{
-			EEPROM_WriteByte(address, defaultValue);
-			delay_ms(5); // Ensure write delay
-	}
-	writePointer = EEPROM_START_ADDRESS; // Reset pointer
-	printf("EEPROM Initialized. All values set to: 0x%02X\n", defaultValue);
+    uint16_t memoryAddress = EEPROM_START_ADDRESS; // Start at the beginning of EEPROM
+    uint8_t data; // Variable to hold the read byte
+
+    //printf("Reading EEPROM data:\n");
+    while (memoryAddress < EEPROM_SIZE) // Loop until the end of the EEPROM
+    {
+        // Read a byte from the current address
+        data = EEPROM_ReadByte(memoryAddress);
+
+        // Check if the byte is a printable character
+        if (data >= 33 && data <= 122) // Printable ASCII range
+        {
+            printf("%c", data); // Print the character directly
+        }
+        // Move to the next memory address
+        memoryAddress++;
+    }
+    printf("\nDone reading EEPROM.\n");
+}
+
+void EEPROM_Init(uint16_t defaultValue)
+{
+    uint16_t address = 0;
+
+    printf("Initializing EEPROM...\n");
+    for (address = EEPROM_START_ADDRESS; address < EEPROM_SIZE; address++)
+    {
+        EEPROM_WriteByte(address, defaultValue); // Write default value
+        // OPTIONAL: Check for EEPROM write completion instead of a fixed delay
+				printf("%d,", address);
+        // If polling is not possible, reduce the delay to a smaller value (e.g., 1ms)
+        //delay_ms(1);
+    }
+
+    writePointer = EEPROM_START_ADDRESS; // Reset pointer
+    printf("EEPROM Initialized. All values set to: 0x%02X\n", defaultValue);
 }
 
 void EEPROM_Test (void)
@@ -291,4 +346,137 @@ void EEPROM_Test (void)
   {
     printf ("YOU FAIL");
   }
+}
+
+bool read_from_eeprom(uint16_t start_addr, char* buffer, uint16_t buffer_size) {
+    uint16_t addr = start_addr;
+    uint16_t i = 0;
+    memset(buffer, 0, buffer_size);		
+    
+    while (addr < EEPROM_START_ADDRESS + EEPROM_SIZE) {
+        char ch = EEPROM_ReadByte(addr);
+        if (ch == '\0') {
+            break;
+        }
+				
+				// If the read character is .FF (default byte)
+        if (ch < 32 && ch >126){
+            break; // Exit if we encounter the default value
+        }
+				
+        if (i < (buffer_size - 1)) {
+            buffer[i++] = ch;
+        } else {
+            break;
+        }
+        addr++;
+    }
+    return true;
+}
+/*
+bool read_from_eeprom(uint16_t start_addr, char* buffer, uint16_t buffer_size) {
+	uint16_t i = 0;
+    if (buffer == NULL || buffer_size == 0) {
+        return false;  // Invalid parameters
+    }
+    
+    // Clear the buffer and ensure no residual data
+    memset(buffer, 0, buffer_size);
+    
+    // Use EEPROM_ReadString to read from the given address
+    EEPROM_ReadString(start_addr, buffer);
+    
+    // Ensure that the data in the buffer is properly null-terminated within buffer_size
+    buffer[buffer_size - 1] = '\0';  // Safeguard against overflow
+    
+    // Validate content for reasonable character values (e.g., non-default values)
+    for (i = 0; i < buffer_size; ++i) {
+        if (buffer[i] == '\0') {
+            break;  // Valid string termination
+        }
+        // Check for invalid characters (e.g., out of printable range)
+        if (buffer[i] < 32 || buffer[i] > 126) {
+            buffer[i] = '\0';  // Terminate at the first invalid character
+            break;
+        }
+    }
+
+    return true;  // Successfully read
+}*/
+
+void process_eeprom_logs() {
+    char buffer[BATCH_BUFFER_SIZE]; // Buffer for reading a batch of data
+    uint16_t current_addr = EEPROM_START_ADDRESS;
+    printf("Reading from EEPROM:\n");
+		EEPROM_ReadString(0x00, buffer);
+    while (current_addr < EEPROM_START_ADDRESS + EEPROM_SIZE) {
+        // Read a batch of data from EEPROM
+        if (!read_from_eeprom(current_addr, buffer, BATCH_BUFFER_SIZE)) {
+            printf("Error reading from EEPROM at address: 0x%04X\n", current_addr);
+            break; // Stop reading on error
+        }
+				
+        // Validate the buffer length and skip empty or invalid logs
+        if (strlen(buffer) > 0 && checkString(buffer)) {
+            printf("%s\n", buffer); // Print valid log data to the serial monitor
+        } else {
+            break; // Stop if an empty or invalid buffer is encountered
+        }
+        // Increment the address to the next log entry (including '\0' terminator)
+        current_addr += strlen(buffer) + 1; // +1 to skip the null terminator
+    }
+}
+/*
+bool read_from_eeprom(uint16_t start_addr, char* buffer, uint16_t buffer_size) {
+    uint16_t addr = start_addr;
+    uint16_t i = 0;
+
+    memset(buffer, 0, buffer_size); // Clear the buffer
+
+    // Set the internal EEPROM address pointer
+    I2C_GenerateSTART(ENABLE);
+    while (I2C_CheckEvent(I2C_EVENT_MASTER_MODE_SELECT) == ERROR);
+    I2C_Send7bitAddress(EEPROM_WRITE_ADDRESS, I2C_DIRECTION_TX);
+    while (I2C_CheckEvent(I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED) == ERROR);
+    I2C_SendData((uint8_t)(addr >> 8));
+    while (I2C_CheckEvent(I2C_EVENT_MASTER_BYTE_TRANSMITTED) == ERROR);
+    I2C_SendData((uint8_t)(addr & 0xFF));
+    while (I2C_CheckEvent(I2C_EVENT_MASTER_BYTE_TRANSMITTED) == ERROR);
+    I2C_GenerateSTOP(ENABLE);
+
+    // Now proceed to read data
+    while (addr < EEPROM_START_ADDRESS + EEPROM_SIZE) {
+        char ch = EEPROM_ReadByte(addr);
+        if (ch == '\0') break; // Stop at null terminator
+        if (i < (buffer_size - 1)) {
+            buffer[i++] = ch;
+        } else {
+            break; // Prevent overflow
+        }
+        addr++;
+    }
+
+    return true;
+}*/
+
+void log_to_eeprom(const char* str) {
+    if ((writePointer + strlen(str) + 1) >= (EEPROM_START_ADDRESS + EEPROM_SIZE)) {
+        printf("EEPROM out of space.\n");
+				writePointer = EEPROM_START_ADDRESS;
+    }
+    EEPROM_WriteString(writePointer, str);
+    writePointer += strlen(str) + 1;
+}
+
+bool checkString(const char* str)
+{
+	bool flag = 0;
+	uint8_t i  = 0;
+	for (i = 1; i < strlen(str); i++) {
+		if (str[i] != str[0]) {
+				flag = 1;
+				break;
+		}
+	}
+return flag;
 }

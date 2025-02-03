@@ -7,13 +7,13 @@
 #define true  1
 
 #define ADC_MAX_VALUE 1023.0                              // 10-bit ADC on Arduino Uno
-#define V_REF 5.0                                        // Reference voltage                              
+#define V_REF 4.6                                        // Reference voltage                              
 #define NUM_SAMPLES 1024                                  // Number of samples
 #define SAMPLE_RATE 150                                   // Sampling rate in Hz
-#define ZEROCROSS_THRESHOLD 2.40                          // Signal zero-crossing threshold
+#define ZEROCROSS_THRESHOLD 2.64                         // Signal zero-crossing threshold
 #define VAR_SIGNAL ADC2_CHANNEL_5
 #define FDR_SIGNAL ADC2_CHANNEL_6
-#define SET_FREQ 1.5    
+#define SET_FREQ 5.0    
 #define AC_AMPLITUDE_THRESHOLD 0.01  // AC threshold in Volts (20mV)
 #define SQUARE_PULSE_MS 5         // Square pulse duration in ms
 #define SET_FREQUENCY_ADDRESS 0x4000

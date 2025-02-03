@@ -81,6 +81,7 @@ AWU_TBR_RESET_VALUE	stm8s.h	427;"	macro
 AWU_TypeDef	stm8s.h	420;"	typedef	typeref:struct:AWU_struct
 AWU_struct	stm8s.h	414;"	struct
 AffBit	stm8s.h	2661;"	macro
+BATCH_BUFFER_SIZE	main.c	17;"	macro	file:
 BEEP	stm8s.h	2490;"	macro
 BEEP_BaseAddress	stm8s.h	2453;"	macro
 BEEP_CSR_BEEPDIV	stm8s.h	473;"	macro
@@ -590,25 +591,27 @@ ECKR	stm8s.h	485;"	member	struct:CLK_struct
 EEPROM	stm8s.h	108;"	macro
 EEPROM	stm8s.h	114;"	macro
 EEPROM	stm8s.h	127;"	macro
-EEPROM_7BIT_ADDRESS	main.c	6;"	macro	file:
-EEPROM_Init	main.c	257;"	function	signature:(uint8_t defaultValue)
-EEPROM_Init	main.c	29;"	prototype	file:	signature:(uint8_t defaultValue)
-EEPROM_LogData	main.c	238;"	function	signature:(const char *data)
-EEPROM_LogData	main.c	28;"	prototype	file:	signature:(const char *data)
-EEPROM_READ_ADDRESS	main.c	8;"	macro	file:
-EEPROM_ReadByte	main.c	151;"	function	signature:(uint16_t memoryAddress)
-EEPROM_ReadByte	main.c	25;"	prototype	file:	signature:(uint16_t memoryAddress)
-EEPROM_ReadString	main.c	183;"	function	signature:(uint16_t memoryAddress, char* buffer)
-EEPROM_ReadString	main.c	26;"	prototype	file:	signature:(uint16_t memoryAddress, char *buffer)
-EEPROM_SIZE	main.c	11;"	macro	file:
-EEPROM_START_ADDRESS	main.c	10;"	macro	file:
-EEPROM_Test	main.c	269;"	function	signature:(void)
-EEPROM_Test	main.c	30;"	prototype	file:	signature:(void)
-EEPROM_WRITE_ADDRESS	main.c	7;"	macro	file:
-EEPROM_WriteByte	main.c	129;"	function	signature:(uint16_t memoryAddress, uint8_t data)
-EEPROM_WriteByte	main.c	24;"	prototype	file:	signature:(uint16_t memoryAddress, uint8_t data)
-EEPROM_WriteString	main.c	226;"	function	signature:(uint16_t memoryAddress, char *data)
-EEPROM_WriteString	main.c	27;"	prototype	file:	signature:(uint16_t memoryAddress, char *data)
+EEPROM_7BIT_ADDRESS	main.c	7;"	macro	file:
+EEPROM_Init	main.c	306;"	function	signature:(uint16_t defaultValue)
+EEPROM_Init	main.c	36;"	prototype	file:	signature:(uint16_t defaultValue)
+EEPROM_LogData	main.c	265;"	function	signature:(const char *data)
+EEPROM_LogData	main.c	35;"	prototype	file:	signature:(const char *data)
+EEPROM_READ_ADDRESS	main.c	9;"	macro	file:
+EEPROM_ReadByte	main.c	178;"	function	signature:(uint16_t memoryAddress)
+EEPROM_ReadByte	main.c	32;"	prototype	file:	signature:(uint16_t memoryAddress)
+EEPROM_ReadData	main.c	284;"	function	signature:(void)
+EEPROM_ReadData	main.c	38;"	prototype	file:	signature:(void)
+EEPROM_ReadString	main.c	210;"	function	signature:(uint16_t memoryAddress, char* buffer)
+EEPROM_ReadString	main.c	33;"	prototype	file:	signature:(uint16_t memoryAddress, char *buffer)
+EEPROM_SIZE	main.c	15;"	macro	file:
+EEPROM_START_ADDRESS	main.c	14;"	macro	file:
+EEPROM_Test	main.c	324;"	function	signature:(void)
+EEPROM_Test	main.c	37;"	prototype	file:	signature:(void)
+EEPROM_WRITE_ADDRESS	main.c	8;"	macro	file:
+EEPROM_WriteByte	main.c	155;"	function	signature:(uint16_t memoryAddress, uint8_t data)
+EEPROM_WriteByte	main.c	31;"	prototype	file:	signature:(uint16_t memoryAddress, uint8_t data)
+EEPROM_WriteString	main.c	253;"	function	signature:(uint16_t memoryAddress, char *data)
+EEPROM_WriteString	main.c	34;"	prototype	file:	signature:(uint16_t memoryAddress, char *data)
 EGR	stm8s.h	1041;"	member	struct:TIM4_struct
 EGR	stm8s.h	1103;"	member	struct:TIM5_struct
 EGR	stm8s.h	1241;"	member	struct:TIM6_struct
@@ -748,7 +751,7 @@ Filter45	stm8s.h	2161;"	member	union:__anon5::__anon6	typeref:struct:__anon5::__
 FlagStatus	stm8s.h	212;"	typedef	typeref:enum:__anon2
 FunctionalState	stm8s.h	214;"	typedef	typeref:enum:__anon3
 GCR	stm8s.h	2400;"	member	struct:CFG_struct
-GETCHAR_PROTOTYPE	main.c	16;"	macro	file:
+GETCHAR_PROTOTYPE	main.c	20;"	macro	file:
 GPIOA	stm8s.h	2504;"	macro
 GPIOA_BaseAddress	stm8s.h	2437;"	macro
 GPIOB	stm8s.h	2506;"	macro
@@ -817,8 +820,8 @@ GPIO_WriteLow	stm8s_gpio.c	161;"	function	signature:(GPIO_TypeDef* GPIOx, GPIO_P
 GPIO_WriteLow	stm8s_gpio.h	137;"	prototype	signature:(GPIO_TypeDef* GPIOx, GPIO_Pin_TypeDef PortPins)
 GPIO_WriteReverse	stm8s_gpio.c	174;"	function	signature:(GPIO_TypeDef* GPIOx, GPIO_Pin_TypeDef PortPins)
 GPIO_WriteReverse	stm8s_gpio.h	138;"	prototype	signature:(GPIO_TypeDef* GPIOx, GPIO_Pin_TypeDef PortPins)
-GPIO_setup	main.c	105;"	function	signature:(void)
-GPIO_setup	main.c	22;"	prototype	file:	signature:(void)
+GPIO_setup	main.c	132;"	function	signature:(void)
+GPIO_setup	main.c	29;"	prototype	file:	signature:(void)
 GPIO_struct	stm8s.h	244;"	struct
 GTR	stm8s.h	1752;"	member	struct:UART1_struct
 GTR	stm8s.h	1851;"	member	struct:UART2_struct
@@ -864,8 +867,8 @@ I2C_ClearITPendingBit	stm8s_i2c.c	871;"	function	signature:(I2C_ITPendingBit_Typ
 I2C_ClearITPendingBit	stm8s_i2c.h	622;"	prototype	signature:(I2C_ITPendingBit_TypeDef I2C_ITPendingBit)
 I2C_Cmd	stm8s_i2c.c	202;"	function	signature:(FunctionalState NewState)
 I2C_Cmd	stm8s_i2c.h	509;"	prototype	signature:(FunctionalState NewState)
-I2C_Configuration	main.c	112;"	function	signature:(void)
-I2C_Configuration	main.c	23;"	prototype	file:	signature:(void)
+I2C_Configuration	main.c	139;"	function	signature:(void)
+I2C_Configuration	main.c	30;"	prototype	file:	signature:(void)
 I2C_DIRECTION_RX	stm8s_i2c.h	87;"	enumerator	enum:__anon31
 I2C_DIRECTION_TX	stm8s_i2c.h	86;"	enumerator	enum:__anon31
 I2C_DR_DR	stm8s.h	1367;"	macro
@@ -963,8 +966,6 @@ I2C_OARL_ADD0	stm8s.h	1361;"	macro
 I2C_OARL_RESET_VALUE	stm8s.h	1329;"	macro
 I2C_ReceiveData	stm8s_i2c.c	427;"	function	signature:(void)
 I2C_ReceiveData	stm8s_i2c.h	518;"	prototype	signature:(void)
-I2C_SLAVE_ADDRESS7	stm8s_eval_i2c_ee.h	96;"	macro
-I2C_SPEED	stm8s_eval_i2c_ee.h	95;"	macro
 I2C_SR1_ADD10	stm8s.h	1372;"	macro
 I2C_SR1_ADDR	stm8s.h	1374;"	macro
 I2C_SR1_BTF	stm8s.h	1373;"	macro
@@ -1095,11 +1096,12 @@ IWDG_RLR_RESET_VALUE	stm8s.h	1596;"	macro
 IWDG_TypeDef	stm8s.h	1589;"	typedef	typeref:struct:IWDG_struct
 IWDG_struct	stm8s.h	1583;"	struct
 KR	stm8s.h	1585;"	member	struct:IWDG_struct
-LOG_ENTRY_SIZE	main.c	12;"	macro	file:
+LOG_ENTRY_SIZE	main.c	11;"	macro	file:
 LSI_VALUE	stm8s.h	102;"	macro
 LTRH	stm8s.h	305;"	member	struct:ADC1_struct
 LTRL	stm8s.h	306;"	member	struct:ADC1_struct
-MAX_ENTRIES	main.c	13;"	macro	file:
+MAX_ENTRIES	main.c	12;"	macro	file:
+MAX_STRING_LENGTH	main.c	16;"	macro	file:
 MCR	stm8s.h	2042;"	member	struct:__anon5
 MCSR	stm8s.h	2055;"	member	struct:__anon5::__anon6::__anon7
 MDAR1	stm8s.h	2061;"	member	struct:__anon5::__anon6::__anon7
@@ -1149,6 +1151,7 @@ NOPT4	stm8s.h	1568;"	member	struct:OPT_struct
 NOPT5	stm8s.h	1570;"	member	struct:OPT_struct
 NOPT7	stm8s.h	1574;"	member	struct:OPT_struct
 NULL	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	30;"	macro
+NULL	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	9;"	macro
 NonHandledInterrupt	stm8_interrupt_vector.c	12;"	function	signature:(void)
 OARH	stm8s.h	1308;"	member	struct:I2C_struct
 OARL	stm8s.h	1307;"	member	struct:I2C_struct
@@ -1179,7 +1182,7 @@ PSCRH	stm8s.h	604;"	member	struct:TIM1_struct
 PSCRL	stm8s.h	605;"	member	struct:TIM1_struct
 PSR	stm8s.h	2049;"	member	struct:__anon5
 PUKR	stm8s.h	1498;"	member	struct:FLASH_struct
-PUTCHAR_PROTOTYPE	main.c	15;"	macro	file:
+PUTCHAR_PROTOTYPE	main.c	19;"	macro	file:
 Page	stm8s.h	2201;"	member	struct:__anon5	typeref:union:__anon5::__anon6
 PointerAttr	stm8s.h	137;"	macro
 PointerAttr	stm8s.h	140;"	macro
@@ -2021,10 +2024,9 @@ UART3_WakeUpConfig	stm8s_uart3.c	343;"	function	signature:(UART3_WakeUp_TypeDef 
 UART3_WakeUpConfig	stm8s_uart3.h	367;"	prototype	signature:( UART3_WakeUp_TypeDef UART3_WakeUp)
 UART3_WakeUp_TypeDef	stm8s_uart3.h	50;"	typedef	typeref:enum:__anon42
 UART3_WordLength_TypeDef	stm8s_uart3.h	80;"	typedef	typeref:enum:__anon46
-UART3_setup	main.c	21;"	prototype	file:	signature:(void)
-UART3_setup	main.c	62;"	function	signature:(void)
+UART3_setup	main.c	28;"	prototype	file:	signature:(void)
+UART3_setup	main.c	89;"	function	signature:(void)
 UART3_struct	stm8s.h	1947;"	struct
-USE_DEFAULT_CRITICAL_CALLBACK	stm8s_eval_i2c_ee.h	67;"	macro
 USE_STDPERIPH_DRIVER	stm8s.h	80;"	macro
 VECTOR_ID	stm8s.h	2627;"	macro
 ValBit	stm8s.h	2666;"	macro
@@ -2042,6 +2044,8 @@ WWDG_WR_W	stm8s.h	1634;"	macro
 WWDG_struct	stm8s.h	1607;"	struct
 _COSMIC_	stm8s.h	67;"	macro
 _IAR_	stm8s.h	71;"	macro
+_INLINE	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	13;"	macro
+_INLINE	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	15;"	macro
 _RAISONANCE_	stm8s.h	69;"	macro
 __I	stm8s.h	185;"	macro
 __IO	stm8s.h	187;"	macro
@@ -2051,7 +2055,6 @@ __SIZE_T__	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	9;"	
 __STDIO__	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	6;"	macro
 __STM8S_CLK_H	stm8s_clk.h	25;"	macro
 __STM8S_CONF_H	stm8s_conf.h	30;"	macro
-__STM8S_EVAL_I2C_EE_H	stm8s_eval_i2c_ee.h	25;"	macro
 __STM8S_GPIO_H	stm8s_gpio.h	24;"	macro
 __STM8S_H	stm8s.h	24;"	macro
 __STM8S_I2C_H	stm8s_i2c.h	30;"	macro
@@ -2062,14 +2065,17 @@ __STM8S_STDPERIPH_VERSION_SUB1	stm8s.h	162;"	macro
 __STM8S_STDPERIPH_VERSION_SUB2	stm8s.h	163;"	macro
 __STM8S_TIM4_H	stm8s_tim4.h	30;"	macro
 __STM8S_UART3_H	stm8s_uart3.h	30;"	macro
+__STRING__	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	6;"	macro
 _stext	stm8_interrupt_vector.c	20;"	prototype	file:
 _vectab	stm8_interrupt_vector.c	23;"	variable
 assert_failed	stm8s_conf.h	108;"	prototype	signature:(uint8_t* file, uint32_t line)
 assert_param	stm8s_conf.h	106;"	macro
 assert_param	stm8s_conf.h	110;"	macro
 bool	stm8s.h	210;"	typedef	typeref:enum:__anon1
-clock_setup	main.c	20;"	prototype	file:	signature:(void)
-clock_setup	main.c	82;"	function	signature:(void)
+checkString	main.c	42;"	prototype	file:	signature:(const char* str)
+checkString	main.c	472;"	function	signature:(const char* str)
+clock_setup	main.c	109;"	function	signature:(void)
+clock_setup	main.c	27;"	prototype	file:	signature:(void)
 delay_ms	delay.c	47;"	function	signature:(uint16_t ms)
 delay_ms	delay.h	10;"	prototype	signature:(uint16_t ms)
 delay_us	delay.c	58;"	function	signature:(uint16_t us)
@@ -2077,9 +2083,11 @@ delay_us	delay.h	11;"	prototype	signature:(uint16_t us)
 disableInterrupts	stm8s.h	2585;"	macro
 disableInterrupts	stm8s.h	2594;"	macro
 disableInterrupts	stm8s.h	2604;"	macro
+eepera	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	41;"	macro
 enableInterrupts	stm8s.h	2584;"	macro
 enableInterrupts	stm8s.h	2593;"	macro
 enableInterrupts	stm8s.h	2603;"	macro
+false	main.c	23;"	macro	file:
 getchar	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	15;"	prototype	signature:(void)
 gets	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	16;"	prototype	signature:(char *s)
 halt	stm8s.h	2591;"	macro
@@ -2092,7 +2100,14 @@ interrupt_handler	stm8_interrupt_vector.c	9;"	member	struct:interrupt_vector	fil
 interrupt_handler_t	stm8_interrupt_vector.c	5;"	typedef	file:
 interrupt_instruction	stm8_interrupt_vector.c	8;"	member	struct:interrupt_vector	file:
 interrupt_vector	stm8_interrupt_vector.c	7;"	struct	file:
-main	main.c	32;"	function	signature:(void)
+log_to_eeprom	main.c	41;"	prototype	file:	signature:(const char* str)
+log_to_eeprom	main.c	463;"	function	signature:(const char* str)
+main	main.c	44;"	function	signature:(void)
+memchr	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	34;"	prototype	signature:(void *s, char c, unsigned int n)
+memcmp	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	28;"	prototype	signature:(void *s1, void *s2, unsigned int n)
+memcpy	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	35;"	prototype	signature:(void *s1, void *s2, unsigned int n)
+memmove	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	36;"	prototype	signature:(void *s1, void *s2, unsigned int n)
+memset	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	37;"	prototype	signature:(void *s, char c, unsigned int n)
 micros	delay.c	76;"	function	signature:(void)
 micros	delay.h	13;"	prototype	signature:(void)
 millis	delay.c	71;"	function	signature:(void)
@@ -2101,52 +2116,18 @@ nop	stm8s.h	2588;"	macro
 nop	stm8s.h	2597;"	macro
 nop	stm8s.h	2607;"	macro
 printf	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	17;"	prototype	signature:(char *format, ...)
+process_eeprom_logs	main.c	408;"	function
+process_eeprom_logs	main.c	40;"	prototype	file:	signature:(void)
 putchar	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	18;"	prototype	signature:(char c)
 puts	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	19;"	prototype	signature:(char *s)
+read_from_eeprom	main.c	352;"	function	signature:(uint16_t start_addr, char* buffer, uint16_t buffer_size)
+read_from_eeprom	main.c	39;"	prototype	file:	signature:(uint16_t start_addr, char* buffer, uint16_t buffer_size)
 rim	stm8s.h	2586;"	macro
 rim	stm8s.h	2595;"	macro
 rim	stm8s.h	2605;"	macro
 s16	stm8s.h	202;"	typedef
 s32	stm8s.h	201;"	typedef
 s8	stm8s.h	203;"	typedef
-sEEAddress	stm8s_eval_i2c_ee.c	91;"	variable
-sEEDataNum	stm8s_eval_i2c_ee.c	94;"	variable
-sEEDataWritePointer	stm8s_eval_i2c_ee.c	93;"	variable
-sEETimeout	stm8s_eval_i2c_ee.c	92;"	variable
-sEE_DIRECTION_RX	stm8s_eval_i2c_ee.h	37;"	macro
-sEE_DIRECTION_TX	stm8s_eval_i2c_ee.h	36;"	macro
-sEE_DeInit	stm8s_eval_i2c_ee.c	114;"	function	signature:(void)
-sEE_DeInit	stm8s_eval_i2c_ee.h	128;"	prototype	signature:(void)
-sEE_EnterCriticalSection_UserCallback	stm8s_eval_i2c_ee.c	805;"	function	signature:(void)
-sEE_EnterCriticalSection_UserCallback	stm8s_eval_i2c_ee.h	152;"	prototype	signature:(void)
-sEE_ExitCriticalSection_UserCallback	stm8s_eval_i2c_ee.c	820;"	function	signature:(void)
-sEE_ExitCriticalSection_UserCallback	stm8s_eval_i2c_ee.h	153;"	prototype	signature:(void)
-sEE_FAIL	stm8s_eval_i2c_ee.h	117;"	macro
-sEE_FLAG_TIMEOUT	stm8s_eval_i2c_ee.h	110;"	macro
-sEE_HW_ADDRESS	stm8s_eval_i2c_ee.h	92;"	macro
-sEE_I2C	stm8s_eval_i2c_ee.h	27;"	macro
-sEE_I2C_CLK	stm8s_eval_i2c_ee.h	28;"	macro
-sEE_I2C_SCL_GPIO_PORT	stm8s_eval_i2c_ee.h	30;"	macro
-sEE_I2C_SCL_PIN	stm8s_eval_i2c_ee.h	29;"	macro
-sEE_I2C_SDA_GPIO_PORT	stm8s_eval_i2c_ee.h	32;"	macro
-sEE_I2C_SDA_PIN	stm8s_eval_i2c_ee.h	31;"	macro
-sEE_Init	stm8s_eval_i2c_ee.c	124;"	function	signature:(void)
-sEE_Init	stm8s_eval_i2c_ee.h	129;"	prototype	signature:(void)
-sEE_LONG_TIMEOUT	stm8s_eval_i2c_ee.h	111;"	macro
-sEE_MAX_TRIALS_NUMBER	stm8s_eval_i2c_ee.h	114;"	macro
-sEE_OK	stm8s_eval_i2c_ee.h	116;"	macro
-sEE_PAGESIZE	stm8s_eval_i2c_ee.h	101;"	macro
-sEE_ReadBuffer	stm8s_eval_i2c_ee.c	162;"	function	signature:(uint8_t* pBuffer, uint16_t ReadAddr, uint16_t* NumByteToRead)
-sEE_ReadBuffer	stm8s_eval_i2c_ee.h	130;"	prototype	signature:(uint8_t* pBuffer, uint16_t ReadAddr, uint16_t* NumByteToRead)
-sEE_TIMEOUT_UserCallback	stm8s_eval_i2c_ee.c	105;"	function	signature:(void)
-sEE_TIMEOUT_UserCallback	stm8s_eval_i2c_ee.c	785;"	function	signature:(void)
-sEE_TIMEOUT_UserCallback	stm8s_eval_i2c_ee.h	144;"	prototype	signature:(void)
-sEE_WaitEepromStandbyState	stm8s_eval_i2c_ee.c	706;"	function	signature:(void)
-sEE_WaitEepromStandbyState	stm8s_eval_i2c_ee.h	133;"	prototype	signature:(void)
-sEE_WriteBuffer	stm8s_eval_i2c_ee.c	409;"	function	signature:(uint8_t* pBuffer, uint16_t WriteAddr, uint16_t NumByteToWrite)
-sEE_WriteBuffer	stm8s_eval_i2c_ee.h	132;"	prototype	signature:(uint8_t* pBuffer, uint16_t WriteAddr, uint16_t NumByteToWrite)
-sEE_WritePage	stm8s_eval_i2c_ee.c	597;"	function	signature:(uint8_t* pBuffer, uint16_t WriteAddr, uint8_t* NumByteToWrite)
-sEE_WritePage	stm8s_eval_i2c_ee.h	131;"	prototype	signature:(uint8_t* pBuffer, uint16_t WriteAddr, uint8_t* NumByteToWrite)
 scanf	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	20;"	prototype	signature:(char *format, ...)
 sim	stm8s.h	2587;"	macro
 sim	stm8s.h	2596;"	macro
@@ -2154,10 +2135,24 @@ sim	stm8s.h	2606;"	macro
 size_t	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	10;"	typedef
 sprintf	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	22;"	prototype	signature:(char *s, char *format, ...)
 sscanf	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	21;"	prototype	signature:(char *s, char *format, ...)
+strcat	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	20;"	prototype	signature:(char *s1, char *s2)
+strchr	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	21;"	prototype	signature:(char *s, char c)
+strcmp	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	29;"	prototype	signature:(char *s1, char *s2)
+strcpy	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	22;"	prototype	signature:(char *s1, char *s2)
+strcspn	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	31;"	prototype	signature:(char *s1, char *s2)
+strlen	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	32;"	prototype	signature:(char *s)
+strncat	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	23;"	prototype	signature:(char *s1, char *s2, unsigned int n)
+strncmp	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	30;"	prototype	signature:(char *s1, char *s2, unsigned int n)
+strncpy	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	24;"	prototype	signature:(char *s1, char *s2, unsigned int n)
+strpbrk	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	25;"	prototype	signature:(char *s1, char *s2)
+strrchr	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	26;"	prototype	signature:(char *s, char c)
+strspn	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	33;"	prototype	signature:(char *s1, char *s2)
+strstr	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	27;"	prototype	signature:(char *s1, char *s2)
 tick	delay.c	23;"	variable
 trap	stm8s.h	2589;"	macro
 trap	stm8s.h	2598;"	macro
 trap	stm8s.h	2608;"	macro
+true	main.c	22;"	macro	file:
 u16	stm8s.h	206;"	typedef
 u32	stm8s.h	205;"	typedef
 u8	stm8s.h	207;"	typedef
@@ -2167,4 +2162,4 @@ uint8_t	stm8s.h	195;"	typedef
 wfi	stm8s.h	2590;"	macro
 wfi	stm8s.h	2599;"	macro
 wfi	stm8s.h	2609;"	macro
-writePointer	main.c	18;"	variable
+writePointer	main.c	25;"	variable
