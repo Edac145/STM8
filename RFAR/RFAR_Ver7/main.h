@@ -17,7 +17,7 @@
 #define VAR_SIGNAL ADC2_CHANNEL_5
 #define FDR_SIGNAL ADC2_CHANNEL_6
 #define SET_FREQ 5.0    
-#define AC_AMPLITUDE_THRESHOLD 0.01  // AC threshold in Volts (20mV)
+#define AC_AMPLITUDE_THRESHOLD 0.05  // AC threshold in Volts (20mV)
 #define SQUARE_PULSE_MS 5         // Square pulse duration in ms
 #define SET_FREQUENCY_ADDRESS 0x4000
 

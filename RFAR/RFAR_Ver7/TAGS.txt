@@ -2490,24 +2490,24 @@ atof	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdlib.h	38;"	prot
 atoi	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdlib.h	39;"	prototype	signature:(char *nptr)
 atol	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdlib.h	40;"	prototype	signature:(char *nptr)
 bool	stm8s.h	210;"	typedef	typeref:enum:__anon1
-calculate_amplitude	main.c	180;"	function	signature:(float adc_signal[], uint32_t sample_size)
+calculate_amplitude	main.c	188;"	function	signature:(float adc_signal[], uint32_t sample_size)
 calculate_amplitude	main.h	46;"	prototype	signature:(float adc_signal[], uint32_t sample_size)
-calculate_frequency	main.c	270;"	function	signature:(unsigned long period)
+calculate_frequency	main.c	278;"	function	signature:(unsigned long period)
 calculate_frequency	main.h	49;"	prototype	signature:(unsigned long period)
 calloc	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdlib.h	41;"	prototype	signature:(unsigned int nelem, unsigned int elsize)
 checkString	eeprom.c	274;"	function	signature:(const char* str)
 checkString	eeprom.h	37;"	prototype	signature:(const char* str)
-check_FDR_amplitude	main.c	316;"	function	signature:(void)
+check_FDR_amplitude	main.c	324;"	function	signature:(void)
 check_FDR_amplitude	main.h	63;"	prototype	signature:(void)
-check_negative_zero_crossing	main.c	160;"	function	signature:(void)
+check_negative_zero_crossing	main.c	168;"	function	signature:(void)
 check_negative_zero_crossing	main.h	39;"	prototype	signature:(void)
-check_signal_dc	main.c	323;"	function	signature:(float amplitude)
+check_signal_dc	main.c	331;"	function	signature:(float amplitude)
 check_signal_dc	main.h	42;"	prototype	signature:(float amplitude)
 clock_setup	init.c	4;"	function	signature:(void)
 clock_setup	init.h	25;"	prototype	signature:(void)
-config_mode	main.c	341;"	function	signature:(void)
+config_mode	main.c	349;"	function	signature:(void)
 config_mode	main.h	53;"	prototype	signature:(void)
-convert_adc_to_voltage	main.c	265;"	function	signature:(unsigned int adcValue)
+convert_adc_to_voltage	main.c	273;"	function	signature:(unsigned int adcValue)
 convert_adc_to_voltage	main.h	48;"	prototype	signature:(unsigned int adcValue)
 count	main.h	30;"	variable
 createFormattedLog	init.c	249;"	function	signature:(float frequency, float fieldVoltage, float fieldCurrent, float fdrVoltage, const char *message)
@@ -2518,11 +2518,11 @@ delay_ms	delay.c	47;"	function	signature:(uint16_t ms)
 delay_ms	delay.h	10;"	prototype	signature:(uint16_t ms)
 delay_us	delay.c	58;"	function	signature:(uint16_t us)
 delay_us	delay.h	11;"	prototype	signature:(uint16_t us)
-detectPosZeroCross	main.c	150;"	function	signature:(float previousSample, float currentSample, float threshold)
+detectPosZeroCross	main.c	158;"	function	signature:(float previousSample, float currentSample, float threshold)
 detectPosZeroCross	main.h	36;"	prototype	signature:(float previousSample, float currentSample, float threshold)
-detectZeroCross	main.c	131;"	function	signature:(float previousSample, float currentSample, float threshold)
+detectZeroCross	main.c	139;"	function	signature:(float previousSample, float currentSample, float threshold)
 detectZeroCross	main.h	37;"	prototype	signature:(float previousSample, float currentSample, float threshold)
-detect_negative_zero_cross	main.c	155;"	function	signature:(float previous_sample, float current_sample, float threshold)
+detect_negative_zero_cross	main.c	163;"	function	signature:(float previous_sample, float current_sample, float threshold)
 detect_negative_zero_cross	main.h	38;"	prototype	signature:(float previous_sample, float current_sample, float threshold)
 disableInterrupts	stm8s.h	2585;"	macro
 disableInterrupts	stm8s.h	2594;"	macro
@@ -2544,25 +2544,25 @@ gets	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	16;"	proto
 halt	stm8s.h	2591;"	macro
 halt	stm8s.h	2600;"	macro
 halt	stm8s.h	2610;"	macro
-handle_Frequency_Below_Set_Freq	main.c	93;"	function	signature:(float VAR_amplitude)
+handle_Frequency_Below_Set_Freq	main.c	94;"	function	signature:(float VAR_amplitude)
 handle_Frequency_Below_Set_Freq	main.h	58;"	prototype	signature:(float VAR_amplitude)
-handle_commutation_pulse	main.c	308;"	function	signature:(void)
+handle_commutation_pulse	main.c	316;"	function	signature:(void)
 handle_commutation_pulse	main.h	64;"	prototype	signature:(void)
-handle_signal_1_AC	main.c	114;"	function	signature:(float VAR_amplitude)
+handle_signal_1_AC	main.c	117;"	function	signature:(float VAR_amplitude)
 handle_signal_1_AC	main.h	61;"	prototype	signature:(float VAR_amplitude)
 handle_signal_1_DC	main.h	60;"	prototype	signature:(float VAR_amplitude)
-initialize_adc_buffer	main.c	193;"	function	signature:(float buffer[])
+initialize_adc_buffer	main.c	201;"	function	signature:(float buffer[])
 initialize_adc_buffer	main.h	44;"	prototype	signature:(float buffer[])
 initialize_system	main.c	33;"	function	signature:(void)
 initialize_system	main.h	34;"	prototype	signature:(void)
 int16_t	stm8s.h	191;"	typedef
 int32_t	stm8s.h	192;"	typedef
 int8_t	stm8s.h	190;"	typedef
-internal_EEPROM_ReadStr	main.c	390;"	function	signature:(uint32_t address, char *buffer, uint16_t max_length)
+internal_EEPROM_ReadStr	main.c	400;"	function	signature:(uint32_t address, char *buffer, uint16_t max_length)
 internal_EEPROM_ReadStr	main.h	66;"	prototype	signature:(uint32_t address, char *buffer, uint16_t max_length)
 internal_EEPROM_Setup	init.c	77;"	function	signature:(void)
 internal_EEPROM_Setup	init.h	29;"	prototype	signature:(void)
-internal_EEPROM_WriteStr	main.c	383;"	function	signature:(uint32_t address, char *str)
+internal_EEPROM_WriteStr	main.c	393;"	function	signature:(uint32_t address, char *str)
 internal_EEPROM_WriteStr	main.h	67;"	prototype	signature:(uint32_t address, char *str)
 interrupt_handler	stm8_interrupt_vector.c	9;"	member	struct:interrupt_vector	file:
 interrupt_handler_t	stm8_interrupt_vector.c	5;"	typedef	file:
@@ -2574,7 +2574,7 @@ labs	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdlib.h	45;"	prot
 lastEdgeTime	main.h	27;"	variable
 ldiv	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdlib.h	46;"	prototype	signature:(long numer, long denom)
 ldiv_t	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdlib.h	35;"	typedef	typeref:struct:__anon76
-logResults	main.c	288;"	function	signature:(const char *logMessage)
+logResults	main.c	296;"	function	signature:(const char *logMessage)
 logResults	main.h	54;"	prototype	signature:(const char *logMessage)
 log_to_eeprom	eeprom.c	265;"	function	signature:(const char* str)
 log_to_eeprom	eeprom.h	36;"	prototype	signature:(const char* str)
@@ -2593,16 +2593,16 @@ millis	delay.h	12;"	prototype	signature:(void)
 nop	stm8s.h	2588;"	macro
 nop	stm8s.h	2597;"	macro
 nop	stm8s.h	2607;"	macro
-output_results	main.c	275;"	function	signature:(float frequency, float amplitude, float FDR_Voltage)
+output_results	main.c	283;"	function	signature:(float frequency, float amplitude, float FDR_Voltage)
 output_results	main.h	45;"	prototype	signature:(float frequency, float amplitude, float FDR_Voltage)
 printDateTime	init.c	187;"	function	signature:(void)
 printDateTime	init.h	44;"	prototype	signature:(void)
 printf	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	17;"	prototype	signature:(char *format, ...)
 process_FDR_signal	main.c	46;"	function	signature:(void)
 process_FDR_signal	main.h	56;"	prototype	signature:(void)
-process_VAR_signal	main.c	62;"	function	signature:(float FDR_amplitude)
+process_VAR_signal	main.c	63;"	function	signature:(float FDR_amplitude)
 process_VAR_signal	main.h	57;"	prototype	signature:(float FDR_amplitude)
-process_adc_signal	main.c	200;"	function	signature:(uint8_t channel, float *frequency, float *amplitude)
+process_adc_signal	main.c	208;"	function	signature:(uint8_t channel, float *frequency, float *amplitude)
 process_adc_signal	main.h	47;"	prototype	signature:(uint8_t channel, float *frequency, float *amplitude)
 process_eeprom_logs	eeprom.c	242;"	function
 process_eeprom_logs	eeprom.h	35;"	prototype	signature:(void)
@@ -2615,7 +2615,7 @@ read_ADC_Channel	init.c	175;"	function	signature:(uint8_t channel)
 read_ADC_Channel	init.h	42;"	prototype	signature:(uint8_t channel)
 read_from_eeprom	eeprom.c	216;"	function	signature:(uint16_t start_addr, char* buffer, uint16_t buffer_size)
 read_from_eeprom	eeprom.h	34;"	prototype	signature:(uint16_t start_addr, char* buffer, uint16_t buffer_size)
-read_set_frequency	main.c	333;"	function	signature:(float *set_freq)
+read_set_frequency	main.c	341;"	function	signature:(float *set_freq)
 read_set_frequency	main.h	52;"	prototype	signature:(float *set_freq)
 realloc	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdlib.h	49;"	prototype	signature:(void *ptr, unsigned int size)
 rem	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdlib.h	29;"	member	struct:__anon75
@@ -2628,7 +2628,7 @@ s32	stm8s.h	201;"	typedef
 s8	stm8s.h	203;"	typedef
 scanf	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	20;"	prototype	signature:(char *format, ...)
 send_pulse_commutation	main.h	41;"	prototype	signature:(uint16_t duration_ms)
-send_square_pulse	main.c	302;"	function	signature:(uint16_t duration_ms)
+send_square_pulse	main.c	310;"	function	signature:(uint16_t duration_ms)
 send_square_pulse	main.h	40;"	prototype	signature:(uint16_t duration_ms)
 set_freq	main.c	11;"	variable
 sim	stm8s.h	2587;"	macro
@@ -2671,7 +2671,7 @@ u8	stm8s.h	207;"	typedef
 uint16_t	stm8s.h	196;"	typedef
 uint32_t	stm8s.h	197;"	typedef
 uint8_t	stm8s.h	195;"	typedef
-wait_for_negative_zero_crossing	main.c	86;"	function	signature:(void)
+wait_for_negative_zero_crossing	main.c	87;"	function	signature:(void)
 wait_for_negative_zero_crossing	main.h	59;"	prototype	signature:(void)
 wfi	stm8s.h	2590;"	macro
 wfi	stm8s.h	2599;"	macro

@@ -13,7 +13,7 @@
 bool state = 0;
 
 unsigned int overflow_count = 0;
-unsigned long pulse_ticks = 0;
+uint16_t pulse_ticks = 0;
 unsigned long start_time = 0;
 unsigned long end_time = 0;
 unsigned long last_cross_time = 0;
@@ -27,7 +27,7 @@ void TIM2_setup(void);
 
 void main()
 {
-	unsigned long time_period = 0;
+	uint16_t time_period = 0;
                 
 	clock_setup();
 	GPIO_setup();
@@ -35,18 +35,18 @@ void main()
 	TIM2_setup();
 	UART3_setup();
 	TIM4_Config();
-	set_frequency = 50.0;
+	set_frequency = 52;
 	while (1){
 		time_period = pulse_ticks;
 		//frequency = (1000.0 / time_period); // Calculate frequency in Hz
-		printf("Time Period: %lu, Frequency: %.3f, Pulse_ticks: %lu\n\r", time_period, frequency, pulse_ticks); 
-		if (frequency <= set_frequency && state == 1)
+		printf("Time Period: %u, Frequency: %.3f, Pulse_ticks: %u\n\r", time_period, frequency, pulse_ticks); 
+	/*	if (frequency <= set_frequency && state == 1)
 		{
-			GPIO_WriteLow(GPIOC, GPIO_PIN_2); // Send pulse
+			GPIO_WriteHigh(GPIOC, GPIO_PIN_2); // Send pulse // Send pulse
 	    delay_ms(5);
-			GPIO_WriteHigh(GPIOC, GPIO_PIN_2);
+			GPIO_WriteLow(GPIOC, GPIO_PIN_2);
 			state = 0;
-		}
+		}*/
 		//delay_ms(400);
 	}
 }
@@ -92,7 +92,8 @@ void TIM1_setup(void)
 {
      TIM1_DeInit();
      //TIM1_TimeBaseInit(2000, TIM1_COUNTERMODE_UP, 55535, 1);
-		 TIM1_TimeBaseInit(16000, TIM1_COUNTERMODE_UP, 999, 1);
+		 //TIM1_TimeBaseInit(16000, TIM1_COUNTERMODE_UP, 999, 1);
+		 TIM1_TimeBaseInit(1600, TIM1_COUNTERMODE_UP, 65535, 1);
      TIM1_ICInit(TIM1_CHANNEL_1, TIM1_ICPOLARITY_RISING, 
                  TIM1_ICSELECTION_DIRECTTI, 1, 1);
      TIM1_ITConfig(TIM1_IT_UPDATE, ENABLE);

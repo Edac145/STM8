@@ -811,7 +811,7 @@ GPIO_WriteLow	stm8s_gpio.h	137;"	prototype	signature:(GPIO_TypeDef* GPIOx, GPIO_
 GPIO_WriteReverse	stm8s_gpio.c	174;"	function	signature:(GPIO_TypeDef* GPIOx, GPIO_Pin_TypeDef PortPins)
 GPIO_WriteReverse	stm8s_gpio.h	138;"	prototype	signature:(GPIO_TypeDef* GPIOx, GPIO_Pin_TypeDef PortPins)
 GPIO_setup	main.c	23;"	prototype	file:	signature:(void)
-GPIO_setup	main.c	82;"	function	signature:(void)
+GPIO_setup	main.c	81;"	function	signature:(void)
 GPIO_struct	stm8s.h	244;"	struct
 GTR	stm8s.h	1752;"	member	struct:UART1_struct
 GTR	stm8s.h	1851;"	member	struct:UART2_struct
@@ -898,7 +898,7 @@ INTERRUPT_HANDLER	stm8s.h	2628;"	macro
 INTERRUPT_HANDLER_TRAP	stm8s.h	2617;"	macro
 INTERRUPT_HANDLER_TRAP	stm8s.h	2622;"	macro
 INTERRUPT_HANDLER_TRAP	stm8s.h	2631;"	macro
-INTERRUPT_HANDLER_TRAP	stm8s_it.c	123;"	function
+INTERRUPT_HANDLER_TRAP	stm8s_it.c	117;"	function
 IN_RAM	stm8s.h	150;"	macro
 IN_RAM	stm8s.h	152;"	macro
 IN_RAM	stm8s.h	154;"	macro
@@ -1668,7 +1668,7 @@ TIM1_UpdateRequestConfig	stm8s_tim1.c	827;"	function	signature:(TIM1_UpdateSourc
 TIM1_UpdateRequestConfig	stm8s_tim1.h	554;"	prototype	signature:(TIM1_UpdateSource_TypeDef TIM1_UpdateSource)
 TIM1_UpdateSource_TypeDef	stm8s_tim1.h	402;"	typedef	typeref:enum:__anon53
 TIM1_setup	main.c	24;"	prototype	file:	signature:(void)
-TIM1_setup	main.c	92;"	function	signature:(void)
+TIM1_setup	main.c	91;"	function	signature:(void)
 TIM1_struct	stm8s.h	586;"	struct
 TIM2	stm8s.h	2550;"	macro
 TIM2_ARRH_ARR	stm8s.h	906;"	macro
@@ -2493,7 +2493,7 @@ assert_param	stm8s_conf.h	92;"	macro
 assert_param	stm8s_conf.h	96;"	macro
 bool	stm8s.h	210;"	typedef	typeref:enum:__anon1
 clock_setup	main.c	22;"	prototype	file:	signature:(void)
-clock_setup	main.c	55;"	function	signature:(void)
+clock_setup	main.c	54;"	function	signature:(void)
 delay_ms	delay.c	47;"	function	signature:(uint16_t ms)
 delay_ms	delay.h	10;"	prototype	signature:(uint16_t ms)
 delay_us	delay.c	58;"	function	signature:(uint16_t us)
@@ -2505,12 +2505,13 @@ enableInterrupts	stm8s.h	2584;"	macro
 enableInterrupts	stm8s.h	2593;"	macro
 enableInterrupts	stm8s.h	2603;"	macro
 end_time	main.c	18;"	variable
-frequency	stm8s_it.c	41;"	variable
+frequency	main.c	21;"	variable
 getchar	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	15;"	prototype	signature:(void)
 gets	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	16;"	prototype	signature:(char *s)
 halt	stm8s.h	2591;"	macro
 halt	stm8s.h	2600;"	macro
 halt	stm8s.h	2610;"	macro
+i	stm8s_it.c	44;"	variable
 int16_t	stm8s.h	191;"	typedef
 int32_t	stm8s.h	192;"	typedef
 int8_t	stm8s.h	190;"	typedef
@@ -2518,6 +2519,7 @@ interrupt_handler	stm8_interrupt_vector.c	10;"	member	struct:interrupt_vector	fi
 interrupt_handler_t	stm8_interrupt_vector.c	6;"	typedef	file:
 interrupt_instruction	stm8_interrupt_vector.c	9;"	member	struct:interrupt_vector	file:
 interrupt_vector	stm8_interrupt_vector.c	8;"	struct	file:
+j	stm8s_it.c	44;"	variable
 last_capture	stm8s_it.c	39;"	variable
 last_cross_time	main.c	19;"	variable
 main	main.c	28;"	function

@@ -14,7 +14,7 @@ void main() {
   float FDR_amplitude = 0.0;
 	// Initialize system and peripherals
 	initialize_system();
-  config_mode();
+  //config_mode();
 	read_set_frequency(&set_freq);
 	while (1) {
 		//Process Signal 2 (FDR): Only amplitude is calculated
@@ -367,14 +367,16 @@ void  config_mode(void){
 			// Handle "set" command
 			printf("SET Command Received. Waiting for new parameter...\n");
 			UART3_ReceiveString(buffer, sizeof(buffer)); // Receive the parameter string
-			printf("New Parameter: %s\n", buffer);
-			value = ConvertStringToFloat(buffer);
-			printf("Value: %f\n", value);
 			// Additional processing if needed (example: write to EEPROM)
+			printf("123456789\n");
+			//value = ConvertStringToFloat(buffer);
 			internal_EEPROM_WriteStr(0x4000, buffer); // Example address for storing string
-			printf("success\n");
+			//printf("success\n");
+			//printf("New Parameter: %s\n", buffer);
+			//value = ConvertStringToFloat(buffer);
+			//printf("Value: %f\n", value);
 			
-		} else if (strcmp(buffer, "read") == 0) {
+		} else if (strcmp(buffer, "ready") == 0) {
 			// Handle "read" command
 			printf("READ Command Received. Reading stored values...\n");
 			// Example: Read a string from EEPROM

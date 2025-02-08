@@ -58,7 +58,7 @@ void main() {
 	while(1)
 	{
 		amplitude = process_adc_signal(VAR_SIGNAL, &frequency, &amplitude);
-		//printf("frequency; %.3f, amplitude: %.3f\n\r", frequency, amplitude);
+		printf("frequency; %.3f, amplitude: %.3f\n\r", frequency, amplitude);
 	}	
 }
 
@@ -144,7 +144,7 @@ bool detectZeroCross(float previousSample, float currentSample, float threshold)
 		}
 	} else if (crossingType == 0 && previousSample <= threshold && currentSample > threshold) {
 			return true;  // Positive zero crossing
-	} else if (crossingType == 1 && previousSample >= -threshold && currentSample < -threshold) {
+	} else if (crossingType == 1 && previousSample >= threshold && currentSample < threshold) {
 			return true;  // Negative zero crossing
 	}
 
@@ -192,11 +192,11 @@ float process_adc_signal(uint8_t channel, float *frequency, float *amplitude) {
 
 	while (count < NUM_SAMPLES) {  
 		float currentVoltage = convert_adc_to_voltage(read_ADC_Channel(channel));
-
+    printf("%.4f " , currentVoltage); 
 		// Store the first value unconditionally or when there's a =0.05V change
 		if (firstSample || fabs(currentVoltage - lastStoredValue) >= 0.01) {
 			buffer[count] = currentVoltage;
-			printf("%.4f " ,currentVoltage);    // Less than 0.3 fluctation in a dc signal.
+			//printf("%.4f " , currentVoltage);    // Less than 0.3 fluctation in a dc signal.
 			lastStoredValue = currentVoltage;
 			firstSample = false;  // First sample has been stored
 			count++;

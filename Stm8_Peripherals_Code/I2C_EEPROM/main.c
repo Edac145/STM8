@@ -78,7 +78,7 @@ void main (void)
   }*/
 	
 	// Process and read data logs from EEPROM
-	//process_eeprom_logs();
+	process_eeprom_logs();
 
   EEPROM_Test();
   while(1)

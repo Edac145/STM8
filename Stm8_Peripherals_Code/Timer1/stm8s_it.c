@@ -32,7 +32,7 @@
 
 
 extern unsigned int overflow_count;
-extern unsigned long pulse_ticks;
+extern uint16_t pulse_ticks;
 extern unsigned long start_time;
 extern unsigned long end_time;
 extern unsigned long last_cross_time;
@@ -41,7 +41,7 @@ volatile unsigned int prescaling_factor = 1;
 extern volatile float frequency;
 extern bool state; 
 extern volatile float set_frequency;
-
+uint32_t i = 0, j = 0;
  
 void TIM1_UPD_IRQHandler(void) 
 {
@@ -53,25 +53,11 @@ void TIM1_UPD_IRQHandler(void)
  
 void TIM1_CH1_CCP_IRQHandler(void) 
 {
-	uint32_t i = 0, j = 0;
 	end_time = TIM1_GetCapture1();
 	pulse_ticks = ((overflow_count << 16) - start_time + end_time);
 	start_time = end_time;
 	overflow_count = 0;
-	// Detect negative zero crossing
-/*	if (pulse_ticks > last_cross_time) {
-			GPIO_WriteHigh(GPIOC, GPIO_PIN_4); // Send pulse
-			for(i = 0; i < 100; i++)
-			{
-				for(j = 0; j < 8; j++)
-				{
-					
-				}
-			}
-			GPIO_WriteLow(GPIOC, GPIO_PIN_4);
-	}*/
-	//last_cross_time = pulse_ticks; // Store last crossing time
-	frequency = (1000.0 / pulse_ticks); // Calculate frequency in Hz
+	frequency = (10000.0 / pulse_ticks); // Calculate frequency in Hz
 	
 	if (frequency <= set_frequency) {
 		state = 1;
@@ -80,12 +66,12 @@ void TIM1_CH1_CCP_IRQHandler(void)
 		state = 0;
 	}
   if (state == 1) {
-		GPIO_WriteLow(GPIOC, GPIO_PIN_2); // Send pulse
+		GPIOC->ODR |= (uint8_t)GPIO_PIN_2; // Send pulse
 		for(i = 0; i < 1030; i++)
 		{
 			
 		}
-		GPIO_WriteHigh(GPIOC, GPIO_PIN_2);
+		GPIOC->ODR &= (uint8_t)(~GPIO_PIN_2);
 	}
 	
 	TIM1_ClearITPendingBit(TIM1_IT_CC1);
