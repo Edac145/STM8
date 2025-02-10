@@ -42,15 +42,15 @@
  184  0031 5c            	incw	x
  185                     ; 26     buf[0] = (__TIME__[6] - '0')*16 + (__TIME__[7] - '0');
  187  0032 1e07          	ldw	x,(OFST+1,sp)
- 188  0034 a608          	ld	a,#8
+ 188  0034 a609          	ld	a,#9
  189  0036 f7            	ld	(x),a
  190                     ; 27     buf[1] = (__TIME__[3] - '0')*16 + (__TIME__[4] - '0');
  192  0037 1e07          	ldw	x,(OFST+1,sp)
- 193  0039 a613          	ld	a,#19
+ 193  0039 a619          	ld	a,#25
  194  003b e701          	ld	(1,x),a
  195                     ; 28     buf[2] = (__TIME__[0] - '0')*16 + (__TIME__[1] - '0');
  197  003d 1e07          	ldw	x,(OFST+1,sp)
- 198  003f a611          	ld	a,#17
+ 198  003f a610          	ld	a,#16
  199  0041 e702          	ld	(2,x),a
  200                     ; 29 		buf[5] = ('0' - '0') * 16 + ('2' - '0');
  202  0043 1e07          	ldw	x,(OFST+1,sp)
@@ -58,7 +58,7 @@
  204  0047 e705          	ld	(5,x),a
  205                     ; 30     buf[4] = ((__DATE__[4] - '0') * 16) + (__DATE__[5] - '0'); // Day
  207  0049 1e07          	ldw	x,(OFST+1,sp)
- 208  004b a607          	ld	a,#7
+ 208  004b a610          	ld	a,#16
  209  004d e704          	ld	(4,x),a
  210                     ; 31     buf[6] = ((__DATE__[9] - '0') * 16) + (__DATE__[10] - '0'); // Year (last two digits)
  212  004f 1e07          	ldw	x,(OFST+1,sp)
@@ -196,7 +196,7 @@
  496                     	xdef	f_DS3231_GetTime
  497                     .const:	section	.text
  498  0000               L56:
- 499  0000 466562202037  	dc.b	"Feb  7 2025",0
+ 499  0000 466562203130  	dc.b	"Feb 10 2025",0
  500  000c               L36:
  501  000c 4a616e466562  	dc.b	"JanFebMarAprMayJun"
  502  001e 4a756c417567  	dc.b	"JulAugSepOctNovDec",0

@@ -11,7 +11,7 @@ void main() {
   //config_mode();
 	//DS3231_SetTime(buf, 7);
 	read_set_frequency(&set_freq);
-		//Process Signal 2 (FDR): Only amplitude is calculated
+	//Process Signal 2 (FDR): Only amplitude is calculated
 	FDR_amplitude = process_adc_signal(FDR_SIGNAL, NULL, &FDR_amplitude);
 
 	if (FDR_amplitude > 0) { // Voltage detected on Signal 2
@@ -38,26 +38,29 @@ void initialize_system(void) {
 }
 
 float process_FDR_signal(void) {
-	float FDR_amplitude = 0, VAR_amplitude = 0;
-  char buffer[40];
+	float FDR_Amplitude = 0, VAR_amplitude = 0;
+  char buffer[50];
+	
 	while (1) {
 		VAR_amplitude = process_adc_signal(VAR_SIGNAL, NULL, &VAR_amplitude);
-		FDR_amplitude = process_adc_signal(FDR_SIGNAL, NULL, &FDR_amplitude);
-    sprintf(buffer, "%.3f,%.3f,%.3f,%.3f,1\n", frequency, VAR_amplitude, VAR_amplitude/4.7, FDR_amplitude);
+		FDR_Amplitude = process_adc_signal(FDR_SIGNAL, NULL, &FDR_Amplitude);
+    sprintf(buffer, "Freq: %.3f, Field_Volt: %.3f, FDR_Volt: %.3f\n", frequency, VAR_amplitude, FDR_Amplitude);
 	  printf("%s", buffer);
 		logResults(buffer);
-		if ((FDR_amplitude > 0) && (VAR_amplitude > 0)) {
+		if ((FDR_Amplitude > 1.1) && (VAR_amplitude > 0.7)) {
 			do{
 				handle_commutation_pulse(); // Execute the pulse sending
 			} while (check_FDR_amplitude()); // Repeat if FDR_amplitude is still non-zero
 		}
 	}
+	
 	return 0; // Unreachable, but keeps function signature valid
 }
 
 void process_VAR_signal(float FDR_amplitude) {
 	float VAR_frequency = 0.0, VAR_amplitude = 0.0;
   char buffer[50];
+	
 	while (1) {
 		VAR_amplitude = process_adc_signal(VAR_SIGNAL, NULL, &VAR_amplitude);
 		VAR_frequency = frequency;
@@ -91,6 +94,7 @@ void handle_Frequency_Below_Set_Freq(float VAR_amplitude) {
   sprintf(buffer, "%.3f,%.3f,%.3f,%.3f,1\n", frequency, VAR_amplitude, VAR_amplitude/4.7, 0);
 	printf("%s", buffer);
 	logResults(buffer);
+	
 	if (check_signal_dc(VAR_amplitude)) {
 		//printDateTime();
 		printf("Signal 1 DC.\n");
@@ -103,9 +107,9 @@ void handle_Frequency_Below_Set_Freq(float VAR_amplitude) {
 	}
 }
 
-
 void handle_signal_1_AC(float VAR_amplitude) {
 	char buffer[40];
+	
 	VAR_amplitude = process_adc_signal(VAR_SIGNAL, NULL, &VAR_amplitude);
 	if (VAR_amplitude < AC_AMPLITUDE_THRESHOLD) {
 		//printDateTime();
@@ -128,8 +132,11 @@ void handle_signal_1_AC(float VAR_amplitude) {
 			GPIO_WriteHigh(LED_WHITE);  // Turn on LED if Signal is AC < 20 ms	
 			VAR_amplitude = process_adc_signal(VAR_SIGNAL, NULL, &VAR_amplitude);
 			//handle_Frequency_Below_Set_Freq(VAR_amplitude);
-			if(check_signal_dc(VAR_amplitude))
-				break;
+			if(check_signal_dc(VAR_amplitude)){
+				printf("Signal 1 DC(After AC).\n");
+				GPIO_WriteHigh(LED_BLUE); 
+				process_FDR_signal();
+			}
 		}
 	}
 }
@@ -153,14 +160,14 @@ float process_adc_signal(uint8_t channel, float *frequency, float *amplitude) {
 	float lastStoredValue = 0.0;       // Track the last stored ADC voltage
 	bool isChannel1 = (channel == VAR_SIGNAL);
 	bool firstSample = true;           // Flag for first sample storage               // Reset last zero-crossing time
-
- 
-
+  float dummyRead = convert_adc_to_voltage(read_ADC_Channel(channel));
+	uint16_t dcCount = 0;
+	
 	while (count < NUM_SAMPLES) {  
 		float currentVoltage = convert_adc_to_voltage(read_ADC_Channel(channel));
     //printf("%.4f " , currentVoltage); 
 		// Store the first value unconditionally or when there's a =0.05V change
-		if (firstSample || fabs(currentVoltage - lastStoredValue) >= 0.1) {
+		if (fabs(currentVoltage - lastStoredValue) >= 0.01 || firstSample) {
 			buffer[count] = currentVoltage;
 			//printf("%.4f " , currentVoltage);    // Less than 0.3 fluctation in a dc signal.
 			lastStoredValue = currentVoltage;
@@ -168,7 +175,6 @@ float process_adc_signal(uint8_t channel, float *frequency, float *amplitude) {
 			count++;
 		}
 	}
-
 	// Final amplitude calculation
 	*amplitude = calculate_amplitude(buffer, count);
 	return *amplitude;
@@ -227,9 +233,16 @@ void handle_commutation_pulse(void) {
 }
 
 bool check_FDR_amplitude(void) {
-    float FDR_amplitude = 0;
-    FDR_amplitude = process_adc_signal(FDR_SIGNAL, NULL, &FDR_amplitude);
-    return (FDR_amplitude != 0); // Returns true if FDR_amplitude is non-zero
+	float FDR_amplitude = 0;
+	FDR_amplitude = process_adc_signal(FDR_SIGNAL, NULL, &FDR_amplitude);
+	printf("Checking FDR_Amplitude: %.2f\n", FDR_amplitude);
+	return (FDR_amplitude >= 1.1); // Returns true if FDR_amplitude is non-zero
+}
+
+float calc_FDR_amplitude(void) {
+	float FDR_amplitude = 0;
+	FDR_amplitude = process_adc_signal(FDR_SIGNAL, NULL, &FDR_amplitude);
+	return (FDR_amplitude); // Returns true if FDR_amplitude is non-zero
 }
 
 /** Check if signal is DC or AC, and turn on corresponding LED **/
@@ -255,6 +268,7 @@ void  config_mode(void){
 	char buffer[40]; // UART input buffer for storing received strings
   float value = 0;
 	char stored_data[40];
+	
 	while(1)
 	{
 		// Step 1: Check initial GPIO pin state

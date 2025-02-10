@@ -17,11 +17,12 @@
 
 #define ADC_MAX_VALUE 1024.0                              // 10-bit ADC on Arduino Uno
 #define V_REF 4.6                                        // Reference voltage                              
-#define NUM_SAMPLES 512                                  // Number of samples                     
+#define NUM_SAMPLES 512
+#define SAMPLE_RATE 150  // Number of samples                     
 
 #define VAR_SIGNAL ADC2_CHANNEL_5
 #define FDR_SIGNAL ADC2_CHANNEL_6
-#define SET_FREQ 5    
+#define SET_FREQ 51    
 #define AC_AMPLITUDE_THRESHOLD 0.05  // AC threshold in Volts (20mV)        // Square pulse duration in ms
 #define SET_FREQUENCY_ADDRESS 0x4000
 
@@ -38,7 +39,7 @@ uint16_t pulse_ticks = 0;
 unsigned long start_time = 0;
 unsigned long end_time = 0;
 unsigned long last_cross_time = 0;
-volatile float set_frequency = 5;
+volatile float set_frequency = 51;
 volatile float frequency = 0.0;
 float set_freq = 0.0;
 char buffer[50] = {0};
@@ -74,6 +75,9 @@ void handle_signal_1_AC(float VAR_amplitude);
 
 bool check_FDR_amplitude(void);
 void handle_commutation_pulse(void);
+
+
+float calc_FDR_amplitude(void);
 
 
 #endif //MAIN_H

@@ -25,7 +25,7 @@
   35  0019               _last_cross_time:
   36  0019 00000000      	dc.l	0
   37  001d               _set_frequency:
-  38  001d 40a00000      	dc.w	16544,0
+  38  001d 424c0000      	dc.w	16972,0
   39  0021               _frequency:
   40  0021 00000000      	dc.w	0,0
   41  0025               _set_freq:
@@ -39,15 +39,15 @@
  258  0000 5204          	subw	sp,#4
  259       00000004      OFST:	set	4
  262                     ; 6   float FDR_amplitude = 0.0;
- 264  0002 ce0a93        	ldw	x,L721+2
+ 264  0002 ce0aff        	ldw	x,L721+2
  265  0005 1f03          	ldw	(OFST-1,sp),x
- 266  0007 ce0a91        	ldw	x,L721
+ 266  0007 ce0afd        	ldw	x,L721
  267  000a 1f01          	ldw	(OFST-3,sp),x
  269                     ; 9 	initialize_system();
  271  000c 8d5e005e      	callf	f_initialize_system
  273                     ; 13 	read_set_frequency(&set_freq);
  275  0010 ae0025        	ldw	x,#_set_freq
- 276  0013 8d650765      	callf	f_read_set_frequency
+ 276  0013 8dd307d3      	callf	f_read_set_frequency
  278                     ; 15 	FDR_amplitude = process_adc_signal(FDR_SIGNAL, NULL, &FDR_amplitude);
  280  0017 96            	ldw	x,sp
  281  0018 1c0001        	addw	x,#OFST-3
@@ -55,7 +55,7 @@
  283  001c 5f            	clrw	x
  284  001d 89            	pushw	x
  285  001e a606          	ld	a,#6
- 286  0020 8dff04ff      	callf	f_process_adc_signal
+ 286  0020 8d170517      	callf	f_process_adc_signal
  288  0024 5b04          	addw	sp,#4
  289  0026 96            	ldw	x,sp
  290  0027 1c0001        	addw	x,#OFST-3
@@ -66,7 +66,7 @@
  298  0030 0d01          	tnz	(OFST-3,sp)
  299  0032 2d27          	jrsle	L331
  300                     ; 18 		printf("FDR Voltage Exists");
- 302  0034 ae0a7e        	ldw	x,#L531
+ 302  0034 ae0aea        	ldw	x,#L531
  303  0037 8d000000      	callf	f_printf
  305                     ; 19 		GPIO_WriteHigh(LED_RED); // Turn on LED
  307  003b 4b08          	push	#8
@@ -83,7 +83,7 @@
  322  0051 89            	pushw	x
  323  0052 1e03          	ldw	x,(OFST-1,sp)
  324  0054 89            	pushw	x
- 325  0055 8d3d013d      	callf	f_process_VAR_signal
+ 325  0055 8d400140      	callf	f_process_VAR_signal
  327  0059 5b04          	addw	sp,#4
  328  005b               L331:
  329                     ; 23 }
@@ -113,1291 +113,1357 @@
  408                     ; 36 	INT_EEPROM_Setup();
  410  0082 8d000000      	callf	f_INT_EEPROM_Setup
  412                     ; 37 	printf("System Initialization Completed\n\r");
- 414  0086 ae0a5c        	ldw	x,#L741
+ 414  0086 ae0ac8        	ldw	x,#L741
  415  0089 8d000000      	callf	f_printf
  417                     ; 38 }
  420  008d 87            	retf
  475                     ; 40 float process_FDR_signal(void) {
  476                     	switch	.text
  477  008e               f_process_FDR_signal:
- 479  008e 5230          	subw	sp,#48
- 480       00000030      OFST:	set	48
- 483                     ; 41 	float FDR_amplitude = 0, VAR_amplitude = 0;
+ 479  008e 523a          	subw	sp,#58
+ 480       0000003a      OFST:	set	58
+ 483                     ; 41 	float FDR_Amplitude = 0, VAR_amplitude = 0;
  485  0090 ae0000        	ldw	x,#0
- 486  0093 1f2b          	ldw	(OFST-5,sp),x
+ 486  0093 1f35          	ldw	(OFST-5,sp),x
  487  0095 ae0000        	ldw	x,#0
- 488  0098 1f29          	ldw	(OFST-7,sp),x
+ 488  0098 1f33          	ldw	(OFST-7,sp),x
  492  009a ae0000        	ldw	x,#0
- 493  009d 1f2f          	ldw	(OFST-1,sp),x
+ 493  009d 1f39          	ldw	(OFST-1,sp),x
  494  009f ae0000        	ldw	x,#0
- 495  00a2 1f2d          	ldw	(OFST-3,sp),x
+ 495  00a2 1f37          	ldw	(OFST-3,sp),x
  497  00a4               L371:
  498                     ; 44 		VAR_amplitude = process_adc_signal(VAR_SIGNAL, NULL, &VAR_amplitude);
  500  00a4 96            	ldw	x,sp
- 501  00a5 1c002d        	addw	x,#OFST-3
+ 501  00a5 1c0037        	addw	x,#OFST-3
  502  00a8 89            	pushw	x
  503  00a9 5f            	clrw	x
  504  00aa 89            	pushw	x
  505  00ab a605          	ld	a,#5
- 506  00ad 8dff04ff      	callf	f_process_adc_signal
+ 506  00ad 8d170517      	callf	f_process_adc_signal
  508  00b1 5b04          	addw	sp,#4
  509  00b3 96            	ldw	x,sp
- 510  00b4 1c002d        	addw	x,#OFST-3
+ 510  00b4 1c0037        	addw	x,#OFST-3
  511  00b7 8d000000      	callf	d_rtol
- 514                     ; 45 		FDR_amplitude = process_adc_signal(FDR_SIGNAL, NULL, &FDR_amplitude);
+ 514                     ; 45 		FDR_Amplitude = process_adc_signal(FDR_SIGNAL, NULL, &FDR_Amplitude);
  516  00bb 96            	ldw	x,sp
- 517  00bc 1c0029        	addw	x,#OFST-7
+ 517  00bc 1c0033        	addw	x,#OFST-7
  518  00bf 89            	pushw	x
  519  00c0 5f            	clrw	x
  520  00c1 89            	pushw	x
  521  00c2 a606          	ld	a,#6
- 522  00c4 8dff04ff      	callf	f_process_adc_signal
+ 522  00c4 8d170517      	callf	f_process_adc_signal
  524  00c8 5b04          	addw	sp,#4
  525  00ca 96            	ldw	x,sp
- 526  00cb 1c0029        	addw	x,#OFST-7
+ 526  00cb 1c0033        	addw	x,#OFST-7
  527  00ce 8d000000      	callf	d_rtol
- 530                     ; 46     sprintf(buffer, "%.3f,%.3f,%.3f,%.3f,1\n", frequency, VAR_amplitude, VAR_amplitude/4.7, FDR_amplitude);
- 532  00d2 1e2b          	ldw	x,(OFST-5,sp)
+ 530                     ; 46     sprintf(buffer, "Freq: %.3f, Field_Volt: %.3f, FDR_Volt: %.3f\n", frequency, VAR_amplitude, FDR_Amplitude);
+ 532  00d2 1e35          	ldw	x,(OFST-5,sp)
  533  00d4 89            	pushw	x
- 534  00d5 1e2b          	ldw	x,(OFST-5,sp)
+ 534  00d5 1e35          	ldw	x,(OFST-5,sp)
  535  00d7 89            	pushw	x
- 536  00d8 96            	ldw	x,sp
- 537  00d9 1c0031        	addw	x,#OFST+1
- 538  00dc 8d000000      	callf	d_ltor
- 540  00e0 ae0a41        	ldw	x,#L502
- 541  00e3 8d000000      	callf	d_fdiv
- 543  00e7 be02          	ldw	x,c_lreg+2
- 544  00e9 89            	pushw	x
- 545  00ea be00          	ldw	x,c_lreg
- 546  00ec 89            	pushw	x
- 547  00ed 1e37          	ldw	x,(OFST+7,sp)
- 548  00ef 89            	pushw	x
- 549  00f0 1e37          	ldw	x,(OFST+7,sp)
- 550  00f2 89            	pushw	x
- 551  00f3 ce0023        	ldw	x,_frequency+2
- 552  00f6 89            	pushw	x
- 553  00f7 ce0021        	ldw	x,_frequency
- 554  00fa 89            	pushw	x
- 555  00fb ae0a45        	ldw	x,#L771
- 556  00fe 89            	pushw	x
- 557  00ff 96            	ldw	x,sp
- 558  0100 1c0013        	addw	x,#OFST-29
- 559  0103 8d000000      	callf	f_sprintf
- 561  0107 5b12          	addw	sp,#18
- 562                     ; 47 	  printf("%s", buffer);
- 564  0109 96            	ldw	x,sp
- 565  010a 1c0001        	addw	x,#OFST-47
- 566  010d 89            	pushw	x
- 567  010e ae0a3e        	ldw	x,#L112
- 568  0111 8d000000      	callf	f_printf
- 570  0115 85            	popw	x
- 571                     ; 48 		logResults(buffer);
- 573  0116 96            	ldw	x,sp
- 574  0117 1c0001        	addw	x,#OFST-47
- 575  011a 8da006a0      	callf	f_logResults
- 577                     ; 49 		if ((FDR_amplitude > 0) && (VAR_amplitude > 0)) {
- 579  011e 9c            	rvf
- 580  011f 9c            	rvf
- 581  0120 0d29          	tnz	(OFST-7,sp)
- 582  0122 2d80          	jrsle	L371
- 584  0124 9c            	rvf
- 585  0125 9c            	rvf
- 586  0126 0d2d          	tnz	(OFST-3,sp)
- 587  0128 2c04          	jrsgt	L21
- 588  012a aca400a4      	jpf	L371
- 589  012e               L21:
- 590  012e               L512:
- 591                     ; 51 				handle_commutation_pulse(); // Execute the pulse sending
- 593  012e 8de906e9      	callf	f_handle_commutation_pulse
- 595                     ; 52 			} while (check_FDR_amplitude()); // Repeat if FDR_amplitude is still non-zero
- 597  0132 8d160716      	callf	f_check_FDR_amplitude
- 599  0136 4d            	tnz	a
- 600  0137 26f5          	jrne	L512
- 601  0139 aca400a4      	jpf	L371
- 675                     ; 58 void process_VAR_signal(float FDR_amplitude) {
- 676                     	switch	.text
- 677  013d               f_process_VAR_signal:
- 679  013d 5266          	subw	sp,#102
- 680       00000066      OFST:	set	102
- 683                     ; 59 	float VAR_frequency = 0.0, VAR_amplitude = 0.0;
- 687  013f ce0a93        	ldw	x,L721+2
- 688  0142 1f65          	ldw	(OFST-1,sp),x
- 689  0144 ce0a91        	ldw	x,L721
- 690  0147 1f63          	ldw	(OFST-3,sp),x
- 692  0149               L352:
- 693                     ; 62 		VAR_amplitude = process_adc_signal(VAR_SIGNAL, NULL, &VAR_amplitude);
- 695  0149 96            	ldw	x,sp
- 696  014a 1c0063        	addw	x,#OFST-3
- 697  014d 89            	pushw	x
- 698  014e 5f            	clrw	x
- 699  014f 89            	pushw	x
- 700  0150 a605          	ld	a,#5
- 701  0152 8dff04ff      	callf	f_process_adc_signal
- 703  0156 5b04          	addw	sp,#4
- 704  0158 96            	ldw	x,sp
- 705  0159 1c0063        	addw	x,#OFST-3
- 706  015c 8d000000      	callf	d_rtol
- 709                     ; 63 		VAR_frequency = frequency;
- 711  0160 ce0023        	ldw	x,_frequency+2
- 712  0163 1f61          	ldw	(OFST-5,sp),x
- 713  0165 ce0021        	ldw	x,_frequency
- 714  0168 1f5f          	ldw	(OFST-7,sp),x
- 716                     ; 64 		printDateTime();
- 718  016a 8d000000      	callf	f_printDateTime
- 720                     ; 67 		printf(" Frequency: %.3f, Amplitude: %.3f, Current: %.3f, FDR_Voltage: %.3f\n",
- 720                     ; 68 					 VAR_frequency, VAR_amplitude, VAR_amplitude / 4.7, FDR_amplitude);
- 722  016e 1e6c          	ldw	x,(OFST+6,sp)
- 723  0170 89            	pushw	x
- 724  0171 1e6c          	ldw	x,(OFST+6,sp)
- 725  0173 89            	pushw	x
- 726  0174 96            	ldw	x,sp
- 727  0175 1c0067        	addw	x,#OFST+1
- 728  0178 8d000000      	callf	d_ltor
- 730  017c ae0a41        	ldw	x,#L502
- 731  017f 8d000000      	callf	d_fdiv
- 733  0183 be02          	ldw	x,c_lreg+2
- 734  0185 89            	pushw	x
- 735  0186 be00          	ldw	x,c_lreg
- 736  0188 89            	pushw	x
- 737  0189 1e6d          	ldw	x,(OFST+7,sp)
- 738  018b 89            	pushw	x
- 739  018c 1e6d          	ldw	x,(OFST+7,sp)
- 740  018e 89            	pushw	x
- 741  018f 1e6d          	ldw	x,(OFST+7,sp)
- 742  0191 89            	pushw	x
- 743  0192 1e6d          	ldw	x,(OFST+7,sp)
- 744  0194 89            	pushw	x
- 745  0195 ae09f9        	ldw	x,#L752
- 746  0198 8d000000      	callf	f_printf
- 748  019c 5b10          	addw	sp,#16
- 749                     ; 69     sprintf(buffer, "%.3f,%.3f,%.3f,%.3f,1\n", frequency, VAR_amplitude, VAR_amplitude/4.7, FDR_amplitude);
- 751  019e 1e6c          	ldw	x,(OFST+6,sp)
- 752  01a0 89            	pushw	x
- 753  01a1 1e6c          	ldw	x,(OFST+6,sp)
- 754  01a3 89            	pushw	x
- 755  01a4 96            	ldw	x,sp
- 756  01a5 1c0067        	addw	x,#OFST+1
- 757  01a8 8d000000      	callf	d_ltor
- 759  01ac ae0a41        	ldw	x,#L502
- 760  01af 8d000000      	callf	d_fdiv
- 762  01b3 be02          	ldw	x,c_lreg+2
- 763  01b5 89            	pushw	x
- 764  01b6 be00          	ldw	x,c_lreg
- 765  01b8 89            	pushw	x
- 766  01b9 1e6d          	ldw	x,(OFST+7,sp)
- 767  01bb 89            	pushw	x
- 768  01bc 1e6d          	ldw	x,(OFST+7,sp)
- 769  01be 89            	pushw	x
- 770  01bf ce0023        	ldw	x,_frequency+2
- 771  01c2 89            	pushw	x
- 772  01c3 ce0021        	ldw	x,_frequency
- 773  01c6 89            	pushw	x
- 774  01c7 ae0a45        	ldw	x,#L771
- 775  01ca 89            	pushw	x
- 776  01cb 96            	ldw	x,sp
- 777  01cc 1c003f        	addw	x,#OFST-39
- 778  01cf 8d000000      	callf	f_sprintf
- 780  01d3 5b12          	addw	sp,#18
- 781                     ; 70 		logResults(buffer);
- 783  01d5 96            	ldw	x,sp
- 784  01d6 1c002d        	addw	x,#OFST-57
- 785  01d9 8da006a0      	callf	f_logResults
- 787                     ; 71 		output_results(VAR_frequency, VAR_amplitude, FDR_amplitude);
- 789  01dd 1e6c          	ldw	x,(OFST+6,sp)
- 790  01df 89            	pushw	x
- 791  01e0 1e6c          	ldw	x,(OFST+6,sp)
- 792  01e2 89            	pushw	x
- 793  01e3 1e69          	ldw	x,(OFST+3,sp)
- 794  01e5 89            	pushw	x
- 795  01e6 1e69          	ldw	x,(OFST+3,sp)
- 796  01e8 89            	pushw	x
- 797  01e9 1e69          	ldw	x,(OFST+3,sp)
- 798  01eb 89            	pushw	x
- 799  01ec 1e69          	ldw	x,(OFST+3,sp)
- 800  01ee 89            	pushw	x
- 801  01ef 8d510651      	callf	f_output_results
- 803  01f3 5b0c          	addw	sp,#12
- 804                     ; 73 		if (VAR_frequency <= SET_FREQ) {
- 806  01f5 9c            	rvf
- 807  01f6 a605          	ld	a,#5
- 808  01f8 8d000000      	callf	d_ctof
- 810  01fc 96            	ldw	x,sp
- 811  01fd 1c0001        	addw	x,#OFST-101
- 812  0200 8d000000      	callf	d_rtol
- 815  0204 96            	ldw	x,sp
- 816  0205 1c005f        	addw	x,#OFST-7
- 817  0208 8d000000      	callf	d_ltor
- 819  020c 96            	ldw	x,sp
- 820  020d 1c0001        	addw	x,#OFST-101
- 821  0210 8d000000      	callf	d_fcmp
- 823  0214 2d04          	jrsle	L61
- 824  0216 ac490149      	jpf	L352
- 825  021a               L61:
- 826                     ; 75 			pulseFlag = 1;
- 828  021a 3501000c      	mov	_pulseFlag,#1
- 829                     ; 76 			printf("Frequency Below Set Frequency.\n");
- 831  021e ae09d9        	ldw	x,#L362
- 832  0221 8d000000      	callf	f_printf
- 834                     ; 78 			sprintf(buffer, "%.3f,%.3f,%.3f,%.3f,1\n", VAR_frequency, VAR_amplitude, VAR_amplitude/4.7, FDR_amplitude);
- 836  0225 1e6c          	ldw	x,(OFST+6,sp)
- 837  0227 89            	pushw	x
- 838  0228 1e6c          	ldw	x,(OFST+6,sp)
- 839  022a 89            	pushw	x
- 840  022b 96            	ldw	x,sp
- 841  022c 1c0067        	addw	x,#OFST+1
- 842  022f 8d000000      	callf	d_ltor
- 844  0233 ae0a41        	ldw	x,#L502
- 845  0236 8d000000      	callf	d_fdiv
- 847  023a be02          	ldw	x,c_lreg+2
- 848  023c 89            	pushw	x
- 849  023d be00          	ldw	x,c_lreg
- 850  023f 89            	pushw	x
- 851  0240 1e6d          	ldw	x,(OFST+7,sp)
- 852  0242 89            	pushw	x
- 853  0243 1e6d          	ldw	x,(OFST+7,sp)
- 854  0245 89            	pushw	x
- 855  0246 1e6d          	ldw	x,(OFST+7,sp)
- 856  0248 89            	pushw	x
- 857  0249 1e6d          	ldw	x,(OFST+7,sp)
- 858  024b 89            	pushw	x
- 859  024c ae0a45        	ldw	x,#L771
- 860  024f 89            	pushw	x
- 861  0250 96            	ldw	x,sp
- 862  0251 1c0017        	addw	x,#OFST-79
- 863  0254 8d000000      	callf	f_sprintf
- 865  0258 5b12          	addw	sp,#18
- 866                     ; 79 			printf("%s", buffer);
- 868  025a 96            	ldw	x,sp
- 869  025b 1c0005        	addw	x,#OFST-97
- 870  025e 89            	pushw	x
- 871  025f ae0a3e        	ldw	x,#L112
- 872  0262 8d000000      	callf	f_printf
- 874  0266 85            	popw	x
- 875                     ; 80 			logResults(buffer);
- 877  0267 96            	ldw	x,sp
- 878  0268 1c0005        	addw	x,#OFST-97
- 879  026b 8da006a0      	callf	f_logResults
- 881                     ; 81 			handle_Frequency_Below_Set_Freq(VAR_amplitude);
- 883  026f 1e65          	ldw	x,(OFST-1,sp)
- 884  0271 89            	pushw	x
- 885  0272 1e65          	ldw	x,(OFST-1,sp)
- 886  0274 89            	pushw	x
- 887  0275 8d7f027f      	callf	f_handle_Frequency_Below_Set_Freq
- 889  0279 5b04          	addw	sp,#4
- 890  027b ac490149      	jpf	L352
- 941                     ; 86 void handle_Frequency_Below_Set_Freq(float VAR_amplitude) {
- 942                     	switch	.text
- 943  027f               f_handle_Frequency_Below_Set_Freq:
- 945  027f 5228          	subw	sp,#40
- 946       00000028      OFST:	set	40
- 949                     ; 88 	GPIO_WriteHigh(LED_BLUE); 
- 951  0281 4b01          	push	#1
- 952  0283 ae500f        	ldw	x,#20495
- 953  0286 8d000000      	callf	f_GPIO_WriteHigh
- 955  028a 84            	pop	a
- 956                     ; 89 	GPIO_WriteHigh(GPIOD, GPIO_PIN_2); 
- 958  028b 4b04          	push	#4
- 959  028d ae500f        	ldw	x,#20495
- 960  0290 8d000000      	callf	f_GPIO_WriteHigh
- 962  0294 84            	pop	a
- 963                     ; 90 	VAR_amplitude = process_adc_signal(VAR_SIGNAL, NULL, &VAR_amplitude);
- 965  0295 96            	ldw	x,sp
- 966  0296 1c002c        	addw	x,#OFST+4
- 967  0299 89            	pushw	x
- 968  029a 5f            	clrw	x
- 969  029b 89            	pushw	x
- 970  029c a605          	ld	a,#5
- 971  029e 8dff04ff      	callf	f_process_adc_signal
- 973  02a2 5b04          	addw	sp,#4
- 974  02a4 96            	ldw	x,sp
- 975  02a5 1c002c        	addw	x,#OFST+4
- 976  02a8 8d000000      	callf	d_rtol
- 978                     ; 91   sprintf(buffer, "%.3f,%.3f,%.3f,%.3f,1\n", frequency, VAR_amplitude, VAR_amplitude/4.7, 0);
- 980  02ac 5f            	clrw	x
- 981  02ad 89            	pushw	x
- 982  02ae 96            	ldw	x,sp
- 983  02af 1c002e        	addw	x,#OFST+6
- 984  02b2 8d000000      	callf	d_ltor
- 986  02b6 ae0a41        	ldw	x,#L502
- 987  02b9 8d000000      	callf	d_fdiv
- 989  02bd be02          	ldw	x,c_lreg+2
- 990  02bf 89            	pushw	x
- 991  02c0 be00          	ldw	x,c_lreg
- 992  02c2 89            	pushw	x
- 993  02c3 1e34          	ldw	x,(OFST+12,sp)
- 994  02c5 89            	pushw	x
- 995  02c6 1e34          	ldw	x,(OFST+12,sp)
- 996  02c8 89            	pushw	x
- 997  02c9 ce0023        	ldw	x,_frequency+2
- 998  02cc 89            	pushw	x
- 999  02cd ce0021        	ldw	x,_frequency
-1000  02d0 89            	pushw	x
-1001  02d1 ae0a45        	ldw	x,#L771
-1002  02d4 89            	pushw	x
-1003  02d5 96            	ldw	x,sp
-1004  02d6 1c0011        	addw	x,#OFST-23
-1005  02d9 8d000000      	callf	f_sprintf
-1007  02dd 5b10          	addw	sp,#16
-1008                     ; 92 	printf("%s", buffer);
-1010  02df 96            	ldw	x,sp
-1011  02e0 1c0001        	addw	x,#OFST-39
-1012  02e3 89            	pushw	x
-1013  02e4 ae0a3e        	ldw	x,#L112
-1014  02e7 8d000000      	callf	f_printf
-1016  02eb 85            	popw	x
-1017                     ; 93 	logResults(buffer);
-1019  02ec 96            	ldw	x,sp
-1020  02ed 1c0001        	addw	x,#OFST-39
-1021  02f0 8da006a0      	callf	f_logResults
-1023                     ; 94 	if (check_signal_dc(VAR_amplitude)) {
-1025  02f4 1e2e          	ldw	x,(OFST+6,sp)
-1026  02f6 89            	pushw	x
-1027  02f7 1e2e          	ldw	x,(OFST+6,sp)
-1028  02f9 89            	pushw	x
-1029  02fa 8d460746      	callf	f_check_signal_dc
-1031  02fe 5b04          	addw	sp,#4
-1032  0300 4d            	tnz	a
-1033  0301 2717          	jreq	L503
-1034                     ; 96 		printf("Signal 1 DC.\n");
-1036  0303 ae09cb        	ldw	x,#L703
-1037  0306 8d000000      	callf	f_printf
-1039                     ; 97 		GPIO_WriteHigh(LED_BLUE); 
-1041  030a 4b01          	push	#1
-1042  030c ae500f        	ldw	x,#20495
-1043  030f 8d000000      	callf	f_GPIO_WriteHigh
-1045  0313 84            	pop	a
-1046                     ; 98 		process_FDR_signal();
-1048  0314 8d8e008e      	callf	f_process_FDR_signal
-1051  0318 201b          	jra	L113
-1052  031a               L503:
-1053                     ; 101 		printf("Signal 1 AC and VarAmplitude: %f.\n", VAR_amplitude);
-1055  031a 1e2e          	ldw	x,(OFST+6,sp)
-1056  031c 89            	pushw	x
-1057  031d 1e2e          	ldw	x,(OFST+6,sp)
-1058  031f 89            	pushw	x
-1059  0320 ae09a8        	ldw	x,#L313
-1060  0323 8d000000      	callf	f_printf
-1062  0327 5b04          	addw	sp,#4
-1063                     ; 102 		handle_signal_1_AC(VAR_amplitude);
-1065  0329 1e2e          	ldw	x,(OFST+6,sp)
-1066  032b 89            	pushw	x
-1067  032c 1e2e          	ldw	x,(OFST+6,sp)
-1068  032e 89            	pushw	x
-1069  032f 8d380338      	callf	f_handle_signal_1_AC
-1071  0333 5b04          	addw	sp,#4
-1072  0335               L113:
-1073                     ; 104 }
-1076  0335 5b28          	addw	sp,#40
-1077  0337 87            	retf
-1128                     ; 107 void handle_signal_1_AC(float VAR_amplitude) {
+ 536  00d8 1e3d          	ldw	x,(OFST+3,sp)
+ 537  00da 89            	pushw	x
+ 538  00db 1e3d          	ldw	x,(OFST+3,sp)
+ 539  00dd 89            	pushw	x
+ 540  00de ce0023        	ldw	x,_frequency+2
+ 541  00e1 89            	pushw	x
+ 542  00e2 ce0021        	ldw	x,_frequency
+ 543  00e5 89            	pushw	x
+ 544  00e6 ae0a9a        	ldw	x,#L771
+ 545  00e9 89            	pushw	x
+ 546  00ea 96            	ldw	x,sp
+ 547  00eb 1c000f        	addw	x,#OFST-43
+ 548  00ee 8d000000      	callf	f_sprintf
+ 550  00f2 5b0e          	addw	sp,#14
+ 551                     ; 47 	  printf("%s", buffer);
+ 553  00f4 96            	ldw	x,sp
+ 554  00f5 1c0001        	addw	x,#OFST-57
+ 555  00f8 89            	pushw	x
+ 556  00f9 ae0a97        	ldw	x,#L102
+ 557  00fc 8d000000      	callf	f_printf
+ 559  0100 85            	popw	x
+ 560                     ; 48 		logResults(buffer);
+ 562  0101 96            	ldw	x,sp
+ 563  0102 1c0001        	addw	x,#OFST-57
+ 564  0105 8dc406c4      	callf	f_logResults
+ 566                     ; 49 		if ((FDR_Amplitude > 1.1) && (VAR_amplitude > 0.7)) {
+ 568  0109 9c            	rvf
+ 569  010a 96            	ldw	x,sp
+ 570  010b 1c0033        	addw	x,#OFST-7
+ 571  010e 8d000000      	callf	d_ltor
+ 573  0112 ae0a93        	ldw	x,#L112
+ 574  0115 8d000000      	callf	d_fcmp
+ 576  0119 2d89          	jrsle	L371
+ 578  011b 9c            	rvf
+ 579  011c 96            	ldw	x,sp
+ 580  011d 1c0037        	addw	x,#OFST-3
+ 581  0120 8d000000      	callf	d_ltor
+ 583  0124 ae0a8f        	ldw	x,#L122
+ 584  0127 8d000000      	callf	d_fcmp
+ 586  012b 2c04          	jrsgt	L21
+ 587  012d aca400a4      	jpf	L371
+ 588  0131               L21:
+ 589  0131               L522:
+ 590                     ; 51 				handle_commutation_pulse(); // Execute the pulse sending
+ 592  0131 8d0d070d      	callf	f_handle_commutation_pulse
+ 594                     ; 52 			} while (check_FDR_amplitude()); // Repeat if FDR_amplitude is still non-zero
+ 596  0135 8d3a073a      	callf	f_check_FDR_amplitude
+ 598  0139 4d            	tnz	a
+ 599  013a 26f5          	jrne	L522
+ 600  013c aca400a4      	jpf	L371
+ 674                     ; 58 void process_VAR_signal(float FDR_amplitude) {
+ 675                     	switch	.text
+ 676  0140               f_process_VAR_signal:
+ 678  0140 5266          	subw	sp,#102
+ 679       00000066      OFST:	set	102
+ 682                     ; 59 	float VAR_frequency = 0.0, VAR_amplitude = 0.0;
+ 686  0142 ce0aff        	ldw	x,L721+2
+ 687  0145 1f65          	ldw	(OFST-1,sp),x
+ 688  0147 ce0afd        	ldw	x,L721
+ 689  014a 1f63          	ldw	(OFST-3,sp),x
+ 691  014c               L362:
+ 692                     ; 62 		VAR_amplitude = process_adc_signal(VAR_SIGNAL, NULL, &VAR_amplitude);
+ 694  014c 96            	ldw	x,sp
+ 695  014d 1c0063        	addw	x,#OFST-3
+ 696  0150 89            	pushw	x
+ 697  0151 5f            	clrw	x
+ 698  0152 89            	pushw	x
+ 699  0153 a605          	ld	a,#5
+ 700  0155 8d170517      	callf	f_process_adc_signal
+ 702  0159 5b04          	addw	sp,#4
+ 703  015b 96            	ldw	x,sp
+ 704  015c 1c0063        	addw	x,#OFST-3
+ 705  015f 8d000000      	callf	d_rtol
+ 708                     ; 63 		VAR_frequency = frequency;
+ 710  0163 ce0023        	ldw	x,_frequency+2
+ 711  0166 1f61          	ldw	(OFST-5,sp),x
+ 712  0168 ce0021        	ldw	x,_frequency
+ 713  016b 1f5f          	ldw	(OFST-7,sp),x
+ 715                     ; 64 		printDateTime();
+ 717  016d 8d000000      	callf	f_printDateTime
+ 719                     ; 67 		printf(" Frequency: %.3f, Amplitude: %.3f, Current: %.3f, FDR_Voltage: %.3f\n",
+ 719                     ; 68 					 VAR_frequency, VAR_amplitude, VAR_amplitude / 4.7, FDR_amplitude);
+ 721  0171 1e6c          	ldw	x,(OFST+6,sp)
+ 722  0173 89            	pushw	x
+ 723  0174 1e6c          	ldw	x,(OFST+6,sp)
+ 724  0176 89            	pushw	x
+ 725  0177 96            	ldw	x,sp
+ 726  0178 1c0067        	addw	x,#OFST+1
+ 727  017b 8d000000      	callf	d_ltor
+ 729  017f ae0a46        	ldw	x,#L572
+ 730  0182 8d000000      	callf	d_fdiv
+ 732  0186 be02          	ldw	x,c_lreg+2
+ 733  0188 89            	pushw	x
+ 734  0189 be00          	ldw	x,c_lreg
+ 735  018b 89            	pushw	x
+ 736  018c 1e6d          	ldw	x,(OFST+7,sp)
+ 737  018e 89            	pushw	x
+ 738  018f 1e6d          	ldw	x,(OFST+7,sp)
+ 739  0191 89            	pushw	x
+ 740  0192 1e6d          	ldw	x,(OFST+7,sp)
+ 741  0194 89            	pushw	x
+ 742  0195 1e6d          	ldw	x,(OFST+7,sp)
+ 743  0197 89            	pushw	x
+ 744  0198 ae0a4a        	ldw	x,#L762
+ 745  019b 8d000000      	callf	f_printf
+ 747  019f 5b10          	addw	sp,#16
+ 748                     ; 69     sprintf(buffer, "%.3f,%.3f,%.3f,%.3f,1\n", frequency, VAR_amplitude, VAR_amplitude/4.7, FDR_amplitude);
+ 750  01a1 1e6c          	ldw	x,(OFST+6,sp)
+ 751  01a3 89            	pushw	x
+ 752  01a4 1e6c          	ldw	x,(OFST+6,sp)
+ 753  01a6 89            	pushw	x
+ 754  01a7 96            	ldw	x,sp
+ 755  01a8 1c0067        	addw	x,#OFST+1
+ 756  01ab 8d000000      	callf	d_ltor
+ 758  01af ae0a46        	ldw	x,#L572
+ 759  01b2 8d000000      	callf	d_fdiv
+ 761  01b6 be02          	ldw	x,c_lreg+2
+ 762  01b8 89            	pushw	x
+ 763  01b9 be00          	ldw	x,c_lreg
+ 764  01bb 89            	pushw	x
+ 765  01bc 1e6d          	ldw	x,(OFST+7,sp)
+ 766  01be 89            	pushw	x
+ 767  01bf 1e6d          	ldw	x,(OFST+7,sp)
+ 768  01c1 89            	pushw	x
+ 769  01c2 ce0023        	ldw	x,_frequency+2
+ 770  01c5 89            	pushw	x
+ 771  01c6 ce0021        	ldw	x,_frequency
+ 772  01c9 89            	pushw	x
+ 773  01ca ae0a2f        	ldw	x,#L103
+ 774  01cd 89            	pushw	x
+ 775  01ce 96            	ldw	x,sp
+ 776  01cf 1c003f        	addw	x,#OFST-39
+ 777  01d2 8d000000      	callf	f_sprintf
+ 779  01d6 5b12          	addw	sp,#18
+ 780                     ; 70 		logResults(buffer);
+ 782  01d8 96            	ldw	x,sp
+ 783  01d9 1c002d        	addw	x,#OFST-57
+ 784  01dc 8dc406c4      	callf	f_logResults
+ 786                     ; 71 		output_results(VAR_frequency, VAR_amplitude, FDR_amplitude);
+ 788  01e0 1e6c          	ldw	x,(OFST+6,sp)
+ 789  01e2 89            	pushw	x
+ 790  01e3 1e6c          	ldw	x,(OFST+6,sp)
+ 791  01e5 89            	pushw	x
+ 792  01e6 1e69          	ldw	x,(OFST+3,sp)
+ 793  01e8 89            	pushw	x
+ 794  01e9 1e69          	ldw	x,(OFST+3,sp)
+ 795  01eb 89            	pushw	x
+ 796  01ec 1e69          	ldw	x,(OFST+3,sp)
+ 797  01ee 89            	pushw	x
+ 798  01ef 1e69          	ldw	x,(OFST+3,sp)
+ 799  01f1 89            	pushw	x
+ 800  01f2 8d750675      	callf	f_output_results
+ 802  01f6 5b0c          	addw	sp,#12
+ 803                     ; 73 		if (VAR_frequency <= SET_FREQ) {
+ 805  01f8 9c            	rvf
+ 806  01f9 a633          	ld	a,#51
+ 807  01fb 8d000000      	callf	d_ctof
+ 809  01ff 96            	ldw	x,sp
+ 810  0200 1c0001        	addw	x,#OFST-101
+ 811  0203 8d000000      	callf	d_rtol
+ 814  0207 96            	ldw	x,sp
+ 815  0208 1c005f        	addw	x,#OFST-7
+ 816  020b 8d000000      	callf	d_ltor
+ 818  020f 96            	ldw	x,sp
+ 819  0210 1c0001        	addw	x,#OFST-101
+ 820  0213 8d000000      	callf	d_fcmp
+ 822  0217 2d04          	jrsle	L61
+ 823  0219 ac4c014c      	jpf	L362
+ 824  021d               L61:
+ 825                     ; 75 			pulseFlag = 1;
+ 827  021d 3501000c      	mov	_pulseFlag,#1
+ 828                     ; 76 			printf("Frequency Below Set Frequency.\n");
+ 830  0221 ae0a0f        	ldw	x,#L503
+ 831  0224 8d000000      	callf	f_printf
+ 833                     ; 78 			sprintf(buffer, "%.3f,%.3f,%.3f,%.3f,1\n", VAR_frequency, VAR_amplitude, VAR_amplitude/4.7, FDR_amplitude);
+ 835  0228 1e6c          	ldw	x,(OFST+6,sp)
+ 836  022a 89            	pushw	x
+ 837  022b 1e6c          	ldw	x,(OFST+6,sp)
+ 838  022d 89            	pushw	x
+ 839  022e 96            	ldw	x,sp
+ 840  022f 1c0067        	addw	x,#OFST+1
+ 841  0232 8d000000      	callf	d_ltor
+ 843  0236 ae0a46        	ldw	x,#L572
+ 844  0239 8d000000      	callf	d_fdiv
+ 846  023d be02          	ldw	x,c_lreg+2
+ 847  023f 89            	pushw	x
+ 848  0240 be00          	ldw	x,c_lreg
+ 849  0242 89            	pushw	x
+ 850  0243 1e6d          	ldw	x,(OFST+7,sp)
+ 851  0245 89            	pushw	x
+ 852  0246 1e6d          	ldw	x,(OFST+7,sp)
+ 853  0248 89            	pushw	x
+ 854  0249 1e6d          	ldw	x,(OFST+7,sp)
+ 855  024b 89            	pushw	x
+ 856  024c 1e6d          	ldw	x,(OFST+7,sp)
+ 857  024e 89            	pushw	x
+ 858  024f ae0a2f        	ldw	x,#L103
+ 859  0252 89            	pushw	x
+ 860  0253 96            	ldw	x,sp
+ 861  0254 1c0017        	addw	x,#OFST-79
+ 862  0257 8d000000      	callf	f_sprintf
+ 864  025b 5b12          	addw	sp,#18
+ 865                     ; 79 			printf("%s", buffer);
+ 867  025d 96            	ldw	x,sp
+ 868  025e 1c0005        	addw	x,#OFST-97
+ 869  0261 89            	pushw	x
+ 870  0262 ae0a97        	ldw	x,#L102
+ 871  0265 8d000000      	callf	f_printf
+ 873  0269 85            	popw	x
+ 874                     ; 80 			logResults(buffer);
+ 876  026a 96            	ldw	x,sp
+ 877  026b 1c0005        	addw	x,#OFST-97
+ 878  026e 8dc406c4      	callf	f_logResults
+ 880                     ; 81 			handle_Frequency_Below_Set_Freq(VAR_amplitude);
+ 882  0272 1e65          	ldw	x,(OFST-1,sp)
+ 883  0274 89            	pushw	x
+ 884  0275 1e65          	ldw	x,(OFST-1,sp)
+ 885  0277 89            	pushw	x
+ 886  0278 8d820282      	callf	f_handle_Frequency_Below_Set_Freq
+ 888  027c 5b04          	addw	sp,#4
+ 889  027e ac4c014c      	jpf	L362
+ 940                     ; 86 void handle_Frequency_Below_Set_Freq(float VAR_amplitude) {
+ 941                     	switch	.text
+ 942  0282               f_handle_Frequency_Below_Set_Freq:
+ 944  0282 5228          	subw	sp,#40
+ 945       00000028      OFST:	set	40
+ 948                     ; 88 	GPIO_WriteHigh(LED_BLUE); 
+ 950  0284 4b01          	push	#1
+ 951  0286 ae500f        	ldw	x,#20495
+ 952  0289 8d000000      	callf	f_GPIO_WriteHigh
+ 954  028d 84            	pop	a
+ 955                     ; 89 	GPIO_WriteHigh(GPIOD, GPIO_PIN_2); 
+ 957  028e 4b04          	push	#4
+ 958  0290 ae500f        	ldw	x,#20495
+ 959  0293 8d000000      	callf	f_GPIO_WriteHigh
+ 961  0297 84            	pop	a
+ 962                     ; 90 	VAR_amplitude = process_adc_signal(VAR_SIGNAL, NULL, &VAR_amplitude);
+ 964  0298 96            	ldw	x,sp
+ 965  0299 1c002c        	addw	x,#OFST+4
+ 966  029c 89            	pushw	x
+ 967  029d 5f            	clrw	x
+ 968  029e 89            	pushw	x
+ 969  029f a605          	ld	a,#5
+ 970  02a1 8d170517      	callf	f_process_adc_signal
+ 972  02a5 5b04          	addw	sp,#4
+ 973  02a7 96            	ldw	x,sp
+ 974  02a8 1c002c        	addw	x,#OFST+4
+ 975  02ab 8d000000      	callf	d_rtol
+ 977                     ; 91   sprintf(buffer, "%.3f,%.3f,%.3f,%.3f,1\n", frequency, VAR_amplitude, VAR_amplitude/4.7, 0);
+ 979  02af 5f            	clrw	x
+ 980  02b0 89            	pushw	x
+ 981  02b1 96            	ldw	x,sp
+ 982  02b2 1c002e        	addw	x,#OFST+6
+ 983  02b5 8d000000      	callf	d_ltor
+ 985  02b9 ae0a46        	ldw	x,#L572
+ 986  02bc 8d000000      	callf	d_fdiv
+ 988  02c0 be02          	ldw	x,c_lreg+2
+ 989  02c2 89            	pushw	x
+ 990  02c3 be00          	ldw	x,c_lreg
+ 991  02c5 89            	pushw	x
+ 992  02c6 1e34          	ldw	x,(OFST+12,sp)
+ 993  02c8 89            	pushw	x
+ 994  02c9 1e34          	ldw	x,(OFST+12,sp)
+ 995  02cb 89            	pushw	x
+ 996  02cc ce0023        	ldw	x,_frequency+2
+ 997  02cf 89            	pushw	x
+ 998  02d0 ce0021        	ldw	x,_frequency
+ 999  02d3 89            	pushw	x
+1000  02d4 ae0a2f        	ldw	x,#L103
+1001  02d7 89            	pushw	x
+1002  02d8 96            	ldw	x,sp
+1003  02d9 1c0011        	addw	x,#OFST-23
+1004  02dc 8d000000      	callf	f_sprintf
+1006  02e0 5b10          	addw	sp,#16
+1007                     ; 92 	printf("%s", buffer);
+1009  02e2 96            	ldw	x,sp
+1010  02e3 1c0001        	addw	x,#OFST-39
+1011  02e6 89            	pushw	x
+1012  02e7 ae0a97        	ldw	x,#L102
+1013  02ea 8d000000      	callf	f_printf
+1015  02ee 85            	popw	x
+1016                     ; 93 	logResults(buffer);
+1018  02ef 96            	ldw	x,sp
+1019  02f0 1c0001        	addw	x,#OFST-39
+1020  02f3 8dc406c4      	callf	f_logResults
+1022                     ; 94 	if (check_signal_dc(VAR_amplitude)) {
+1024  02f7 1e2e          	ldw	x,(OFST+6,sp)
+1025  02f9 89            	pushw	x
+1026  02fa 1e2e          	ldw	x,(OFST+6,sp)
+1027  02fc 89            	pushw	x
+1028  02fd 8db407b4      	callf	f_check_signal_dc
+1030  0301 5b04          	addw	sp,#4
+1031  0303 4d            	tnz	a
+1032  0304 2717          	jreq	L723
+1033                     ; 96 		printf("Signal 1 DC.\n");
+1035  0306 ae0a01        	ldw	x,#L133
+1036  0309 8d000000      	callf	f_printf
+1038                     ; 97 		GPIO_WriteHigh(LED_BLUE); 
+1040  030d 4b01          	push	#1
+1041  030f ae500f        	ldw	x,#20495
+1042  0312 8d000000      	callf	f_GPIO_WriteHigh
+1044  0316 84            	pop	a
+1045                     ; 98 		process_FDR_signal();
+1047  0317 8d8e008e      	callf	f_process_FDR_signal
+1050  031b 201b          	jra	L333
+1051  031d               L723:
+1052                     ; 101 		printf("Signal 1 AC and VarAmplitude: %f.\n", VAR_amplitude);
+1054  031d 1e2e          	ldw	x,(OFST+6,sp)
+1055  031f 89            	pushw	x
+1056  0320 1e2e          	ldw	x,(OFST+6,sp)
+1057  0322 89            	pushw	x
+1058  0323 ae09de        	ldw	x,#L533
+1059  0326 8d000000      	callf	f_printf
+1061  032a 5b04          	addw	sp,#4
+1062                     ; 102 		handle_signal_1_AC(VAR_amplitude);
+1064  032c 1e2e          	ldw	x,(OFST+6,sp)
+1065  032e 89            	pushw	x
+1066  032f 1e2e          	ldw	x,(OFST+6,sp)
+1067  0331 89            	pushw	x
+1068  0332 8d3b033b      	callf	f_handle_signal_1_AC
+1070  0336 5b04          	addw	sp,#4
+1071  0338               L333:
+1072                     ; 104 }
+1075  0338 5b28          	addw	sp,#40
+1076  033a 87            	retf
+1128                     ; 106 void handle_signal_1_AC(float VAR_amplitude) {
 1129                     	switch	.text
-1130  0338               f_handle_signal_1_AC:
-1132  0338 5228          	subw	sp,#40
+1130  033b               f_handle_signal_1_AC:
+1132  033b 5228          	subw	sp,#40
 1133       00000028      OFST:	set	40
-1136                     ; 109 	VAR_amplitude = process_adc_signal(VAR_SIGNAL, NULL, &VAR_amplitude);
-1138  033a 96            	ldw	x,sp
-1139  033b 1c002c        	addw	x,#OFST+4
-1140  033e 89            	pushw	x
-1141  033f 5f            	clrw	x
-1142  0340 89            	pushw	x
-1143  0341 a605          	ld	a,#5
-1144  0343 8dff04ff      	callf	f_process_adc_signal
-1146  0347 5b04          	addw	sp,#4
-1147  0349 96            	ldw	x,sp
-1148  034a 1c002c        	addw	x,#OFST+4
-1149  034d 8d000000      	callf	d_rtol
-1151                     ; 110 	if (VAR_amplitude < AC_AMPLITUDE_THRESHOLD) {
-1153  0351 9c            	rvf
-1154  0352 96            	ldw	x,sp
-1155  0353 1c002c        	addw	x,#OFST+4
-1156  0356 8d000000      	callf	d_ltor
-1158  035a ae09a4        	ldw	x,#L343
-1159  035d 8d000000      	callf	d_fcmp
-1161  0361 2e68          	jrsge	L353
-1162                     ; 112 		sprintf(buffer, "%.3f,%.3f,%.3f,%.3f,1\n", frequency, VAR_amplitude, VAR_amplitude/4.7, 0);
-1164  0363 5f            	clrw	x
-1165  0364 89            	pushw	x
-1166  0365 96            	ldw	x,sp
-1167  0366 1c002e        	addw	x,#OFST+6
-1168  0369 8d000000      	callf	d_ltor
-1170  036d ae0a41        	ldw	x,#L502
-1171  0370 8d000000      	callf	d_fdiv
-1173  0374 be02          	ldw	x,c_lreg+2
-1174  0376 89            	pushw	x
-1175  0377 be00          	ldw	x,c_lreg
-1176  0379 89            	pushw	x
-1177  037a 1e34          	ldw	x,(OFST+12,sp)
-1178  037c 89            	pushw	x
-1179  037d 1e34          	ldw	x,(OFST+12,sp)
-1180  037f 89            	pushw	x
-1181  0380 ce0023        	ldw	x,_frequency+2
-1182  0383 89            	pushw	x
-1183  0384 ce0021        	ldw	x,_frequency
-1184  0387 89            	pushw	x
-1185  0388 ae0a45        	ldw	x,#L771
-1186  038b 89            	pushw	x
-1187  038c 96            	ldw	x,sp
-1188  038d 1c0011        	addw	x,#OFST-23
-1189  0390 8d000000      	callf	f_sprintf
-1191  0394 5b10          	addw	sp,#16
-1192                     ; 113 	  printf("%s", buffer);
-1194  0396 96            	ldw	x,sp
-1195  0397 1c0001        	addw	x,#OFST-39
-1196  039a 89            	pushw	x
-1197  039b ae0a3e        	ldw	x,#L112
-1198  039e 8d000000      	callf	f_printf
-1200  03a2 85            	popw	x
-1201                     ; 114 		logResults(buffer);
-1203  03a3 96            	ldw	x,sp
-1204  03a4 1c0001        	addw	x,#OFST-39
-1205  03a7 8da006a0      	callf	f_logResults
-1207                     ; 115 		printf("VarAmplitude below 10 mv.\n");
-1209  03ab ae0989        	ldw	x,#L743
-1210  03ae 8d000000      	callf	f_printf
-1212                     ; 116 		GPIO_WriteLow(LED_WHITE); // Turn on LED if Signal is AC < 20 mV
-1214  03b2 4b08          	push	#8
-1215  03b4 ae500a        	ldw	x,#20490
-1216  03b7 8d000000      	callf	f_GPIO_WriteLow
-1218  03bb 84            	pop	a
-1219                     ; 117 		delay_ms(3000);
-1221  03bc ae0bb8        	ldw	x,#3000
-1222  03bf 8d000000      	callf	f_delay_ms
-1224                     ; 118 		pulseFlag = 1;
-1226  03c3 3501000c      	mov	_pulseFlag,#1
-1228  03c7 ac5c045c      	jpf	L153
-1229  03cb               L353:
-1230                     ; 121 			pulseFlag = 1;
-1232  03cb 3501000c      	mov	_pulseFlag,#1
-1233                     ; 123 			GPIO_WriteHigh(GPIOD, GPIO_PIN_7);  // Turn on LED if Signal is AC < 20 ms
-1235  03cf 4b80          	push	#128
-1236  03d1 ae500f        	ldw	x,#20495
-1237  03d4 8d000000      	callf	f_GPIO_WriteHigh
-1239  03d8 84            	pop	a
-1240                     ; 124 			sprintf(buffer, "%.3f,%.3f,%.3f,%.3f,1\n", frequency, VAR_amplitude, VAR_amplitude/4.7, 0);
-1242  03d9 5f            	clrw	x
-1243  03da 89            	pushw	x
-1244  03db 96            	ldw	x,sp
-1245  03dc 1c002e        	addw	x,#OFST+6
-1246  03df 8d000000      	callf	d_ltor
-1248  03e3 ae0a41        	ldw	x,#L502
-1249  03e6 8d000000      	callf	d_fdiv
-1251  03ea be02          	ldw	x,c_lreg+2
-1252  03ec 89            	pushw	x
-1253  03ed be00          	ldw	x,c_lreg
-1254  03ef 89            	pushw	x
-1255  03f0 1e34          	ldw	x,(OFST+12,sp)
-1256  03f2 89            	pushw	x
-1257  03f3 1e34          	ldw	x,(OFST+12,sp)
-1258  03f5 89            	pushw	x
-1259  03f6 ce0023        	ldw	x,_frequency+2
-1260  03f9 89            	pushw	x
-1261  03fa ce0021        	ldw	x,_frequency
-1262  03fd 89            	pushw	x
-1263  03fe ae0a45        	ldw	x,#L771
-1264  0401 89            	pushw	x
-1265  0402 96            	ldw	x,sp
-1266  0403 1c0011        	addw	x,#OFST-23
-1267  0406 8d000000      	callf	f_sprintf
-1269  040a 5b10          	addw	sp,#16
-1270                     ; 125 			printf("%s", buffer);
-1272  040c 96            	ldw	x,sp
-1273  040d 1c0001        	addw	x,#OFST-39
-1274  0410 89            	pushw	x
-1275  0411 ae0a3e        	ldw	x,#L112
-1276  0414 8d000000      	callf	f_printf
-1278  0418 85            	popw	x
-1279                     ; 126 			logResults(buffer);
-1281  0419 96            	ldw	x,sp
-1282  041a 1c0001        	addw	x,#OFST-39
-1283  041d 8da006a0      	callf	f_logResults
-1285                     ; 127 			printf("VarAmplitude Not below 10 mv.\n");
-1287  0421 ae096a        	ldw	x,#L753
-1288  0424 8d000000      	callf	f_printf
-1290                     ; 128 			GPIO_WriteHigh(LED_WHITE);  // Turn on LED if Signal is AC < 20 ms	
-1292  0428 4b08          	push	#8
-1293  042a ae500a        	ldw	x,#20490
-1294  042d 8d000000      	callf	f_GPIO_WriteHigh
-1296  0431 84            	pop	a
-1297                     ; 129 			VAR_amplitude = process_adc_signal(VAR_SIGNAL, NULL, &VAR_amplitude);
-1299  0432 96            	ldw	x,sp
-1300  0433 1c002c        	addw	x,#OFST+4
-1301  0436 89            	pushw	x
-1302  0437 5f            	clrw	x
-1303  0438 89            	pushw	x
-1304  0439 a605          	ld	a,#5
-1305  043b 8dff04ff      	callf	f_process_adc_signal
-1307  043f 5b04          	addw	sp,#4
-1308  0441 96            	ldw	x,sp
-1309  0442 1c002c        	addw	x,#OFST+4
-1310  0445 8d000000      	callf	d_rtol
-1312                     ; 131 			if(check_signal_dc(VAR_amplitude))
-1314  0449 1e2e          	ldw	x,(OFST+6,sp)
-1315  044b 89            	pushw	x
-1316  044c 1e2e          	ldw	x,(OFST+6,sp)
-1317  044e 89            	pushw	x
-1318  044f 8d460746      	callf	f_check_signal_dc
-1320  0453 5b04          	addw	sp,#4
-1321  0455 4d            	tnz	a
-1322  0456 2604          	jrne	L42
-1323  0458 accb03cb      	jpf	L353
-1324  045c               L42:
-1325                     ; 132 				break;
-1326  045c               L153:
-1327                     ; 135 }
-1330  045c 5b28          	addw	sp,#40
-1331  045e 87            	retf
-1394                     ; 138 float calculate_amplitude(float adc_signal[], uint32_t sample_size) {
-1395                     	switch	.text
-1396  045f               f_calculate_amplitude:
-1398  045f 89            	pushw	x
-1399  0460 520c          	subw	sp,#12
-1400       0000000c      OFST:	set	12
-1403                     ; 139 	uint32_t i = 0;
-1405                     ; 140 	float max_val = -V_REF, min_val = V_REF;
-1407  0462 ce0964        	ldw	x,L514+2
-1408  0465 1f03          	ldw	(OFST-9,sp),x
-1409  0467 ce0962        	ldw	x,L514
-1410  046a 1f01          	ldw	(OFST-11,sp),x
-1414  046c ce0968        	ldw	x,L524+2
-1415  046f 1f07          	ldw	(OFST-5,sp),x
-1416  0471 ce0966        	ldw	x,L524
-1417  0474 1f05          	ldw	(OFST-7,sp),x
-1419                     ; 142 	for (i = 0; i < sample_size; i++) {
-1421  0476 ae0000        	ldw	x,#0
-1422  0479 1f0b          	ldw	(OFST-1,sp),x
-1423  047b ae0000        	ldw	x,#0
-1424  047e 1f09          	ldw	(OFST-3,sp),x
-1427  0480 2058          	jra	L534
-1428  0482               L134:
-1429                     ; 143 		if (adc_signal[i] > max_val) max_val = adc_signal[i];
-1431  0482 9c            	rvf
-1432  0483 1e0b          	ldw	x,(OFST-1,sp)
-1433  0485 58            	sllw	x
-1434  0486 58            	sllw	x
-1435  0487 72fb0d        	addw	x,(OFST+1,sp)
-1436  048a 8d000000      	callf	d_ltor
-1438  048e 96            	ldw	x,sp
-1439  048f 1c0001        	addw	x,#OFST-11
-1440  0492 8d000000      	callf	d_fcmp
-1442  0496 2d11          	jrsle	L144
-1445  0498 1e0b          	ldw	x,(OFST-1,sp)
-1446  049a 58            	sllw	x
-1447  049b 58            	sllw	x
-1448  049c 72fb0d        	addw	x,(OFST+1,sp)
-1449  049f 9093          	ldw	y,x
-1450  04a1 ee02          	ldw	x,(2,x)
-1451  04a3 1f03          	ldw	(OFST-9,sp),x
-1452  04a5 93            	ldw	x,y
-1453  04a6 fe            	ldw	x,(x)
-1454  04a7 1f01          	ldw	(OFST-11,sp),x
-1456  04a9               L144:
-1457                     ; 144 		if (adc_signal[i] < min_val) min_val = adc_signal[i];
-1459  04a9 9c            	rvf
-1460  04aa 1e0b          	ldw	x,(OFST-1,sp)
-1461  04ac 58            	sllw	x
-1462  04ad 58            	sllw	x
-1463  04ae 72fb0d        	addw	x,(OFST+1,sp)
-1464  04b1 8d000000      	callf	d_ltor
-1466  04b5 96            	ldw	x,sp
-1467  04b6 1c0005        	addw	x,#OFST-7
-1468  04b9 8d000000      	callf	d_fcmp
-1470  04bd 2e11          	jrsge	L344
-1473  04bf 1e0b          	ldw	x,(OFST-1,sp)
-1474  04c1 58            	sllw	x
-1475  04c2 58            	sllw	x
-1476  04c3 72fb0d        	addw	x,(OFST+1,sp)
-1477  04c6 9093          	ldw	y,x
-1478  04c8 ee02          	ldw	x,(2,x)
-1479  04ca 1f07          	ldw	(OFST-5,sp),x
-1480  04cc 93            	ldw	x,y
-1481  04cd fe            	ldw	x,(x)
-1482  04ce 1f05          	ldw	(OFST-7,sp),x
-1484  04d0               L344:
-1485                     ; 142 	for (i = 0; i < sample_size; i++) {
-1487  04d0 96            	ldw	x,sp
-1488  04d1 1c0009        	addw	x,#OFST-3
-1489  04d4 a601          	ld	a,#1
-1490  04d6 8d000000      	callf	d_lgadc
-1493  04da               L534:
-1496  04da 96            	ldw	x,sp
-1497  04db 1c0009        	addw	x,#OFST-3
-1498  04de 8d000000      	callf	d_ltor
-1500  04e2 96            	ldw	x,sp
-1501  04e3 1c0012        	addw	x,#OFST+6
-1502  04e6 8d000000      	callf	d_lcmp
-1504  04ea 2596          	jrult	L134
-1505                     ; 147 	return (max_val - min_val);
-1507  04ec 96            	ldw	x,sp
-1508  04ed 1c0001        	addw	x,#OFST-11
-1509  04f0 8d000000      	callf	d_ltor
-1511  04f4 96            	ldw	x,sp
-1512  04f5 1c0005        	addw	x,#OFST-7
-1513  04f8 8d000000      	callf	d_fsub
-1517  04fc 5b0e          	addw	sp,#14
-1518  04fe 87            	retf
-1520                     .const:	section	.text
-1521  0000               L544_buffer:
-1522  0000 00000000      	dc.w	0,0
-1523  0004 000000000000  	ds.b	2044
-1645                     ; 150 float process_adc_signal(uint8_t channel, float *frequency, float *amplitude) {
-1646                     	switch	.text
-1647  04ff               f_process_adc_signal:
-1649  04ff 88            	push	a
-1650  0500 96            	ldw	x,sp
-1651  0501 1d081e        	subw	x,#2078
-1652  0504 94            	ldw	sp,x
-1653       0000081e      OFST:	set	2078
-1656                     ; 151 	float buffer[NUM_SAMPLES] = {0};  // Initialize ADC buffer
-1658  0505 96            	ldw	x,sp
-1659  0506 1c0018        	addw	x,#OFST-2054
-1660  0509 90ae0000      	ldw	y,#L544_buffer
-1661  050d bf00          	ldw	c_x,x
-1662  050f ae0800        	ldw	x,#2048
-1663  0512 8d000000      	callf	d_xymovl
-1665                     ; 152 	uint16_t i = 0, count = 0;
-1669  0516 96            	ldw	x,sp
-1670  0517 905f          	clrw	y
-1671  0519 df081d        	ldw	(OFST-1,x),y
-1672                     ; 153 	float lastStoredValue = 0.0;       // Track the last stored ADC voltage
-1674  051c 96            	ldw	x,sp
-1675  051d c60a94        	ld	a,L721+3
-1676  0520 d7081b        	ld	(OFST-3,x),a
-1677  0523 c60a93        	ld	a,L721+2
-1678  0526 d7081a        	ld	(OFST-4,x),a
-1679  0529 c60a92        	ld	a,L721+1
-1680  052c d70819        	ld	(OFST-5,x),a
-1681  052f c60a91        	ld	a,L721
-1682  0532 d70818        	ld	(OFST-6,x),a
-1683                     ; 154 	bool isChannel1 = (channel == VAR_SIGNAL);
-1685  0535 96            	ldw	x,sp
-1686  0536 d6081f        	ld	a,(OFST+1,x)
-1687  0539 a105          	cp	a,#5
-1688  053b 2605          	jrne	L23
-1689  053d ae0001        	ldw	x,#1
-1690  0540 2001          	jra	L43
-1691  0542               L23:
-1692  0542 5f            	clrw	x
-1693  0543               L43:
-1694                     ; 155 	bool firstSample = true;           // Flag for first sample storage               // Reset last zero-crossing time
-1696  0543 96            	ldw	x,sp
-1697  0544 a601          	ld	a,#1
-1698  0546 d7081c        	ld	(OFST-2,x),a
-1700  0549 acd405d4      	jra	L725
-1701  054d               L325:
-1702                     ; 160 		float currentVoltage = convert_adc_to_voltage(read_ADC_Channel(channel));
-1704  054d 96            	ldw	x,sp
-1705  054e d6081f        	ld	a,(OFST+1,x)
-1706  0551 8d000000      	callf	f_read_ADC_Channel
-1708  0555 8d160616      	callf	f_convert_adc_to_voltage
-1710  0559 96            	ldw	x,sp
-1711  055a 1c0011        	addw	x,#OFST-2061
-1712  055d 8d000000      	callf	d_rtol
-1715                     ; 163 		if (firstSample || fabs(currentVoltage - lastStoredValue) >= 0.1) {
-1717  0561 96            	ldw	x,sp
-1718  0562 d6081c        	ld	a,(OFST-2,x)
-1719  0565 4d            	tnz	a
-1720  0566 2627          	jrne	L535
-1722  0568 9c            	rvf
-1723  0569 96            	ldw	x,sp
-1724  056a 1c0011        	addw	x,#OFST-2061
-1725  056d 8d000000      	callf	d_ltor
-1727  0571 96            	ldw	x,sp
-1728  0572 1c0818        	addw	x,#OFST-6
-1729  0575 8d000000      	callf	d_fsub
-1731  0579 be02          	ldw	x,c_lreg+2
-1732  057b 89            	pushw	x
-1733  057c be00          	ldw	x,c_lreg
-1734  057e 89            	pushw	x
-1735  057f 8d000000      	callf	f_fabs
-1737  0583 9c            	rvf
-1738  0584 5b04          	addw	sp,#4
-1739  0586 ae095e        	ldw	x,#L345
-1740  0589 8d000000      	callf	d_fcmp
-1742  058d 2f45          	jrslt	L725
-1743  058f               L535:
-1744                     ; 164 			buffer[count] = currentVoltage;
-1746  058f 96            	ldw	x,sp
-1747  0590 1c0018        	addw	x,#OFST-2054
-1748  0593 1f0f          	ldw	(OFST-2063,sp),x
-1750  0595 96            	ldw	x,sp
-1751  0596 de081d        	ldw	x,(OFST-1,x)
-1752  0599 58            	sllw	x
-1753  059a 58            	sllw	x
-1754  059b 72fb0f        	addw	x,(OFST-2063,sp)
-1755  059e 7b14          	ld	a,(OFST-2058,sp)
-1756  05a0 e703          	ld	(3,x),a
-1757  05a2 7b13          	ld	a,(OFST-2059,sp)
-1758  05a4 e702          	ld	(2,x),a
-1759  05a6 7b12          	ld	a,(OFST-2060,sp)
-1760  05a8 e701          	ld	(1,x),a
-1761  05aa 7b11          	ld	a,(OFST-2061,sp)
-1762  05ac f7            	ld	(x),a
-1763                     ; 166 			lastStoredValue = currentVoltage;
-1765  05ad 96            	ldw	x,sp
-1766  05ae 7b14          	ld	a,(OFST-2058,sp)
-1767  05b0 d7081b        	ld	(OFST-3,x),a
-1768  05b3 7b13          	ld	a,(OFST-2059,sp)
-1769  05b5 d7081a        	ld	(OFST-4,x),a
-1770  05b8 7b12          	ld	a,(OFST-2060,sp)
-1771  05ba d70819        	ld	(OFST-5,x),a
-1772  05bd 7b11          	ld	a,(OFST-2061,sp)
-1773  05bf d70818        	ld	(OFST-6,x),a
-1774                     ; 167 			firstSample = false;  // First sample has been stored
-1776  05c2 96            	ldw	x,sp
-1777  05c3 724f081c      	clr	(OFST-2,x)
-1778                     ; 168 			count++;
-1780  05c7 96            	ldw	x,sp
-1781  05c8 9093          	ldw	y,x
-1782  05ca de081d        	ldw	x,(OFST-1,x)
-1783  05cd 1c0001        	addw	x,#1
-1784  05d0 90df081d      	ldw	(OFST-1,y),x
-1785  05d4               L725:
-1786                     ; 159 	while (count < NUM_SAMPLES) {  
-1788  05d4 96            	ldw	x,sp
-1789  05d5 9093          	ldw	y,x
-1790  05d7 90de081d      	ldw	y,(OFST-1,y)
-1791  05db 90a30200      	cpw	y,#512
-1792  05df 2404          	jruge	L63
-1793  05e1 ac4d054d      	jpf	L325
-1794  05e5               L63:
-1795                     ; 173 	*amplitude = calculate_amplitude(buffer, count);
-1797  05e5 96            	ldw	x,sp
-1798  05e6 de081d        	ldw	x,(OFST-1,x)
-1799  05e9 8d000000      	callf	d_uitolx
-1801  05ed be02          	ldw	x,c_lreg+2
-1802  05ef 89            	pushw	x
-1803  05f0 be00          	ldw	x,c_lreg
-1804  05f2 89            	pushw	x
-1805  05f3 96            	ldw	x,sp
-1806  05f4 1c001c        	addw	x,#OFST-2050
-1807  05f7 8d5f045f      	callf	f_calculate_amplitude
-1809  05fb 5b04          	addw	sp,#4
-1810  05fd 96            	ldw	x,sp
-1811  05fe de0825        	ldw	x,(OFST+7,x)
-1812  0601 8d000000      	callf	d_rtol
-1814                     ; 174 	return *amplitude;
-1816  0605 96            	ldw	x,sp
-1817  0606 de0825        	ldw	x,(OFST+7,x)
-1818  0609 8d000000      	callf	d_ltor
-1822  060d 9096          	ldw	y,sp
-1823  060f 72a9081f      	addw	y,#2079
-1824  0613 9094          	ldw	sp,y
-1825  0615 87            	retf
-1857                     ; 178 float convert_adc_to_voltage(unsigned int adcValue) {
-1858                     	switch	.text
-1859  0616               f_convert_adc_to_voltage:
-1863                     ; 179 	return adcValue * (V_REF / ADC_MAX_VALUE);
-1865  0616 8d000000      	callf	d_uitof
-1867  061a ae095a        	ldw	x,#L765
-1868  061d 8d000000      	callf	d_fmul
-1872  0621 87            	retf
-1904                     ; 183 float calculate_frequency(unsigned long period) {
-1905                     	switch	.text
-1906  0622               f_calculate_frequency:
-1908  0622 5204          	subw	sp,#4
-1909       00000004      OFST:	set	4
-1912                     ; 184 	return 1.0 / (period / 1e6);  // Convert period (in microseconds) to frequency (Hz)
-1914  0624 96            	ldw	x,sp
-1915  0625 1c0008        	addw	x,#OFST+4
-1916  0628 8d000000      	callf	d_ltor
-1918  062c 8d000000      	callf	d_ultof
-1920  0630 ae0952        	ldw	x,#L326
-1921  0633 8d000000      	callf	d_fdiv
-1923  0637 96            	ldw	x,sp
-1924  0638 1c0001        	addw	x,#OFST-3
-1925  063b 8d000000      	callf	d_rtol
-1928  063f ae0956        	ldw	x,#L316
-1929  0642 8d000000      	callf	d_ltor
-1931  0646 96            	ldw	x,sp
-1932  0647 1c0001        	addw	x,#OFST-3
-1933  064a 8d000000      	callf	d_fdiv
-1937  064e 5b04          	addw	sp,#4
-1938  0650 87            	retf
-1996                     ; 188 void output_results(float frequency, float amplitude, float FDR_Voltage) {
-1997                     	switch	.text
-1998  0651               f_output_results:
-2000  0651 5228          	subw	sp,#40
-2001       00000028      OFST:	set	40
-2004                     ; 192 	sprintf(buffer, "%.3f,%.3f,%.3f,%.3f,0\n", frequency, amplitude, amplitude/4.7, FDR_Voltage);
-2006  0653 1e36          	ldw	x,(OFST+14,sp)
-2007  0655 89            	pushw	x
-2008  0656 1e36          	ldw	x,(OFST+14,sp)
-2009  0658 89            	pushw	x
-2010  0659 96            	ldw	x,sp
-2011  065a 1c0034        	addw	x,#OFST+12
-2012  065d 8d000000      	callf	d_ltor
-2014  0661 ae0a41        	ldw	x,#L502
-2015  0664 8d000000      	callf	d_fdiv
-2017  0668 be02          	ldw	x,c_lreg+2
-2018  066a 89            	pushw	x
-2019  066b be00          	ldw	x,c_lreg
-2020  066d 89            	pushw	x
-2021  066e 1e3a          	ldw	x,(OFST+18,sp)
-2022  0670 89            	pushw	x
-2023  0671 1e3a          	ldw	x,(OFST+18,sp)
-2024  0673 89            	pushw	x
-2025  0674 1e3a          	ldw	x,(OFST+18,sp)
-2026  0676 89            	pushw	x
-2027  0677 1e3a          	ldw	x,(OFST+18,sp)
-2028  0679 89            	pushw	x
-2029  067a ae093b        	ldw	x,#L356
-2030  067d 89            	pushw	x
-2031  067e 96            	ldw	x,sp
-2032  067f 1c0013        	addw	x,#OFST-21
-2033  0682 8d000000      	callf	f_sprintf
-2035  0686 5b12          	addw	sp,#18
-2036                     ; 195 	printf("%s", buffer);
-2038  0688 96            	ldw	x,sp
-2039  0689 1c0001        	addw	x,#OFST-39
-2040  068c 89            	pushw	x
-2041  068d ae0a3e        	ldw	x,#L112
-2042  0690 8d000000      	callf	f_printf
-2044  0694 85            	popw	x
-2045                     ; 196 	UART1_SendString(buffer);
-2047  0695 96            	ldw	x,sp
-2048  0696 1c0001        	addw	x,#OFST-39
-2049  0699 8d000000      	callf	f_UART1_SendString
-2051                     ; 198 }
-2054  069d 5b28          	addw	sp,#40
-2055  069f 87            	retf
-2112                     ; 201 void logResults(const char *logMessage) {
-2113                     	switch	.text
-2114  06a0               f_logResults:
-2116  06a0 89            	pushw	x
-2117  06a1 5278          	subw	sp,#120
-2118       00000078      OFST:	set	120
-2121                     ; 206 	sprintDateTime(datetimeBuffer);
-2123  06a3 96            	ldw	x,sp
-2124  06a4 1c0001        	addw	x,#OFST-119
-2125  06a7 8d000000      	callf	f_sprintDateTime
-2127                     ; 209 	sprintf(logBuffer, "%s - %s", datetimeBuffer, logMessage);
-2129  06ab 1e79          	ldw	x,(OFST+1,sp)
-2130  06ad 89            	pushw	x
-2131  06ae 96            	ldw	x,sp
-2132  06af 1c0003        	addw	x,#OFST-117
-2133  06b2 89            	pushw	x
-2134  06b3 ae0933        	ldw	x,#L307
-2135  06b6 89            	pushw	x
-2136  06b7 96            	ldw	x,sp
-2137  06b8 1c001b        	addw	x,#OFST-93
-2138  06bb 8d000000      	callf	f_sprintf
-2140  06bf 5b06          	addw	sp,#6
-2141                     ; 210 	log_to_eeprom(logBuffer);
-2143  06c1 96            	ldw	x,sp
-2144  06c2 1c0015        	addw	x,#OFST-99
-2145  06c5 8d000000      	callf	f_log_to_eeprom
-2147                     ; 212 }
-2150  06c9 5b7a          	addw	sp,#122
-2151  06cb 87            	retf
-2185                     ; 215 void send_square_pulse(uint16_t duration_ms) {
-2186                     	switch	.text
-2187  06cc               f_send_square_pulse:
-2189  06cc 89            	pushw	x
-2190       00000000      OFST:	set	0
-2193                     ; 216 	GPIO_WriteHigh(SER_THYRISTOR); // Set square pulse pin high
-2195  06cd 4b04          	push	#4
-2196  06cf ae500a        	ldw	x,#20490
-2197  06d2 8d000000      	callf	f_GPIO_WriteHigh
-2199  06d6 84            	pop	a
-2200                     ; 217 	delay_ms(duration_ms);            // Wait for the pulse duration
-2202  06d7 1e01          	ldw	x,(OFST+1,sp)
-2203  06d9 8d000000      	callf	f_delay_ms
-2205                     ; 218 	GPIO_WriteLow(SER_THYRISTOR); // Set square pulse pin low
-2207  06dd 4b04          	push	#4
-2208  06df ae500a        	ldw	x,#20490
-2209  06e2 8d000000      	callf	f_GPIO_WriteLow
-2211  06e6 84            	pop	a
-2212                     ; 219 }
-2215  06e7 85            	popw	x
-2216  06e8 87            	retf
-2243                     ; 221 void handle_commutation_pulse(void) {
-2244                     	switch	.text
-2245  06e9               f_handle_commutation_pulse:
-2249                     ; 222 	GPIO_WriteHigh(COM_THYRISTOR); // Set square pulse pin high
-2251  06e9 4b02          	push	#2
-2252  06eb ae500a        	ldw	x,#20490
-2253  06ee 8d000000      	callf	f_GPIO_WriteHigh
-2255  06f2 84            	pop	a
-2256                     ; 223 	delay_ms(3000);            // Wait for the pulse duration
-2258  06f3 ae0bb8        	ldw	x,#3000
-2259  06f6 8d000000      	callf	f_delay_ms
-2261                     ; 224 	GPIO_WriteLow(COM_THYRISTOR); // Set square pulse pin low
-2263  06fa 4b02          	push	#2
-2264  06fc ae500a        	ldw	x,#20490
-2265  06ff 8d000000      	callf	f_GPIO_WriteLow
-2267  0703 84            	pop	a
-2268                     ; 225 	GPIO_WriteHigh(LED_ORANGE); // Turn on LED ORANGE
-2270  0704 4b08          	push	#8
-2271  0706 ae500f        	ldw	x,#20495
-2272  0709 8d000000      	callf	f_GPIO_WriteHigh
-2274  070d 84            	pop	a
-2275                     ; 226 	printf("Commutation Thyristor Pulse Sent\n");
-2277  070e ae0911        	ldw	x,#L137
-2278  0711 8d000000      	callf	f_printf
-2280                     ; 227 }
-2283  0715 87            	retf
-2317                     ; 229 bool check_FDR_amplitude(void) {
-2318                     	switch	.text
-2319  0716               f_check_FDR_amplitude:
-2321  0716 5204          	subw	sp,#4
-2322       00000004      OFST:	set	4
-2325                     ; 230     float FDR_amplitude = 0;
-2327  0718 ae0000        	ldw	x,#0
-2328  071b 1f03          	ldw	(OFST-1,sp),x
-2329  071d ae0000        	ldw	x,#0
-2330  0720 1f01          	ldw	(OFST-3,sp),x
-2332                     ; 231     FDR_amplitude = process_adc_signal(FDR_SIGNAL, NULL, &FDR_amplitude);
-2334  0722 96            	ldw	x,sp
-2335  0723 1c0001        	addw	x,#OFST-3
-2336  0726 89            	pushw	x
-2337  0727 5f            	clrw	x
-2338  0728 89            	pushw	x
-2339  0729 a606          	ld	a,#6
-2340  072b 8dff04ff      	callf	f_process_adc_signal
-2342  072f 5b04          	addw	sp,#4
-2343  0731 96            	ldw	x,sp
-2344  0732 1c0001        	addw	x,#OFST-3
-2345  0735 8d000000      	callf	d_rtol
-2348                     ; 232     return (FDR_amplitude != 0); // Returns true if FDR_amplitude is non-zero
-2350  0739 9c            	rvf
-2351  073a 0d01          	tnz	(OFST-3,sp)
-2352  073c 2704          	jreq	L65
-2353  073e a601          	ld	a,#1
-2354  0740 2001          	jra	L06
-2355  0742               L65:
-2356  0742 4f            	clr	a
-2357  0743               L06:
-2360  0743 5b04          	addw	sp,#4
-2361  0745 87            	retf
-2394                     ; 236 bool check_signal_dc(float amplitude) {
-2395                     	switch	.text
-2396  0746               f_check_signal_dc:
-2398       00000000      OFST:	set	0
-2401                     ; 237 	if (amplitude < 0.5) {
-2403  0746 9c            	rvf
-2404  0747 96            	ldw	x,sp
-2405  0748 1c0004        	addw	x,#OFST+4
-2406  074b 8d000000      	callf	d_ltor
-2408  074f ae090d        	ldw	x,#L177
-2409  0752 8d000000      	callf	d_fcmp
-2411  0756 2e07          	jrsge	L367
-2412                     ; 238 		isThyristorON = true;
-2414  0758 3501000a      	mov	_isThyristorON,#1
-2415                     ; 239 		return true;
-2417  075c a601          	ld	a,#1
-2420  075e 87            	retf
-2421  075f               L367:
-2422                     ; 241 		isThyristorON = false;
-2424  075f 725f000a      	clr	_isThyristorON
-2425                     ; 242 		return false;
-2427  0763 4f            	clr	a
-2430  0764 87            	retf
-2477                     ; 246 void read_set_frequency(float *set_freq) {
-2478                     	switch	.text
-2479  0765               f_read_set_frequency:
-2481  0765 89            	pushw	x
-2482  0766 521e          	subw	sp,#30
-2483       0000001e      OFST:	set	30
-2486                     ; 248 	internal_EEPROM_ReadStr(0x4000, setFreqString,  sizeof(setFreqString));
-2488  0768 ae001e        	ldw	x,#30
-2489  076b 89            	pushw	x
-2490  076c 96            	ldw	x,sp
-2491  076d 1c0003        	addw	x,#OFST-27
-2492  0770 89            	pushw	x
-2493  0771 ae4000        	ldw	x,#16384
-2494  0774 89            	pushw	x
-2495  0775 ae0000        	ldw	x,#0
-2496  0778 89            	pushw	x
-2497  0779 8d000000      	callf	f_internal_EEPROM_ReadStr
-2499  077d 5b08          	addw	sp,#8
-2500                     ; 249 	printf("String read from EEPROM: %s\n\r", setFreqString);
-2502  077f 96            	ldw	x,sp
-2503  0780 1c0001        	addw	x,#OFST-29
-2504  0783 89            	pushw	x
-2505  0784 ae08ef        	ldw	x,#L1201
-2506  0787 8d000000      	callf	f_printf
-2508  078b 85            	popw	x
-2509                     ; 250 	*set_freq = ConvertStringToFloat(setFreqString);
-2511  078c 96            	ldw	x,sp
-2512  078d 1c0001        	addw	x,#OFST-29
-2513  0790 8d000000      	callf	f_ConvertStringToFloat
-2515  0794 1e1f          	ldw	x,(OFST+1,sp)
-2516  0796 8d000000      	callf	d_rtol
-2518                     ; 251 	printf("New set_freq: %f\n", *set_freq);
-2520  079a 1e1f          	ldw	x,(OFST+1,sp)
-2521  079c 9093          	ldw	y,x
-2522  079e ee02          	ldw	x,(2,x)
-2523  07a0 89            	pushw	x
-2524  07a1 93            	ldw	x,y
-2525  07a2 fe            	ldw	x,(x)
-2526  07a3 89            	pushw	x
-2527  07a4 ae08dd        	ldw	x,#L3201
-2528  07a7 8d000000      	callf	f_printf
-2530  07ab 5b04          	addw	sp,#4
-2531                     ; 252 }
-2534  07ad 5b20          	addw	sp,#32
-2535  07af 87            	retf
-2583                     ; 254 void  config_mode(void){
-2584                     	switch	.text
-2585  07b0               f_config_mode:
-2587  07b0 522c          	subw	sp,#44
-2588       0000002c      OFST:	set	44
-2591                     ; 256   float value = 0;
-2593  07b2               L5401:
-2594                     ; 261 		if (GPIO_ReadInputPin(GPIOA, GPIO_PIN_6) == RESET) {
-2596  07b2 4b40          	push	#64
-2597  07b4 ae5000        	ldw	x,#20480
-2598  07b7 8d000000      	callf	f_GPIO_ReadInputPin
-2600  07bb 5b01          	addw	sp,#1
-2601  07bd 4d            	tnz	a
-2602  07be 2603          	jrne	L1501
-2603                     ; 263 			return;
-2606  07c0 5b2c          	addw	sp,#44
-2607  07c2 87            	retf
-2608  07c3               L1501:
-2609                     ; 266 		printf("Entering Config Mode!\n");
-2611  07c3 ae08c6        	ldw	x,#L3501
-2612  07c6 8d000000      	callf	f_printf
-2614                     ; 267 		printf("Enter the Command!\n");
-2616  07ca ae08b2        	ldw	x,#L5501
-2617  07cd 8d000000      	callf	f_printf
-2619                     ; 268 		UART3_ClearBuffer();
-2621  07d1 8d000000      	callf	f_UART3_ClearBuffer
-2623                     ; 269 		UART3_ReceiveString(buffer, sizeof(buffer)); // Receive the first string via UART
-2625  07d5 ae0028        	ldw	x,#40
-2626  07d8 89            	pushw	x
-2627  07d9 96            	ldw	x,sp
-2628  07da 1c0007        	addw	x,#OFST-37
-2629  07dd 8d000000      	callf	f_UART3_ReceiveString
-2631  07e1 85            	popw	x
-2632                     ; 271 		if (strcmp(buffer, "set") == 0) {
-2634  07e2 ae08ae        	ldw	x,#L1601
-2635  07e5 89            	pushw	x
-2636  07e6 96            	ldw	x,sp
-2637  07e7 1c0007        	addw	x,#OFST-37
-2638  07ea 8d000000      	callf	f_strcmp
-2640  07ee 5b02          	addw	sp,#2
-2641  07f0 a30000        	cpw	x,#0
-2642  07f3 2630          	jrne	L7501
-2643                     ; 273 			printf("SET Command Received. Waiting for new parameter...\n");
-2645  07f5 ae087a        	ldw	x,#L3601
-2646  07f8 8d000000      	callf	f_printf
-2648                     ; 274 			UART3_ReceiveString(buffer, sizeof(buffer)); // Receive the parameter string
-2650  07fc ae0028        	ldw	x,#40
-2651  07ff 89            	pushw	x
-2652  0800 96            	ldw	x,sp
-2653  0801 1c0007        	addw	x,#OFST-37
-2654  0804 8d000000      	callf	f_UART3_ReceiveString
-2656  0808 85            	popw	x
-2657                     ; 276 			printf("123456789\n");
-2659  0809 ae086f        	ldw	x,#L5601
-2660  080c 8d000000      	callf	f_printf
-2662                     ; 278 			internal_EEPROM_WriteStr(0x4000, buffer); // Example address for storing string
-2664  0810 96            	ldw	x,sp
-2665  0811 1c0005        	addw	x,#OFST-39
-2666  0814 89            	pushw	x
-2667  0815 ae4000        	ldw	x,#16384
-2668  0818 89            	pushw	x
-2669  0819 ae0000        	ldw	x,#0
-2670  081c 89            	pushw	x
-2671  081d 8d000000      	callf	f_internal_EEPROM_WriteStr
-2673  0821 5b06          	addw	sp,#6
-2675  0823 208d          	jra	L5401
-2676  0825               L7501:
-2677                     ; 284 		} else if (strcmp(buffer, "ready") == 0) {
-2679  0825 ae0869        	ldw	x,#L3701
-2680  0828 89            	pushw	x
-2681  0829 96            	ldw	x,sp
-2682  082a 1c0007        	addw	x,#OFST-37
-2683  082d 8d000000      	callf	f_strcmp
-2685  0831 5b02          	addw	sp,#2
-2686  0833 a30000        	cpw	x,#0
-2687  0836 2616          	jrne	L1701
-2688                     ; 286 			printf("READ Command Received. Reading stored values...\n");
-2690  0838 ae0838        	ldw	x,#L5701
-2691  083b 8d000000      	callf	f_printf
-2693                     ; 288 			process_eeprom_logs(); // Example EEPROM address
-2695  083f 8d000000      	callf	f_process_eeprom_logs
-2697                     ; 289 			printf("Finished Reading EEPROM!\n");
-2699  0843 ae081e        	ldw	x,#L7701
-2700  0846 8d000000      	callf	f_printf
-2703  084a acb207b2      	jpf	L5401
-2704  084e               L1701:
-2705                     ; 293 			printf("Invalid Command Received: %s\n", buffer);
-2707  084e 96            	ldw	x,sp
-2708  084f 1c0005        	addw	x,#OFST-39
-2709  0852 89            	pushw	x
-2710  0853 ae0800        	ldw	x,#L3011
-2711  0856 8d000000      	callf	f_printf
-2713  085a 85            	popw	x
-2714  085b acb207b2      	jpf	L5401
-2726                     	xdef	f_main
-2727                     	xdef	f_handle_commutation_pulse
-2728                     	xdef	f_check_FDR_amplitude
-2729                     	xdef	f_handle_signal_1_AC
-2730                     	xdef	f_handle_Frequency_Below_Set_Freq
-2731                     	xdef	f_process_VAR_signal
-2732                     	xdef	f_process_FDR_signal
-2733                     	xdef	f_logResults
-2734                     	xdef	f_config_mode
-2735                     	xdef	f_read_set_frequency
-2736                     	xdef	f_calculate_frequency
-2737                     	xdef	f_convert_adc_to_voltage
-2738                     	xdef	f_process_adc_signal
-2739                     	xdef	f_calculate_amplitude
-2740                     	xdef	f_output_results
-2741                     	xdef	f_check_signal_dc
-2742                     	xdef	f_send_square_pulse
-2743                     	xdef	f_initialize_system
-2744                     	xdef	_buffer
-2745                     	xdef	_set_freq
-2746                     	xdef	_frequency
-2747                     	xdef	_set_frequency
-2748                     	xdef	_last_cross_time
-2749                     	xdef	_end_time
-2750                     	xdef	_start_time
-2751                     	xdef	_pulse_ticks
-2752                     	xdef	_overflow_count
-2753                     	xdef	_pulseFlag
-2754                     	xdef	_state
-2755                     	xdef	_isThyristorON
-2756                     	xdef	_count
-2757                     	xdef	_sine1_amplitude
-2758                     	xdef	_sine1_frequency
-2759                     	xref	f_ConvertStringToFloat
-2760                     	xref	f_sprintDateTime
-2761                     	xref	f_printDateTime
-2762                     	xref	f_internal_EEPROM_WriteStr
-2763                     	xref	f_internal_EEPROM_ReadStr
-2764                     	xref	f_read_ADC_Channel
-2765                     	xref	f_UART1_SendString
-2766                     	xref	f_UART1_setup
-2767                     	xref	f_UART3_ReceiveString
-2768                     	xref	f_UART3_ClearBuffer
-2769                     	xref	f_INT_EEPROM_Setup
-2770                     	xref	f_TIM1_setup
-2771                     	xref	f_GPIO_setup
-2772                     	xref	f_ADC2_setup
-2773                     	xref	f_UART3_setup
-2774                     	xref	f_clock_setup
-2775                     	xref	f_I2CInit
-2776                     	xref	f_log_to_eeprom
-2777                     	xref	f_process_eeprom_logs
-2778                     	xref	f_EEPROM_Config
-2779                     	xref	f_sprintf
-2780                     	xref	f_printf
-2781                     	xref	f_fabs
-2782                     	xref	f_delay_ms
-2783                     	xref	f_TIM4_Config
-2784                     	xref	f_strcmp
-2785                     	xref	f_GPIO_ReadInputPin
-2786                     	xref	f_GPIO_WriteLow
-2787                     	xref	f_GPIO_WriteHigh
-2788                     	switch	.const
-2789  0800               L3011:
-2790  0800 496e76616c69  	dc.b	"Invalid Command Re"
-2791  0812 636569766564  	dc.b	"ceived: %s",10,0
-2792  081e               L7701:
-2793  081e 46696e697368  	dc.b	"Finished Reading E"
-2794  0830 4550524f4d21  	dc.b	"EPROM!",10,0
-2795  0838               L5701:
-2796  0838 524541442043  	dc.b	"READ Command Recei"
-2797  084a 7665642e2052  	dc.b	"ved. Reading store"
-2798  085c 642076616c75  	dc.b	"d values...",10,0
-2799  0869               L3701:
-2800  0869 726561647900  	dc.b	"ready",0
-2801  086f               L5601:
-2802  086f 313233343536  	dc.b	"123456789",10,0
-2803  087a               L3601:
-2804  087a 53455420436f  	dc.b	"SET Command Receiv"
-2805  088c 65642e205761  	dc.b	"ed. Waiting for ne"
-2806  089e 772070617261  	dc.b	"w parameter...",10,0
-2807  08ae               L1601:
-2808  08ae 73657400      	dc.b	"set",0
-2809  08b2               L5501:
-2810  08b2 456e74657220  	dc.b	"Enter the Command!"
-2811  08c4 0a00          	dc.b	10,0
-2812  08c6               L3501:
-2813  08c6 456e74657269  	dc.b	"Entering Config Mo"
-2814  08d8 6465210a00    	dc.b	"de!",10,0
-2815  08dd               L3201:
-2816  08dd 4e6577207365  	dc.b	"New set_freq: %f",10,0
-2817  08ef               L1201:
-2818  08ef 537472696e67  	dc.b	"String read from E"
-2819  0901 4550524f4d3a  	dc.b	"EPROM: %s",10
-2820  090b 0d00          	dc.b	13,0
-2821  090d               L177:
-2822  090d 3f000000      	dc.w	16128,0
-2823  0911               L137:
-2824  0911 436f6d6d7574  	dc.b	"Commutation Thyris"
-2825  0923 746f72205075  	dc.b	"tor Pulse Sent",10,0
-2826  0933               L307:
-2827  0933 2573202d2025  	dc.b	"%s - %s",0
-2828  093b               L356:
-2829  093b 252e33662c25  	dc.b	"%.3f,%.3f,%.3f,%.3"
-2830  094d 662c300a00    	dc.b	"f,0",10,0
-2831  0952               L326:
-2832  0952 49742400      	dc.w	18804,9216
-2833  0956               L316:
-2834  0956 3f800000      	dc.w	16256,0
-2835  095a               L765:
-2836  095a 3b933333      	dc.w	15251,13107
-2837  095e               L345:
-2838  095e 3dcccccc      	dc.w	15820,-13108
-2839  0962               L514:
-2840  0962 c0933333      	dc.w	-16237,13107
-2841  0966               L524:
-2842  0966 40933333      	dc.w	16531,13107
-2843  096a               L753:
-2844  096a 566172416d70  	dc.b	"VarAmplitude Not b"
-2845  097c 656c6f772031  	dc.b	"elow 10 mv.",10,0
-2846  0989               L743:
-2847  0989 566172416d70  	dc.b	"VarAmplitude below"
-2848  099b 203130206d76  	dc.b	" 10 mv.",10,0
-2849  09a4               L343:
-2850  09a4 3d4ccccc      	dc.w	15692,-13108
-2851  09a8               L313:
-2852  09a8 5369676e616c  	dc.b	"Signal 1 AC and Va"
-2853  09ba 72416d706c69  	dc.b	"rAmplitude: %f.",10,0
-2854  09cb               L703:
-2855  09cb 5369676e616c  	dc.b	"Signal 1 DC.",10,0
-2856  09d9               L362:
-2857  09d9 467265717565  	dc.b	"Frequency Below Se"
-2858  09eb 742046726571  	dc.b	"t Frequency.",10,0
-2859  09f9               L752:
-2860  09f9 204672657175  	dc.b	" Frequency: %.3f, "
-2861  0a0b 416d706c6974  	dc.b	"Amplitude: %.3f, C"
-2862  0a1d 757272656e74  	dc.b	"urrent: %.3f, FDR_"
-2863  0a2f 566f6c746167  	dc.b	"Voltage: %.3f",10,0
-2864  0a3e               L112:
-2865  0a3e 257300        	dc.b	"%s",0
-2866  0a41               L502:
-2867  0a41 40966666      	dc.w	16534,26214
-2868  0a45               L771:
-2869  0a45 252e33662c25  	dc.b	"%.3f,%.3f,%.3f,%.3"
-2870  0a57 662c310a00    	dc.b	"f,1",10,0
-2871  0a5c               L741:
-2872  0a5c 53797374656d  	dc.b	"System Initializat"
-2873  0a6e 696f6e20436f  	dc.b	"ion Completed",10
-2874  0a7c 0d00          	dc.b	13,0
-2875  0a7e               L531:
-2876  0a7e 46445220566f  	dc.b	"FDR Voltage Exists",0
-2877  0a91               L721:
-2878  0a91 00000000      	dc.w	0,0
-2879                     	xref.b	c_lreg
-2880                     	xref.b	c_x
-2881                     	xref.b	c_y
-2901                     	xref	d_ultof
-2902                     	xref	d_fmul
-2903                     	xref	d_uitof
-2904                     	xref	d_uitolx
-2905                     	xref	d_xymovl
-2906                     	xref	d_fsub
-2907                     	xref	d_lcmp
-2908                     	xref	d_lgadc
-2909                     	xref	d_fcmp
-2910                     	xref	d_ctof
-2911                     	xref	d_fdiv
-2912                     	xref	d_ltor
-2913                     	xref	d_rtol
-2914                     	end
+1136                     ; 108 	VAR_amplitude = process_adc_signal(VAR_SIGNAL, NULL, &VAR_amplitude);
+1138  033d 96            	ldw	x,sp
+1139  033e 1c002c        	addw	x,#OFST+4
+1140  0341 89            	pushw	x
+1141  0342 5f            	clrw	x
+1142  0343 89            	pushw	x
+1143  0344 a605          	ld	a,#5
+1144  0346 8d170517      	callf	f_process_adc_signal
+1146  034a 5b04          	addw	sp,#4
+1147  034c 96            	ldw	x,sp
+1148  034d 1c002c        	addw	x,#OFST+4
+1149  0350 8d000000      	callf	d_rtol
+1151                     ; 109 	if (VAR_amplitude < AC_AMPLITUDE_THRESHOLD) {
+1153  0354 9c            	rvf
+1154  0355 96            	ldw	x,sp
+1155  0356 1c002c        	addw	x,#OFST+4
+1156  0359 8d000000      	callf	d_ltor
+1158  035d ae09da        	ldw	x,#L563
+1159  0360 8d000000      	callf	d_fcmp
+1161  0364 2e67          	jrsge	L573
+1162                     ; 111 		sprintf(buffer, "%.3f,%.3f,%.3f,%.3f,1\n", frequency, VAR_amplitude, VAR_amplitude/4.7, 0);
+1164  0366 5f            	clrw	x
+1165  0367 89            	pushw	x
+1166  0368 96            	ldw	x,sp
+1167  0369 1c002e        	addw	x,#OFST+6
+1168  036c 8d000000      	callf	d_ltor
+1170  0370 ae0a46        	ldw	x,#L572
+1171  0373 8d000000      	callf	d_fdiv
+1173  0377 be02          	ldw	x,c_lreg+2
+1174  0379 89            	pushw	x
+1175  037a be00          	ldw	x,c_lreg
+1176  037c 89            	pushw	x
+1177  037d 1e34          	ldw	x,(OFST+12,sp)
+1178  037f 89            	pushw	x
+1179  0380 1e34          	ldw	x,(OFST+12,sp)
+1180  0382 89            	pushw	x
+1181  0383 ce0023        	ldw	x,_frequency+2
+1182  0386 89            	pushw	x
+1183  0387 ce0021        	ldw	x,_frequency
+1184  038a 89            	pushw	x
+1185  038b ae0a2f        	ldw	x,#L103
+1186  038e 89            	pushw	x
+1187  038f 96            	ldw	x,sp
+1188  0390 1c0011        	addw	x,#OFST-23
+1189  0393 8d000000      	callf	f_sprintf
+1191  0397 5b10          	addw	sp,#16
+1192                     ; 112 	  printf("%s", buffer);
+1194  0399 96            	ldw	x,sp
+1195  039a 1c0001        	addw	x,#OFST-39
+1196  039d 89            	pushw	x
+1197  039e ae0a97        	ldw	x,#L102
+1198  03a1 8d000000      	callf	f_printf
+1200  03a5 85            	popw	x
+1201                     ; 113 		logResults(buffer);
+1203  03a6 96            	ldw	x,sp
+1204  03a7 1c0001        	addw	x,#OFST-39
+1205  03aa 8dc406c4      	callf	f_logResults
+1207                     ; 114 		printf("VarAmplitude below 10 mv.\n");
+1209  03ae ae09bf        	ldw	x,#L173
+1210  03b1 8d000000      	callf	f_printf
+1212                     ; 115 		GPIO_WriteLow(LED_WHITE); // Turn on LED if Signal is AC < 20 mV
+1214  03b5 4b08          	push	#8
+1215  03b7 ae500a        	ldw	x,#20490
+1216  03ba 8d000000      	callf	f_GPIO_WriteLow
+1218  03be 84            	pop	a
+1219                     ; 116 		delay_ms(3000);
+1221  03bf ae0bb8        	ldw	x,#3000
+1222  03c2 8d000000      	callf	f_delay_ms
+1224                     ; 117 		pulseFlag = 1;
+1226  03c6 3501000c      	mov	_pulseFlag,#1
+1228                     ; 137 }
+1231  03ca 5b28          	addw	sp,#40
+1232  03cc 87            	retf
+1233  03cd               L573:
+1234                     ; 120 			pulseFlag = 1;
+1236  03cd 3501000c      	mov	_pulseFlag,#1
+1237                     ; 122 			GPIO_WriteHigh(GPIOD, GPIO_PIN_7);  // Turn on LED if Signal is AC < 20 ms
+1239  03d1 4b80          	push	#128
+1240  03d3 ae500f        	ldw	x,#20495
+1241  03d6 8d000000      	callf	f_GPIO_WriteHigh
+1243  03da 84            	pop	a
+1244                     ; 123 			sprintf(buffer, "%.3f,%.3f,%.3f,%.3f,1\n", frequency, VAR_amplitude, VAR_amplitude/4.7, 0);
+1246  03db 5f            	clrw	x
+1247  03dc 89            	pushw	x
+1248  03dd 96            	ldw	x,sp
+1249  03de 1c002e        	addw	x,#OFST+6
+1250  03e1 8d000000      	callf	d_ltor
+1252  03e5 ae0a46        	ldw	x,#L572
+1253  03e8 8d000000      	callf	d_fdiv
+1255  03ec be02          	ldw	x,c_lreg+2
+1256  03ee 89            	pushw	x
+1257  03ef be00          	ldw	x,c_lreg
+1258  03f1 89            	pushw	x
+1259  03f2 1e34          	ldw	x,(OFST+12,sp)
+1260  03f4 89            	pushw	x
+1261  03f5 1e34          	ldw	x,(OFST+12,sp)
+1262  03f7 89            	pushw	x
+1263  03f8 ce0023        	ldw	x,_frequency+2
+1264  03fb 89            	pushw	x
+1265  03fc ce0021        	ldw	x,_frequency
+1266  03ff 89            	pushw	x
+1267  0400 ae0a2f        	ldw	x,#L103
+1268  0403 89            	pushw	x
+1269  0404 96            	ldw	x,sp
+1270  0405 1c0011        	addw	x,#OFST-23
+1271  0408 8d000000      	callf	f_sprintf
+1273  040c 5b10          	addw	sp,#16
+1274                     ; 124 			printf("%s", buffer);
+1276  040e 96            	ldw	x,sp
+1277  040f 1c0001        	addw	x,#OFST-39
+1278  0412 89            	pushw	x
+1279  0413 ae0a97        	ldw	x,#L102
+1280  0416 8d000000      	callf	f_printf
+1282  041a 85            	popw	x
+1283                     ; 125 			logResults(buffer);
+1285  041b 96            	ldw	x,sp
+1286  041c 1c0001        	addw	x,#OFST-39
+1287  041f 8dc406c4      	callf	f_logResults
+1289                     ; 126 			printf("VarAmplitude Not below 10 mv.\n");
+1291  0423 ae09a0        	ldw	x,#L104
+1292  0426 8d000000      	callf	f_printf
+1294                     ; 127 			GPIO_WriteHigh(LED_WHITE);  // Turn on LED if Signal is AC < 20 ms	
+1296  042a 4b08          	push	#8
+1297  042c ae500a        	ldw	x,#20490
+1298  042f 8d000000      	callf	f_GPIO_WriteHigh
+1300  0433 84            	pop	a
+1301                     ; 128 			VAR_amplitude = process_adc_signal(VAR_SIGNAL, NULL, &VAR_amplitude);
+1303  0434 96            	ldw	x,sp
+1304  0435 1c002c        	addw	x,#OFST+4
+1305  0438 89            	pushw	x
+1306  0439 5f            	clrw	x
+1307  043a 89            	pushw	x
+1308  043b a605          	ld	a,#5
+1309  043d 8d170517      	callf	f_process_adc_signal
+1311  0441 5b04          	addw	sp,#4
+1312  0443 96            	ldw	x,sp
+1313  0444 1c002c        	addw	x,#OFST+4
+1314  0447 8d000000      	callf	d_rtol
+1316                     ; 130 			if(check_signal_dc(VAR_amplitude)){
+1318  044b 1e2e          	ldw	x,(OFST+6,sp)
+1319  044d 89            	pushw	x
+1320  044e 1e2e          	ldw	x,(OFST+6,sp)
+1321  0450 89            	pushw	x
+1322  0451 8db407b4      	callf	f_check_signal_dc
+1324  0455 5b04          	addw	sp,#4
+1325  0457 4d            	tnz	a
+1326  0458 2604          	jrne	L42
+1327  045a accd03cd      	jpf	L573
+1328  045e               L42:
+1329                     ; 131 				printf("Signal 1 DC(After AC).\n");
+1331  045e ae0988        	ldw	x,#L504
+1332  0461 8d000000      	callf	f_printf
+1334                     ; 132 				GPIO_WriteHigh(LED_BLUE); 
+1336  0465 4b01          	push	#1
+1337  0467 ae500f        	ldw	x,#20495
+1338  046a 8d000000      	callf	f_GPIO_WriteHigh
+1340  046e 84            	pop	a
+1341                     ; 133 				process_FDR_signal();
+1343  046f 8d8e008e      	callf	f_process_FDR_signal
+1345  0473 accd03cd      	jpf	L573
+1408                     ; 140 float calculate_amplitude(float adc_signal[], uint32_t sample_size) {
+1409                     	switch	.text
+1410  0477               f_calculate_amplitude:
+1412  0477 89            	pushw	x
+1413  0478 520c          	subw	sp,#12
+1414       0000000c      OFST:	set	12
+1417                     ; 141 	uint32_t i = 0;
+1419                     ; 142 	float max_val = -V_REF, min_val = V_REF;
+1421  047a ce0982        	ldw	x,L144+2
+1422  047d 1f03          	ldw	(OFST-9,sp),x
+1423  047f ce0980        	ldw	x,L144
+1424  0482 1f01          	ldw	(OFST-11,sp),x
+1428  0484 ce0986        	ldw	x,L154+2
+1429  0487 1f07          	ldw	(OFST-5,sp),x
+1430  0489 ce0984        	ldw	x,L154
+1431  048c 1f05          	ldw	(OFST-7,sp),x
+1433                     ; 144 	for (i = 0; i < sample_size; i++) {
+1435  048e ae0000        	ldw	x,#0
+1436  0491 1f0b          	ldw	(OFST-1,sp),x
+1437  0493 ae0000        	ldw	x,#0
+1438  0496 1f09          	ldw	(OFST-3,sp),x
+1441  0498 2058          	jra	L164
+1442  049a               L554:
+1443                     ; 145 		if (adc_signal[i] > max_val) max_val = adc_signal[i];
+1445  049a 9c            	rvf
+1446  049b 1e0b          	ldw	x,(OFST-1,sp)
+1447  049d 58            	sllw	x
+1448  049e 58            	sllw	x
+1449  049f 72fb0d        	addw	x,(OFST+1,sp)
+1450  04a2 8d000000      	callf	d_ltor
+1452  04a6 96            	ldw	x,sp
+1453  04a7 1c0001        	addw	x,#OFST-11
+1454  04aa 8d000000      	callf	d_fcmp
+1456  04ae 2d11          	jrsle	L564
+1459  04b0 1e0b          	ldw	x,(OFST-1,sp)
+1460  04b2 58            	sllw	x
+1461  04b3 58            	sllw	x
+1462  04b4 72fb0d        	addw	x,(OFST+1,sp)
+1463  04b7 9093          	ldw	y,x
+1464  04b9 ee02          	ldw	x,(2,x)
+1465  04bb 1f03          	ldw	(OFST-9,sp),x
+1466  04bd 93            	ldw	x,y
+1467  04be fe            	ldw	x,(x)
+1468  04bf 1f01          	ldw	(OFST-11,sp),x
+1470  04c1               L564:
+1471                     ; 146 		if (adc_signal[i] < min_val) min_val = adc_signal[i];
+1473  04c1 9c            	rvf
+1474  04c2 1e0b          	ldw	x,(OFST-1,sp)
+1475  04c4 58            	sllw	x
+1476  04c5 58            	sllw	x
+1477  04c6 72fb0d        	addw	x,(OFST+1,sp)
+1478  04c9 8d000000      	callf	d_ltor
+1480  04cd 96            	ldw	x,sp
+1481  04ce 1c0005        	addw	x,#OFST-7
+1482  04d1 8d000000      	callf	d_fcmp
+1484  04d5 2e11          	jrsge	L764
+1487  04d7 1e0b          	ldw	x,(OFST-1,sp)
+1488  04d9 58            	sllw	x
+1489  04da 58            	sllw	x
+1490  04db 72fb0d        	addw	x,(OFST+1,sp)
+1491  04de 9093          	ldw	y,x
+1492  04e0 ee02          	ldw	x,(2,x)
+1493  04e2 1f07          	ldw	(OFST-5,sp),x
+1494  04e4 93            	ldw	x,y
+1495  04e5 fe            	ldw	x,(x)
+1496  04e6 1f05          	ldw	(OFST-7,sp),x
+1498  04e8               L764:
+1499                     ; 144 	for (i = 0; i < sample_size; i++) {
+1501  04e8 96            	ldw	x,sp
+1502  04e9 1c0009        	addw	x,#OFST-3
+1503  04ec a601          	ld	a,#1
+1504  04ee 8d000000      	callf	d_lgadc
+1507  04f2               L164:
+1510  04f2 96            	ldw	x,sp
+1511  04f3 1c0009        	addw	x,#OFST-3
+1512  04f6 8d000000      	callf	d_ltor
+1514  04fa 96            	ldw	x,sp
+1515  04fb 1c0012        	addw	x,#OFST+6
+1516  04fe 8d000000      	callf	d_lcmp
+1518  0502 2596          	jrult	L554
+1519                     ; 149 	return (max_val - min_val);
+1521  0504 96            	ldw	x,sp
+1522  0505 1c0001        	addw	x,#OFST-11
+1523  0508 8d000000      	callf	d_ltor
+1525  050c 96            	ldw	x,sp
+1526  050d 1c0005        	addw	x,#OFST-7
+1527  0510 8d000000      	callf	d_fsub
+1531  0514 5b0e          	addw	sp,#14
+1532  0516 87            	retf
+1534                     .const:	section	.text
+1535  0000               L174_buffer:
+1536  0000 00000000      	dc.w	0,0
+1537  0004 000000000000  	ds.b	2044
+1673                     ; 152 float process_adc_signal(uint8_t channel, float *frequency, float *amplitude) {
+1674                     	switch	.text
+1675  0517               f_process_adc_signal:
+1677  0517 88            	push	a
+1678  0518 96            	ldw	x,sp
+1679  0519 1d0824        	subw	x,#2084
+1680  051c 94            	ldw	sp,x
+1681       00000824      OFST:	set	2084
+1684                     ; 153 	float buffer[NUM_SAMPLES] = {0};  // Initialize ADC buffer
+1686  051d 96            	ldw	x,sp
+1687  051e 1c001e        	addw	x,#OFST-2054
+1688  0521 90ae0000      	ldw	y,#L174_buffer
+1689  0525 bf00          	ldw	c_x,x
+1690  0527 ae0800        	ldw	x,#2048
+1691  052a 8d000000      	callf	d_xymovl
+1693                     ; 154 	uint16_t i = 0, count = 0;
+1697  052e 96            	ldw	x,sp
+1698  052f 905f          	clrw	y
+1699  0531 df0823        	ldw	(OFST-1,x),y
+1700                     ; 155 	float lastStoredValue = 0.0;       // Track the last stored ADC voltage
+1702  0534 96            	ldw	x,sp
+1703  0535 c60b00        	ld	a,L721+3
+1704  0538 d70821        	ld	(OFST-3,x),a
+1705  053b c60aff        	ld	a,L721+2
+1706  053e d70820        	ld	(OFST-4,x),a
+1707  0541 c60afe        	ld	a,L721+1
+1708  0544 d7081f        	ld	(OFST-5,x),a
+1709  0547 c60afd        	ld	a,L721
+1710  054a d7081e        	ld	(OFST-6,x),a
+1711                     ; 156 	bool isChannel1 = (channel == VAR_SIGNAL);
+1713  054d 96            	ldw	x,sp
+1714  054e d60825        	ld	a,(OFST+1,x)
+1715  0551 a105          	cp	a,#5
+1716  0553 2605          	jrne	L23
+1717  0555 ae0001        	ldw	x,#1
+1718  0558 2001          	jra	L43
+1719  055a               L23:
+1720  055a 5f            	clrw	x
+1721  055b               L43:
+1722                     ; 157 	bool firstSample = true;           // Flag for first sample storage               // Reset last zero-crossing time
+1724  055b 96            	ldw	x,sp
+1725  055c a601          	ld	a,#1
+1726  055e d70822        	ld	(OFST-2,x),a
+1727                     ; 158   float dummyRead = convert_adc_to_voltage(read_ADC_Channel(channel));
+1729  0561 96            	ldw	x,sp
+1730  0562 d60825        	ld	a,(OFST+1,x)
+1731  0565 8d000000      	callf	f_read_ADC_Channel
+1733  0569 8d3a063a      	callf	f_convert_adc_to_voltage
+1735                     ; 159 	uint16_t dcCount = 0;
+1738  056d acf805f8      	jra	L555
+1739  0571               L355:
+1740                     ; 161 		float currentVoltage = convert_adc_to_voltage(read_ADC_Channel(channel));
+1742  0571 96            	ldw	x,sp
+1743  0572 d60825        	ld	a,(OFST+1,x)
+1744  0575 8d000000      	callf	f_read_ADC_Channel
+1746  0579 8d3a063a      	callf	f_convert_adc_to_voltage
+1748  057d 96            	ldw	x,sp
+1749  057e 1c0011        	addw	x,#OFST-2067
+1750  0581 8d000000      	callf	d_rtol
+1753                     ; 164 		if (fabs(currentVoltage - lastStoredValue) >= 0.01 || firstSample) {
+1755  0585 9c            	rvf
+1756  0586 96            	ldw	x,sp
+1757  0587 1c0011        	addw	x,#OFST-2067
+1758  058a 8d000000      	callf	d_ltor
+1760  058e 96            	ldw	x,sp
+1761  058f 1c081e        	addw	x,#OFST-6
+1762  0592 8d000000      	callf	d_fsub
+1764  0596 be02          	ldw	x,c_lreg+2
+1765  0598 89            	pushw	x
+1766  0599 be00          	ldw	x,c_lreg
+1767  059b 89            	pushw	x
+1768  059c 8d000000      	callf	f_fabs
+1770  05a0 9c            	rvf
+1771  05a1 5b04          	addw	sp,#4
+1772  05a3 ae097c        	ldw	x,#L175
+1773  05a6 8d000000      	callf	d_fcmp
+1775  05aa 2e07          	jrsge	L365
+1777  05ac 96            	ldw	x,sp
+1778  05ad d60822        	ld	a,(OFST-2,x)
+1779  05b0 4d            	tnz	a
+1780  05b1 2745          	jreq	L555
+1781  05b3               L365:
+1782                     ; 165 			buffer[count] = currentVoltage;
+1784  05b3 96            	ldw	x,sp
+1785  05b4 1c001e        	addw	x,#OFST-2054
+1786  05b7 1f0f          	ldw	(OFST-2069,sp),x
+1788  05b9 96            	ldw	x,sp
+1789  05ba de0823        	ldw	x,(OFST-1,x)
+1790  05bd 58            	sllw	x
+1791  05be 58            	sllw	x
+1792  05bf 72fb0f        	addw	x,(OFST-2069,sp)
+1793  05c2 7b14          	ld	a,(OFST-2064,sp)
+1794  05c4 e703          	ld	(3,x),a
+1795  05c6 7b13          	ld	a,(OFST-2065,sp)
+1796  05c8 e702          	ld	(2,x),a
+1797  05ca 7b12          	ld	a,(OFST-2066,sp)
+1798  05cc e701          	ld	(1,x),a
+1799  05ce 7b11          	ld	a,(OFST-2067,sp)
+1800  05d0 f7            	ld	(x),a
+1801                     ; 167 			lastStoredValue = currentVoltage;
+1803  05d1 96            	ldw	x,sp
+1804  05d2 7b14          	ld	a,(OFST-2064,sp)
+1805  05d4 d70821        	ld	(OFST-3,x),a
+1806  05d7 7b13          	ld	a,(OFST-2065,sp)
+1807  05d9 d70820        	ld	(OFST-4,x),a
+1808  05dc 7b12          	ld	a,(OFST-2066,sp)
+1809  05de d7081f        	ld	(OFST-5,x),a
+1810  05e1 7b11          	ld	a,(OFST-2067,sp)
+1811  05e3 d7081e        	ld	(OFST-6,x),a
+1812                     ; 168 			firstSample = false;  // First sample has been stored
+1814  05e6 96            	ldw	x,sp
+1815  05e7 724f0822      	clr	(OFST-2,x)
+1816                     ; 169 			count++;
+1818  05eb 96            	ldw	x,sp
+1819  05ec 9093          	ldw	y,x
+1820  05ee de0823        	ldw	x,(OFST-1,x)
+1821  05f1 1c0001        	addw	x,#1
+1822  05f4 90df0823      	ldw	(OFST-1,y),x
+1823  05f8               L555:
+1824                     ; 160 	while (count < NUM_SAMPLES) {  
+1826  05f8 96            	ldw	x,sp
+1827  05f9 9093          	ldw	y,x
+1828  05fb 90de0823      	ldw	y,(OFST-1,y)
+1829  05ff 90a30200      	cpw	y,#512
+1830  0603 2404          	jruge	L63
+1831  0605 ac710571      	jpf	L355
+1832  0609               L63:
+1833                     ; 173 	*amplitude = calculate_amplitude(buffer, count);
+1835  0609 96            	ldw	x,sp
+1836  060a de0823        	ldw	x,(OFST-1,x)
+1837  060d 8d000000      	callf	d_uitolx
+1839  0611 be02          	ldw	x,c_lreg+2
+1840  0613 89            	pushw	x
+1841  0614 be00          	ldw	x,c_lreg
+1842  0616 89            	pushw	x
+1843  0617 96            	ldw	x,sp
+1844  0618 1c0022        	addw	x,#OFST-2050
+1845  061b 8d770477      	callf	f_calculate_amplitude
+1847  061f 5b04          	addw	sp,#4
+1848  0621 96            	ldw	x,sp
+1849  0622 de082b        	ldw	x,(OFST+7,x)
+1850  0625 8d000000      	callf	d_rtol
+1852                     ; 174 	return *amplitude;
+1854  0629 96            	ldw	x,sp
+1855  062a de082b        	ldw	x,(OFST+7,x)
+1856  062d 8d000000      	callf	d_ltor
+1860  0631 9096          	ldw	y,sp
+1861  0633 72a90825      	addw	y,#2085
+1862  0637 9094          	ldw	sp,y
+1863  0639 87            	retf
+1895                     ; 178 float convert_adc_to_voltage(unsigned int adcValue) {
+1896                     	switch	.text
+1897  063a               f_convert_adc_to_voltage:
+1901                     ; 179 	return adcValue * (V_REF / ADC_MAX_VALUE);
+1903  063a 8d000000      	callf	d_uitof
+1905  063e ae0978        	ldw	x,#L516
+1906  0641 8d000000      	callf	d_fmul
+1910  0645 87            	retf
+1942                     ; 183 float calculate_frequency(unsigned long period) {
+1943                     	switch	.text
+1944  0646               f_calculate_frequency:
+1946  0646 5204          	subw	sp,#4
+1947       00000004      OFST:	set	4
+1950                     ; 184 	return 1.0 / (period / 1e6);  // Convert period (in microseconds) to frequency (Hz)
+1952  0648 96            	ldw	x,sp
+1953  0649 1c0008        	addw	x,#OFST+4
+1954  064c 8d000000      	callf	d_ltor
+1956  0650 8d000000      	callf	d_ultof
+1958  0654 ae0970        	ldw	x,#L156
+1959  0657 8d000000      	callf	d_fdiv
+1961  065b 96            	ldw	x,sp
+1962  065c 1c0001        	addw	x,#OFST-3
+1963  065f 8d000000      	callf	d_rtol
+1966  0663 ae0974        	ldw	x,#L146
+1967  0666 8d000000      	callf	d_ltor
+1969  066a 96            	ldw	x,sp
+1970  066b 1c0001        	addw	x,#OFST-3
+1971  066e 8d000000      	callf	d_fdiv
+1975  0672 5b04          	addw	sp,#4
+1976  0674 87            	retf
+2034                     ; 188 void output_results(float frequency, float amplitude, float FDR_Voltage) {
+2035                     	switch	.text
+2036  0675               f_output_results:
+2038  0675 5228          	subw	sp,#40
+2039       00000028      OFST:	set	40
+2042                     ; 192 	sprintf(buffer, "%.3f,%.3f,%.3f,%.3f,0\n", frequency, amplitude, amplitude/4.7, FDR_Voltage);
+2044  0677 1e36          	ldw	x,(OFST+14,sp)
+2045  0679 89            	pushw	x
+2046  067a 1e36          	ldw	x,(OFST+14,sp)
+2047  067c 89            	pushw	x
+2048  067d 96            	ldw	x,sp
+2049  067e 1c0034        	addw	x,#OFST+12
+2050  0681 8d000000      	callf	d_ltor
+2052  0685 ae0a46        	ldw	x,#L572
+2053  0688 8d000000      	callf	d_fdiv
+2055  068c be02          	ldw	x,c_lreg+2
+2056  068e 89            	pushw	x
+2057  068f be00          	ldw	x,c_lreg
+2058  0691 89            	pushw	x
+2059  0692 1e3a          	ldw	x,(OFST+18,sp)
+2060  0694 89            	pushw	x
+2061  0695 1e3a          	ldw	x,(OFST+18,sp)
+2062  0697 89            	pushw	x
+2063  0698 1e3a          	ldw	x,(OFST+18,sp)
+2064  069a 89            	pushw	x
+2065  069b 1e3a          	ldw	x,(OFST+18,sp)
+2066  069d 89            	pushw	x
+2067  069e ae0959        	ldw	x,#L107
+2068  06a1 89            	pushw	x
+2069  06a2 96            	ldw	x,sp
+2070  06a3 1c0013        	addw	x,#OFST-21
+2071  06a6 8d000000      	callf	f_sprintf
+2073  06aa 5b12          	addw	sp,#18
+2074                     ; 195 	printf("%s", buffer);
+2076  06ac 96            	ldw	x,sp
+2077  06ad 1c0001        	addw	x,#OFST-39
+2078  06b0 89            	pushw	x
+2079  06b1 ae0a97        	ldw	x,#L102
+2080  06b4 8d000000      	callf	f_printf
+2082  06b8 85            	popw	x
+2083                     ; 196 	UART1_SendString(buffer);
+2085  06b9 96            	ldw	x,sp
+2086  06ba 1c0001        	addw	x,#OFST-39
+2087  06bd 8d000000      	callf	f_UART1_SendString
+2089                     ; 198 }
+2092  06c1 5b28          	addw	sp,#40
+2093  06c3 87            	retf
+2150                     ; 201 void logResults(const char *logMessage) {
+2151                     	switch	.text
+2152  06c4               f_logResults:
+2154  06c4 89            	pushw	x
+2155  06c5 5278          	subw	sp,#120
+2156       00000078      OFST:	set	120
+2159                     ; 206 	sprintDateTime(datetimeBuffer);
+2161  06c7 96            	ldw	x,sp
+2162  06c8 1c0001        	addw	x,#OFST-119
+2163  06cb 8d000000      	callf	f_sprintDateTime
+2165                     ; 209 	sprintf(logBuffer, "%s - %s", datetimeBuffer, logMessage);
+2167  06cf 1e79          	ldw	x,(OFST+1,sp)
+2168  06d1 89            	pushw	x
+2169  06d2 96            	ldw	x,sp
+2170  06d3 1c0003        	addw	x,#OFST-117
+2171  06d6 89            	pushw	x
+2172  06d7 ae0951        	ldw	x,#L137
+2173  06da 89            	pushw	x
+2174  06db 96            	ldw	x,sp
+2175  06dc 1c001b        	addw	x,#OFST-93
+2176  06df 8d000000      	callf	f_sprintf
+2178  06e3 5b06          	addw	sp,#6
+2179                     ; 210 	log_to_eeprom(logBuffer);
+2181  06e5 96            	ldw	x,sp
+2182  06e6 1c0015        	addw	x,#OFST-99
+2183  06e9 8d000000      	callf	f_log_to_eeprom
+2185                     ; 212 }
+2188  06ed 5b7a          	addw	sp,#122
+2189  06ef 87            	retf
+2223                     ; 215 void send_square_pulse(uint16_t duration_ms) {
+2224                     	switch	.text
+2225  06f0               f_send_square_pulse:
+2227  06f0 89            	pushw	x
+2228       00000000      OFST:	set	0
+2231                     ; 216 	GPIO_WriteHigh(SER_THYRISTOR); // Set square pulse pin high
+2233  06f1 4b04          	push	#4
+2234  06f3 ae500a        	ldw	x,#20490
+2235  06f6 8d000000      	callf	f_GPIO_WriteHigh
+2237  06fa 84            	pop	a
+2238                     ; 217 	delay_ms(duration_ms);            // Wait for the pulse duration
+2240  06fb 1e01          	ldw	x,(OFST+1,sp)
+2241  06fd 8d000000      	callf	f_delay_ms
+2243                     ; 218 	GPIO_WriteLow(SER_THYRISTOR); // Set square pulse pin low
+2245  0701 4b04          	push	#4
+2246  0703 ae500a        	ldw	x,#20490
+2247  0706 8d000000      	callf	f_GPIO_WriteLow
+2249  070a 84            	pop	a
+2250                     ; 219 }
+2253  070b 85            	popw	x
+2254  070c 87            	retf
+2281                     ; 221 void handle_commutation_pulse(void) {
+2282                     	switch	.text
+2283  070d               f_handle_commutation_pulse:
+2287                     ; 222 	GPIO_WriteHigh(COM_THYRISTOR); // Set square pulse pin high
+2289  070d 4b10          	push	#16
+2290  070f ae500a        	ldw	x,#20490
+2291  0712 8d000000      	callf	f_GPIO_WriteHigh
+2293  0716 84            	pop	a
+2294                     ; 223 	delay_ms(3000);            // Wait for the pulse duration
+2296  0717 ae0bb8        	ldw	x,#3000
+2297  071a 8d000000      	callf	f_delay_ms
+2299                     ; 224 	GPIO_WriteLow(COM_THYRISTOR); // Set square pulse pin low
+2301  071e 4b10          	push	#16
+2302  0720 ae500a        	ldw	x,#20490
+2303  0723 8d000000      	callf	f_GPIO_WriteLow
+2305  0727 84            	pop	a
+2306                     ; 225 	GPIO_WriteHigh(LED_ORANGE); // Turn on LED ORANGE
+2308  0728 4b08          	push	#8
+2309  072a ae500f        	ldw	x,#20495
+2310  072d 8d000000      	callf	f_GPIO_WriteHigh
+2312  0731 84            	pop	a
+2313                     ; 226 	printf("Commutation Thyristor Pulse Sent\n");
+2315  0732 ae092f        	ldw	x,#L757
+2316  0735 8d000000      	callf	f_printf
+2318                     ; 227 }
+2321  0739 87            	retf
+2356                     ; 229 bool check_FDR_amplitude(void) {
+2357                     	switch	.text
+2358  073a               f_check_FDR_amplitude:
+2360  073a 5204          	subw	sp,#4
+2361       00000004      OFST:	set	4
+2364                     ; 230     float FDR_amplitude = 0;
+2366  073c ae0000        	ldw	x,#0
+2367  073f 1f03          	ldw	(OFST-1,sp),x
+2368  0741 ae0000        	ldw	x,#0
+2369  0744 1f01          	ldw	(OFST-3,sp),x
+2371                     ; 231     FDR_amplitude = process_adc_signal(FDR_SIGNAL, NULL, &FDR_amplitude);
+2373  0746 96            	ldw	x,sp
+2374  0747 1c0001        	addw	x,#OFST-3
+2375  074a 89            	pushw	x
+2376  074b 5f            	clrw	x
+2377  074c 89            	pushw	x
+2378  074d a606          	ld	a,#6
+2379  074f 8d170517      	callf	f_process_adc_signal
+2381  0753 5b04          	addw	sp,#4
+2382  0755 96            	ldw	x,sp
+2383  0756 1c0001        	addw	x,#OFST-3
+2384  0759 8d000000      	callf	d_rtol
+2387                     ; 232 		printf("Checking FDR_Amplitude: %.2f\n", FDR_amplitude);
+2389  075d 1e03          	ldw	x,(OFST-1,sp)
+2390  075f 89            	pushw	x
+2391  0760 1e03          	ldw	x,(OFST-1,sp)
+2392  0762 89            	pushw	x
+2393  0763 ae0911        	ldw	x,#L577
+2394  0766 8d000000      	callf	f_printf
+2396  076a 5b04          	addw	sp,#4
+2397                     ; 233     return (FDR_amplitude >= 1.1); // Returns true if FDR_amplitude is non-zero
+2399  076c 9c            	rvf
+2400  076d 96            	ldw	x,sp
+2401  076e 1c0001        	addw	x,#OFST-3
+2402  0771 8d000000      	callf	d_ltor
+2404  0775 ae0a93        	ldw	x,#L112
+2405  0778 8d000000      	callf	d_fcmp
+2407  077c 2f04          	jrslt	L65
+2408  077e a601          	ld	a,#1
+2409  0780 2001          	jra	L06
+2410  0782               L65:
+2411  0782 4f            	clr	a
+2412  0783               L06:
+2415  0783 5b04          	addw	sp,#4
+2416  0785 87            	retf
+2448                     ; 236 float calc_FDR_amplitude(void) {
+2449                     	switch	.text
+2450  0786               f_calc_FDR_amplitude:
+2452  0786 5204          	subw	sp,#4
+2453       00000004      OFST:	set	4
+2456                     ; 237     float FDR_amplitude = 0;
+2458  0788 ae0000        	ldw	x,#0
+2459  078b 1f03          	ldw	(OFST-1,sp),x
+2460  078d ae0000        	ldw	x,#0
+2461  0790 1f01          	ldw	(OFST-3,sp),x
+2463                     ; 238     FDR_amplitude = process_adc_signal(FDR_SIGNAL, NULL, &FDR_amplitude);
+2465  0792 96            	ldw	x,sp
+2466  0793 1c0001        	addw	x,#OFST-3
+2467  0796 89            	pushw	x
+2468  0797 5f            	clrw	x
+2469  0798 89            	pushw	x
+2470  0799 a606          	ld	a,#6
+2471  079b 8d170517      	callf	f_process_adc_signal
+2473  079f 5b04          	addw	sp,#4
+2474  07a1 96            	ldw	x,sp
+2475  07a2 1c0001        	addw	x,#OFST-3
+2476  07a5 8d000000      	callf	d_rtol
+2479                     ; 239     return (FDR_amplitude); // Returns true if FDR_amplitude is non-zero
+2481  07a9 96            	ldw	x,sp
+2482  07aa 1c0001        	addw	x,#OFST-3
+2483  07ad 8d000000      	callf	d_ltor
+2487  07b1 5b04          	addw	sp,#4
+2488  07b3 87            	retf
+2521                     ; 243 bool check_signal_dc(float amplitude) {
+2522                     	switch	.text
+2523  07b4               f_check_signal_dc:
+2525       00000000      OFST:	set	0
+2528                     ; 244 	if (amplitude < 0.5) {
+2530  07b4 9c            	rvf
+2531  07b5 96            	ldw	x,sp
+2532  07b6 1c0004        	addw	x,#OFST+4
+2533  07b9 8d000000      	callf	d_ltor
+2535  07bd ae090d        	ldw	x,#L5301
+2536  07c0 8d000000      	callf	d_fcmp
+2538  07c4 2e07          	jrsge	L7201
+2539                     ; 245 		isThyristorON = true;
+2541  07c6 3501000a      	mov	_isThyristorON,#1
+2542                     ; 246 		return true;
+2544  07ca a601          	ld	a,#1
+2547  07cc 87            	retf
+2548  07cd               L7201:
+2549                     ; 248 		isThyristorON = false;
+2551  07cd 725f000a      	clr	_isThyristorON
+2552                     ; 249 		return false;
+2554  07d1 4f            	clr	a
+2557  07d2 87            	retf
+2604                     ; 253 void read_set_frequency(float *set_freq) {
+2605                     	switch	.text
+2606  07d3               f_read_set_frequency:
+2608  07d3 89            	pushw	x
+2609  07d4 521e          	subw	sp,#30
+2610       0000001e      OFST:	set	30
+2613                     ; 255 	internal_EEPROM_ReadStr(0x4000, setFreqString,  sizeof(setFreqString));
+2615  07d6 ae001e        	ldw	x,#30
+2616  07d9 89            	pushw	x
+2617  07da 96            	ldw	x,sp
+2618  07db 1c0003        	addw	x,#OFST-27
+2619  07de 89            	pushw	x
+2620  07df ae4000        	ldw	x,#16384
+2621  07e2 89            	pushw	x
+2622  07e3 ae0000        	ldw	x,#0
+2623  07e6 89            	pushw	x
+2624  07e7 8d000000      	callf	f_internal_EEPROM_ReadStr
+2626  07eb 5b08          	addw	sp,#8
+2627                     ; 256 	printf("String read from EEPROM: %s\n\r", setFreqString);
+2629  07ed 96            	ldw	x,sp
+2630  07ee 1c0001        	addw	x,#OFST-29
+2631  07f1 89            	pushw	x
+2632  07f2 ae08ef        	ldw	x,#L5601
+2633  07f5 8d000000      	callf	f_printf
+2635  07f9 85            	popw	x
+2636                     ; 257 	*set_freq = ConvertStringToFloat(setFreqString);
+2638  07fa 96            	ldw	x,sp
+2639  07fb 1c0001        	addw	x,#OFST-29
+2640  07fe 8d000000      	callf	f_ConvertStringToFloat
+2642  0802 1e1f          	ldw	x,(OFST+1,sp)
+2643  0804 8d000000      	callf	d_rtol
+2645                     ; 258 	printf("New set_freq: %f\n", *set_freq);
+2647  0808 1e1f          	ldw	x,(OFST+1,sp)
+2648  080a 9093          	ldw	y,x
+2649  080c ee02          	ldw	x,(2,x)
+2650  080e 89            	pushw	x
+2651  080f 93            	ldw	x,y
+2652  0810 fe            	ldw	x,(x)
+2653  0811 89            	pushw	x
+2654  0812 ae08dd        	ldw	x,#L7601
+2655  0815 8d000000      	callf	f_printf
+2657  0819 5b04          	addw	sp,#4
+2658                     ; 259 }
+2661  081b 5b20          	addw	sp,#32
+2662  081d 87            	retf
+2710                     ; 261 void  config_mode(void){
+2711                     	switch	.text
+2712  081e               f_config_mode:
+2714  081e 522c          	subw	sp,#44
+2715       0000002c      OFST:	set	44
+2718                     ; 263   float value = 0;
+2720  0820               L1111:
+2721                     ; 268 		if (GPIO_ReadInputPin(GPIOA, GPIO_PIN_6) == RESET) {
+2723  0820 4b40          	push	#64
+2724  0822 ae5000        	ldw	x,#20480
+2725  0825 8d000000      	callf	f_GPIO_ReadInputPin
+2727  0829 5b01          	addw	sp,#1
+2728  082b 4d            	tnz	a
+2729  082c 2603          	jrne	L5111
+2730                     ; 270 			return;
+2733  082e 5b2c          	addw	sp,#44
+2734  0830 87            	retf
+2735  0831               L5111:
+2736                     ; 273 		printf("Entering Config Mode!\n");
+2738  0831 ae08c6        	ldw	x,#L7111
+2739  0834 8d000000      	callf	f_printf
+2741                     ; 274 		printf("Enter the Command!\n");
+2743  0838 ae08b2        	ldw	x,#L1211
+2744  083b 8d000000      	callf	f_printf
+2746                     ; 275 		UART3_ClearBuffer();
+2748  083f 8d000000      	callf	f_UART3_ClearBuffer
+2750                     ; 276 		UART3_ReceiveString(buffer, sizeof(buffer)); // Receive the first string via UART
+2752  0843 ae0028        	ldw	x,#40
+2753  0846 89            	pushw	x
+2754  0847 96            	ldw	x,sp
+2755  0848 1c0007        	addw	x,#OFST-37
+2756  084b 8d000000      	callf	f_UART3_ReceiveString
+2758  084f 85            	popw	x
+2759                     ; 278 		if (strcmp(buffer, "set") == 0) {
+2761  0850 ae08ae        	ldw	x,#L5211
+2762  0853 89            	pushw	x
+2763  0854 96            	ldw	x,sp
+2764  0855 1c0007        	addw	x,#OFST-37
+2765  0858 8d000000      	callf	f_strcmp
+2767  085c 5b02          	addw	sp,#2
+2768  085e a30000        	cpw	x,#0
+2769  0861 2630          	jrne	L3211
+2770                     ; 280 			printf("SET Command Received. Waiting for new parameter...\n");
+2772  0863 ae087a        	ldw	x,#L7211
+2773  0866 8d000000      	callf	f_printf
+2775                     ; 281 			UART3_ReceiveString(buffer, sizeof(buffer)); // Receive the parameter string
+2777  086a ae0028        	ldw	x,#40
+2778  086d 89            	pushw	x
+2779  086e 96            	ldw	x,sp
+2780  086f 1c0007        	addw	x,#OFST-37
+2781  0872 8d000000      	callf	f_UART3_ReceiveString
+2783  0876 85            	popw	x
+2784                     ; 283 			printf("123456789\n");
+2786  0877 ae086f        	ldw	x,#L1311
+2787  087a 8d000000      	callf	f_printf
+2789                     ; 285 			internal_EEPROM_WriteStr(0x4000, buffer); // Example address for storing string
+2791  087e 96            	ldw	x,sp
+2792  087f 1c0005        	addw	x,#OFST-39
+2793  0882 89            	pushw	x
+2794  0883 ae4000        	ldw	x,#16384
+2795  0886 89            	pushw	x
+2796  0887 ae0000        	ldw	x,#0
+2797  088a 89            	pushw	x
+2798  088b 8d000000      	callf	f_internal_EEPROM_WriteStr
+2800  088f 5b06          	addw	sp,#6
+2802  0891 208d          	jra	L1111
+2803  0893               L3211:
+2804                     ; 291 		} else if (strcmp(buffer, "ready") == 0) {
+2806  0893 ae0869        	ldw	x,#L7311
+2807  0896 89            	pushw	x
+2808  0897 96            	ldw	x,sp
+2809  0898 1c0007        	addw	x,#OFST-37
+2810  089b 8d000000      	callf	f_strcmp
+2812  089f 5b02          	addw	sp,#2
+2813  08a1 a30000        	cpw	x,#0
+2814  08a4 2616          	jrne	L5311
+2815                     ; 293 			printf("READ Command Received. Reading stored values...\n");
+2817  08a6 ae0838        	ldw	x,#L1411
+2818  08a9 8d000000      	callf	f_printf
+2820                     ; 295 			process_eeprom_logs(); // Example EEPROM address
+2822  08ad 8d000000      	callf	f_process_eeprom_logs
+2824                     ; 296 			printf("Finished Reading EEPROM!\n");
+2826  08b1 ae081e        	ldw	x,#L3411
+2827  08b4 8d000000      	callf	f_printf
+2830  08b8 ac200820      	jpf	L1111
+2831  08bc               L5311:
+2832                     ; 300 			printf("Invalid Command Received: %s\n", buffer);
+2834  08bc 96            	ldw	x,sp
+2835  08bd 1c0005        	addw	x,#OFST-39
+2836  08c0 89            	pushw	x
+2837  08c1 ae0800        	ldw	x,#L7411
+2838  08c4 8d000000      	callf	f_printf
+2840  08c8 85            	popw	x
+2841  08c9 ac200820      	jpf	L1111
+2853                     	xdef	f_main
+2854                     	xdef	f_calc_FDR_amplitude
+2855                     	xdef	f_handle_commutation_pulse
+2856                     	xdef	f_check_FDR_amplitude
+2857                     	xdef	f_handle_signal_1_AC
+2858                     	xdef	f_handle_Frequency_Below_Set_Freq
+2859                     	xdef	f_process_VAR_signal
+2860                     	xdef	f_process_FDR_signal
+2861                     	xdef	f_logResults
+2862                     	xdef	f_config_mode
+2863                     	xdef	f_read_set_frequency
+2864                     	xdef	f_calculate_frequency
+2865                     	xdef	f_convert_adc_to_voltage
+2866                     	xdef	f_process_adc_signal
+2867                     	xdef	f_calculate_amplitude
+2868                     	xdef	f_output_results
+2869                     	xdef	f_check_signal_dc
+2870                     	xdef	f_send_square_pulse
+2871                     	xdef	f_initialize_system
+2872                     	xdef	_buffer
+2873                     	xdef	_set_freq
+2874                     	xdef	_frequency
+2875                     	xdef	_set_frequency
+2876                     	xdef	_last_cross_time
+2877                     	xdef	_end_time
+2878                     	xdef	_start_time
+2879                     	xdef	_pulse_ticks
+2880                     	xdef	_overflow_count
+2881                     	xdef	_pulseFlag
+2882                     	xdef	_state
+2883                     	xdef	_isThyristorON
+2884                     	xdef	_count
+2885                     	xdef	_sine1_amplitude
+2886                     	xdef	_sine1_frequency
+2887                     	xref	f_ConvertStringToFloat
+2888                     	xref	f_sprintDateTime
+2889                     	xref	f_printDateTime
+2890                     	xref	f_internal_EEPROM_WriteStr
+2891                     	xref	f_internal_EEPROM_ReadStr
+2892                     	xref	f_read_ADC_Channel
+2893                     	xref	f_UART1_SendString
+2894                     	xref	f_UART1_setup
+2895                     	xref	f_UART3_ReceiveString
+2896                     	xref	f_UART3_ClearBuffer
+2897                     	xref	f_INT_EEPROM_Setup
+2898                     	xref	f_TIM1_setup
+2899                     	xref	f_GPIO_setup
+2900                     	xref	f_ADC2_setup
+2901                     	xref	f_UART3_setup
+2902                     	xref	f_clock_setup
+2903                     	xref	f_I2CInit
+2904                     	xref	f_log_to_eeprom
+2905                     	xref	f_process_eeprom_logs
+2906                     	xref	f_EEPROM_Config
+2907                     	xref	f_sprintf
+2908                     	xref	f_printf
+2909                     	xref	f_fabs
+2910                     	xref	f_delay_ms
+2911                     	xref	f_TIM4_Config
+2912                     	xref	f_strcmp
+2913                     	xref	f_GPIO_ReadInputPin
+2914                     	xref	f_GPIO_WriteLow
+2915                     	xref	f_GPIO_WriteHigh
+2916                     	switch	.const
+2917  0800               L7411:
+2918  0800 496e76616c69  	dc.b	"Invalid Command Re"
+2919  0812 636569766564  	dc.b	"ceived: %s",10,0
+2920  081e               L3411:
+2921  081e 46696e697368  	dc.b	"Finished Reading E"
+2922  0830 4550524f4d21  	dc.b	"EPROM!",10,0
+2923  0838               L1411:
+2924  0838 524541442043  	dc.b	"READ Command Recei"
+2925  084a 7665642e2052  	dc.b	"ved. Reading store"
+2926  085c 642076616c75  	dc.b	"d values...",10,0
+2927  0869               L7311:
+2928  0869 726561647900  	dc.b	"ready",0
+2929  086f               L1311:
+2930  086f 313233343536  	dc.b	"123456789",10,0
+2931  087a               L7211:
+2932  087a 53455420436f  	dc.b	"SET Command Receiv"
+2933  088c 65642e205761  	dc.b	"ed. Waiting for ne"
+2934  089e 772070617261  	dc.b	"w parameter...",10,0
+2935  08ae               L5211:
+2936  08ae 73657400      	dc.b	"set",0
+2937  08b2               L1211:
+2938  08b2 456e74657220  	dc.b	"Enter the Command!"
+2939  08c4 0a00          	dc.b	10,0
+2940  08c6               L7111:
+2941  08c6 456e74657269  	dc.b	"Entering Config Mo"
+2942  08d8 6465210a00    	dc.b	"de!",10,0
+2943  08dd               L7601:
+2944  08dd 4e6577207365  	dc.b	"New set_freq: %f",10,0
+2945  08ef               L5601:
+2946  08ef 537472696e67  	dc.b	"String read from E"
+2947  0901 4550524f4d3a  	dc.b	"EPROM: %s",10
+2948  090b 0d00          	dc.b	13,0
+2949  090d               L5301:
+2950  090d 3f000000      	dc.w	16128,0
+2951  0911               L577:
+2952  0911 436865636b69  	dc.b	"Checking FDR_Ampli"
+2953  0923 747564653a20  	dc.b	"tude: %.2f",10,0
+2954  092f               L757:
+2955  092f 436f6d6d7574  	dc.b	"Commutation Thyris"
+2956  0941 746f72205075  	dc.b	"tor Pulse Sent",10,0
+2957  0951               L137:
+2958  0951 2573202d2025  	dc.b	"%s - %s",0
+2959  0959               L107:
+2960  0959 252e33662c25  	dc.b	"%.3f,%.3f,%.3f,%.3"
+2961  096b 662c300a00    	dc.b	"f,0",10,0
+2962  0970               L156:
+2963  0970 49742400      	dc.w	18804,9216
+2964  0974               L146:
+2965  0974 3f800000      	dc.w	16256,0
+2966  0978               L516:
+2967  0978 3b933333      	dc.w	15251,13107
+2968  097c               L175:
+2969  097c 3c23d70a      	dc.w	15395,-10486
+2970  0980               L144:
+2971  0980 c0933333      	dc.w	-16237,13107
+2972  0984               L154:
+2973  0984 40933333      	dc.w	16531,13107
+2974  0988               L504:
+2975  0988 5369676e616c  	dc.b	"Signal 1 DC(After "
+2976  099a 4143292e0a00  	dc.b	"AC).",10,0
+2977  09a0               L104:
+2978  09a0 566172416d70  	dc.b	"VarAmplitude Not b"
+2979  09b2 656c6f772031  	dc.b	"elow 10 mv.",10,0
+2980  09bf               L173:
+2981  09bf 566172416d70  	dc.b	"VarAmplitude below"
+2982  09d1 203130206d76  	dc.b	" 10 mv.",10,0
+2983  09da               L563:
+2984  09da 3d4ccccc      	dc.w	15692,-13108
+2985  09de               L533:
+2986  09de 5369676e616c  	dc.b	"Signal 1 AC and Va"
+2987  09f0 72416d706c69  	dc.b	"rAmplitude: %f.",10,0
+2988  0a01               L133:
+2989  0a01 5369676e616c  	dc.b	"Signal 1 DC.",10,0
+2990  0a0f               L503:
+2991  0a0f 467265717565  	dc.b	"Frequency Below Se"
+2992  0a21 742046726571  	dc.b	"t Frequency.",10,0
+2993  0a2f               L103:
+2994  0a2f 252e33662c25  	dc.b	"%.3f,%.3f,%.3f,%.3"
+2995  0a41 662c310a00    	dc.b	"f,1",10,0
+2996  0a46               L572:
+2997  0a46 40966666      	dc.w	16534,26214
+2998  0a4a               L762:
+2999  0a4a 204672657175  	dc.b	" Frequency: %.3f, "
+3000  0a5c 416d706c6974  	dc.b	"Amplitude: %.3f, C"
+3001  0a6e 757272656e74  	dc.b	"urrent: %.3f, FDR_"
+3002  0a80 566f6c746167  	dc.b	"Voltage: %.3f",10,0
+3003  0a8f               L122:
+3004  0a8f 3f333333      	dc.w	16179,13107
+3005  0a93               L112:
+3006  0a93 3f8ccccc      	dc.w	16268,-13108
+3007  0a97               L102:
+3008  0a97 257300        	dc.b	"%s",0
+3009  0a9a               L771:
+3010  0a9a 467265713a20  	dc.b	"Freq: %.3f, Field_"
+3011  0aac 566f6c743a20  	dc.b	"Volt: %.3f, FDR_Vo"
+3012  0abe 6c743a20252e  	dc.b	"lt: %.3f",10,0
+3013  0ac8               L741:
+3014  0ac8 53797374656d  	dc.b	"System Initializat"
+3015  0ada 696f6e20436f  	dc.b	"ion Completed",10
+3016  0ae8 0d00          	dc.b	13,0
+3017  0aea               L531:
+3018  0aea 46445220566f  	dc.b	"FDR Voltage Exists",0
+3019  0afd               L721:
+3020  0afd 00000000      	dc.w	0,0
+3021                     	xref.b	c_lreg
+3022                     	xref.b	c_x
+3023                     	xref.b	c_y
+3043                     	xref	d_ultof
+3044                     	xref	d_fmul
+3045                     	xref	d_uitof
+3046                     	xref	d_uitolx
+3047                     	xref	d_xymovl
+3048                     	xref	d_fsub
+3049                     	xref	d_lcmp
+3050                     	xref	d_lgadc
+3051                     	xref	d_ctof
+3052                     	xref	d_fdiv
+3053                     	xref	d_fcmp
+3054                     	xref	d_ltor
+3055                     	xref	d_rtol
+3056                     	end

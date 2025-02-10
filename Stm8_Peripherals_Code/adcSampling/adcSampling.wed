@@ -44,7 +44,7 @@ ptn_Child33=Bar-32
 
 [WorkState_v1_2.DockState.Bar-0]
 BarID=59419
-Bars=28
+Bars=24
 Bar#0=0
 Bar#1=59647
 Bar#2=0
@@ -69,10 +69,6 @@ Bar#20=0
 Bar#21=0
 Bar#22=0
 Bar#23=0
-Bar#24=0
-Bar#25=0
-Bar#26=0
-Bar#27=0
 Style=0
 ExStyle=0
 PrevFloating=False
@@ -486,7 +482,7 @@ ptn_Child1=ToolBarInfoEx
 
 [WorkState_v1_2.DockState.Bar-11.ToolBarInfoEx]
 Title=View
-Buttons=IFGBAAAAAAJFGBAAAAAAAAAAAAAAAAFEGBAAAAAAIEGBAAAAAAEEGBAAAAAAMEGBAAAAAAAAAAAAAAAAOEGBAAAAAAKEGBAAAAAALEGBAAAAAAPEGBAAAAAA
+Buttons=IFGBAAAAAAJFGBAAAAAAAAAAAAAAAAFEGBAAAAAAIEGBAAAAAAMBJIAAAAAAMEGBAAAAAAAAAAAAAAAAOEGBAAAAAAKEGBAAAAAALEGBAAAAAAPEGBAAAAAA
 
 [WorkState_v1_2.DockState.Bar-12]
 BarID=59398
@@ -617,7 +613,7 @@ Docking=True
 MRUDockID=59419
 MRUDockLeftPos=838
 MRUDockTopPos=58
-MRUDockRightPos=932
+MRUDockRightPos=909
 MRUDockBottomPos=88
 MRUFloatStyle=8196
 MRUFloatXPos=-1
@@ -632,7 +628,7 @@ LastAlignedDocking=0
 PctWidth=158405
 MRUFloatCX=94
 MRUFloatCY=30
-MRUHorzDockCX=94
+MRUHorzDockCX=71
 MRUHorzDockCY=30
 MRUVertDockCX=31
 MRUVertDockCY=88
@@ -646,7 +642,7 @@ ptn_Child1=ToolBarInfoEx
 
 [WorkState_v1_2.DockState.Bar-15.ToolBarInfoEx]
 Title=Tools
-Buttons=AHHBAAAAAABHHBAAAAAAAAAAAAAAAAPFPBAAAAAA
+Buttons=AHHBAAAAAABHHBAAAAAAAAAAAAAAAA
 
 [WorkState_v1_2.DockState.Bar-16]
 BarID=59402
@@ -1247,8 +1243,8 @@ ptn_Child1=MainFrame
 ptn_Child2=ChildFrames
 
 [WorkState_v1_2.Frames.MainFrame]
-WindowPlacement=MCAAAAAACAAAAAAADAAAAAAAAADIPPPPAADIPPPPPPPPPPPPPPPPPPPPHLAAAAAAEHAAAAAAEGEAAAAADBDAAAAA
-Title=ST Visual Develop - adcSampling.stw - [E:\EDAC_145\EDAC\Other\STM8\RFAR\RFAR_Ver7\main.c]
+WindowPlacement=MCAAAAAACAAAAAAADAAAAAAAPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPHLAAAAAAEHAAAAAAEGEAAAAADBDAAAAA
+Title=ST Visual Develop - adcSampling.stw - [main.c]
 
 [WorkState_v1_2.Frames.ChildFrames]
 ptn_Child1=Document-0
@@ -1263,8 +1259,8 @@ ptn_Child1=ViewFrame-0
 DocPathName=main.c
 DocumentString=
 DocTemplateIndex=0
-WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPEDAAAAAAEDAAAAAAEGEAAAAAFHBAAAAA
-IsActiveChildFrame=False
+WindowPlacement=MCAAAAAACAAAAAAADAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPEDAAAAAAEDAAAAAAEGEAAAAAFHBAAAAA
+IsActiveChildFrame=True
 IsFrameVisible=True
 
 [WorkState_v1_2.Frames.ChildFrames.Document-1]
@@ -1293,9 +1289,9 @@ IsFrameVisible=True
 ptn_Child1=ViewFrame-0
 
 [WorkState_v1_2.Frames.ChildFrames.Document-3.ViewFrame-0]
-DocPathName=..\..\rfar\rfar_ver7\main.c
+DocPathName=stm8s_adc2.c
 DocumentString=
 DocTemplateIndex=0
-WindowPlacement=MCAAAAAACAAAAAAADAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPEDAAAAAAEDAAAAAAIGEAAAAAJHBAAAAA
-IsActiveChildFrame=True
+WindowPlacement=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPIPPPPPPPBOPPPPPPAAAAAAAAAAAAAAAAPAEAAAAAFEBAAAAA
+IsActiveChildFrame=False
 IsFrameVisible=True

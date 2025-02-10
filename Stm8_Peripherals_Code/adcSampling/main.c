@@ -34,6 +34,7 @@ void configure_peripherals(void);
 void clock_setup(void);
 void UART3_setup(void);
 void ADC2_setup(void);
+void GPIO_setup(void);
 
 uint32_t elapsedTime(uint32_t start, uint32_t end);
 unsigned int read_ADC_Channel(uint8_t channel);
@@ -54,10 +55,14 @@ void UART3_ReceiveString(char *buffer, uint16_t max_length);
 /** Main Function **/
 void main() {
 	float frequency = 0.0, amplitude = 0.0;
+	unsigned int adcValue = 0;
 	initialize_system();
 	while(1)
 	{
-		amplitude = process_adc_signal(VAR_SIGNAL, &frequency, &amplitude);
+		adcValue = read_ADC_Channel(FDR_SIGNAL);
+		amplitude = convert_adc_to_voltage(adcValue);
+		printf("ADC Vaue: %u, Voltage: %.3f\n", adcValue, amplitude);
+		amplitude = process_adc_signal(FDR_SIGNAL, &frequency, &amplitude);
 		printf("frequency; %.3f, amplitude: %.3f\n\r", frequency, amplitude);
 	}	
 }
@@ -69,7 +74,8 @@ void main() {
 /** Initialize system and peripherals **/
 void initialize_system(void) {
 	clock_setup();          // Configure system clock
-	TIM4_Config();          // Timer 4 config for delay
+	TIM4_Config();	// Timer 4 config for delay
+	GPIO_setup();
 	UART3_setup();          // Setup UART communication
 	ADC2_setup();           // Setup ADC
 	GPIO_DeInit(GPIOC);     // Reset GPIO settings for port C
@@ -94,6 +100,32 @@ void clock_setup(void) {
 	// Enable peripheral clocks
 	//CLK_PeripheralClockConfig(CLK_PERIPHERAL_TIMER4, ENABLE);
 	CLK_PeripheralClockConfig(CLK_PERIPHERAL_UART3, ENABLE);
+}
+
+void GPIO_setup(void) {
+	GPIO_DeInit(GPIOC);     // Reset GPIO settings for port C
+	GPIO_DeInit(GPIOA);     // Reset GPIO settings for port C
+	GPIO_DeInit(GPIOB);     // Reset GPIO settings for port C
+	GPIO_DeInit(GPIOD);     // Reset GPIO settings for port C
+	GPIO_DeInit(GPIOE);     // Reset GPIO settings for port C
+	GPIO_Init(GPIOB, GPIO_PIN_5, GPIO_MODE_IN_FL_NO_IT);
+	GPIO_Init(GPIOB, GPIO_PIN_6, GPIO_MODE_IN_FL_NO_IT);
+	GPIO_Init(GPIOA, GPIO_PIN_6, GPIO_MODE_IN_FL_NO_IT);
+	GPIO_Init(GPIOC, GPIO_PIN_3, GPIO_MODE_OUT_PP_LOW_FAST); // Initialize pin for GPIO
+	GPIO_Init(GPIOC, GPIO_PIN_4, GPIO_MODE_OUT_PP_LOW_FAST); // Initialize pin for GPIO
+	GPIO_Init(GPIOC, GPIO_PIN_2, GPIO_MODE_OUT_PP_LOW_FAST); // Initialize pin for GPIO
+	GPIO_Init(GPIOE, GPIO_PIN_3, GPIO_MODE_OUT_PP_LOW_FAST); // Initialize pin for GPIO
+	GPIO_Init(GPIOD, GPIO_PIN_0, GPIO_MODE_OUT_PP_LOW_FAST); // Initialize pin for GPIO
+	GPIO_Init(GPIOD, GPIO_PIN_3, GPIO_MODE_OUT_PP_LOW_FAST); // Initialize pin for GPIO
+	GPIO_Init(GPIOA, GPIO_PIN_3, GPIO_MODE_OUT_PP_LOW_FAST); // Initialize pin for GPIO
+	
+	GPIO_Init(GPIOD, GPIO_PIN_7, GPIO_MODE_OUT_PP_LOW_FAST); // Initialize pin for GPIO
+	GPIO_Init(GPIOD, GPIO_PIN_4, GPIO_MODE_OUT_PP_LOW_FAST); // Initialize pin for GPIO
+	GPIO_Init(GPIOD, GPIO_PIN_2, GPIO_MODE_OUT_PP_LOW_FAST); // Initialize pin for GPIO
+	GPIO_Init(GPIOE, GPIO_PIN_0, GPIO_MODE_OUT_PP_LOW_FAST); // Initialize pin for GPIO
+	
+  GPIO_Init (GPIOE, GPIO_PIN_1, GPIO_MODE_OUT_OD_HIZ_FAST);
+  GPIO_Init (GPIOE, GPIO_PIN_2, GPIO_MODE_OUT_OD_HIZ_FAST);
 }
 
 /** Setup UART communication at 9600 baud **/
@@ -165,7 +197,7 @@ float calculate_amplitude(float adc_signal[], uint32_t sample_size) {
 		if (adc_signal[i] > max_val) max_val = adc_signal[i];
 		if (adc_signal[i] < min_val) min_val = adc_signal[i];
 	}
-
+  printf("Max Vaue: %.4f,  Min Value: %.4f\n", max_val, min_val);
 	return (max_val - min_val);
 }
 
@@ -192,10 +224,11 @@ float process_adc_signal(uint8_t channel, float *frequency, float *amplitude) {
 
 	while (count < NUM_SAMPLES) {  
 		float currentVoltage = convert_adc_to_voltage(read_ADC_Channel(channel));
-    printf("%.4f " , currentVoltage); 
+    //printf("%.4f " , currentVoltage); 
 		// Store the first value unconditionally or when there's a =0.05V change
-		if (firstSample || fabs(currentVoltage - lastStoredValue) >= 0.01) {
+		if (firstSample || fabs(currentVoltage - lastStoredValue) >= 0.05) {
 			buffer[count] = currentVoltage;
+			//printf("fabs: %.4f \n" , fabs(currentVoltage - lastStoredValue));
 			//printf("%.4f " , currentVoltage);    // Less than 0.3 fluctation in a dc signal.
 			lastStoredValue = currentVoltage;
 			firstSample = false;  // First sample has been stored

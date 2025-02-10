@@ -132,7 +132,7 @@ ADC2_StartConversion	stm8s_adc2.h	243;"	prototype	signature:(void)
 ADC2_TDRH_RESET_VALUE	stm8s.h	384;"	macro
 ADC2_TDRL_RESET_VALUE	stm8s.h	383;"	macro
 ADC2_TypeDef	stm8s.h	375;"	typedef	typeref:struct:ADC2_struct
-ADC2_setup	main.c	107;"	function	signature:(void)
+ADC2_setup	main.c	139;"	function	signature:(void)
 ADC2_setup	main.c	36;"	prototype	file:	signature:(void)
 ADC2_struct	stm8s.h	364;"	struct
 ADC_MAX_VALUE	main.c	12;"	macro	file:
@@ -882,6 +882,8 @@ GPIO_WriteLow	stm8s_gpio.c	161;"	function	signature:(GPIO_TypeDef* GPIOx, GPIO_P
 GPIO_WriteLow	stm8s_gpio.h	137;"	prototype	signature:(GPIO_TypeDef* GPIOx, GPIO_Pin_TypeDef PortPins)
 GPIO_WriteReverse	stm8s_gpio.c	174;"	function	signature:(GPIO_TypeDef* GPIOx, GPIO_Pin_TypeDef PortPins)
 GPIO_WriteReverse	stm8s_gpio.h	138;"	prototype	signature:(GPIO_TypeDef* GPIOx, GPIO_Pin_TypeDef PortPins)
+GPIO_setup	main.c	105;"	function	signature:(void)
+GPIO_setup	main.c	37;"	prototype	file:	signature:(void)
 GPIO_struct	stm8s.h	244;"	struct
 GTR	stm8s.h	1752;"	member	struct:UART1_struct
 GTR	stm8s.h	1851;"	member	struct:UART2_struct
@@ -1861,8 +1863,8 @@ UART3_CR6_LHDIEN	stm8s.h	2026;"	macro
 UART3_CR6_LSF	stm8s.h	2028;"	macro
 UART3_CR6_LSLV	stm8s.h	2024;"	macro
 UART3_CR6_RESET_VALUE	stm8s.h	1973;"	macro
-UART3_ClearBuffer	main.c	303;"	function	signature:(void)
-UART3_ClearBuffer	main.c	52;"	prototype	file:	signature:(void)
+UART3_ClearBuffer	main.c	343;"	function	signature:(void)
+UART3_ClearBuffer	main.c	53;"	prototype	file:	signature:(void)
 UART3_ClearFlag	stm8s_uart3.c	551;"	function	signature:(UART3_Flag_TypeDef UART3_FLAG)
 UART3_ClearFlag	stm8s_uart3.h	375;"	prototype	signature:(UART3_Flag_TypeDef UART3_FLAG)
 UART3_ClearITPendingBit	stm8s_uart3.c	706;"	function	signature:(UART3_IT_TypeDef UART3_IT)
@@ -1934,8 +1936,8 @@ UART3_ReceiveData8	stm8s_uart3.c	380;"	function	signature:(void)
 UART3_ReceiveData8	stm8s_uart3.h	368;"	prototype	signature:(void)
 UART3_ReceiveData9	stm8s_uart3.c	390;"	function	signature:(void)
 UART3_ReceiveData9	stm8s_uart3.h	369;"	prototype	signature:(void)
-UART3_ReceiveString	main.c	309;"	function	signature:(char *buffer, uint16_t max_length)
-UART3_ReceiveString	main.c	53;"	prototype	file:	signature:(char *buffer, uint16_t max_length)
+UART3_ReceiveString	main.c	349;"	function	signature:(char *buffer, uint16_t max_length)
+UART3_ReceiveString	main.c	54;"	prototype	file:	signature:(char *buffer, uint16_t max_length)
 UART3_ReceiverWakeUpCmd	stm8s_uart3.c	358;"	function	signature:(FunctionalState NewState)
 UART3_ReceiverWakeUpCmd	stm8s_uart3.h	366;"	prototype	signature:(FunctionalState NewState)
 UART3_SR_FE	stm8s.h	1989;"	macro
@@ -1967,7 +1969,7 @@ UART3_WakeUpConfig	stm8s_uart3.c	343;"	function	signature:(UART3_WakeUp_TypeDef 
 UART3_WakeUpConfig	stm8s_uart3.h	367;"	prototype	signature:( UART3_WakeUp_TypeDef UART3_WakeUp)
 UART3_WakeUp_TypeDef	stm8s_uart3.h	50;"	typedef	typeref:enum:__anon40
 UART3_WordLength_TypeDef	stm8s_uart3.h	80;"	typedef	typeref:enum:__anon44
-UART3_setup	main.c	100;"	function	signature:(void)
+UART3_setup	main.c	132;"	function	signature:(void)
 UART3_setup	main.c	35;"	prototype	file:	signature:(void)
 UART3_struct	stm8s.h	1947;"	struct
 USE_STDPERIPH_DRIVER	stm8s.h	80;"	macro
@@ -2020,16 +2022,16 @@ assert_param	stm8s_conf.h	110;"	macro
 atan	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\math.h	12;"	prototype	signature:(double x)
 atan2	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\math.h	13;"	prototype	signature:(double y, double x)
 bool	stm8s.h	210;"	typedef	typeref:enum:__anon1
-calculate_amplitude	main.c	160;"	function	signature:(float adc_signal[], uint32_t sample_size)
-calculate_amplitude	main.c	47;"	prototype	file:	signature:(float adc_signal[], uint32_t sample_size)
-calculate_frequency	main.c	269;"	function	signature:(unsigned long period)
-calculate_frequency	main.c	50;"	prototype	file:	signature:(unsigned long period)
+calculate_amplitude	main.c	192;"	function	signature:(float adc_signal[], uint32_t sample_size)
+calculate_amplitude	main.c	48;"	prototype	file:	signature:(float adc_signal[], uint32_t sample_size)
+calculate_frequency	main.c	309;"	function	signature:(unsigned long period)
+calculate_frequency	main.c	51;"	prototype	file:	signature:(unsigned long period)
 ceil	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\math.h	14;"	prototype	signature:(double x)
 clock_setup	main.c	34;"	prototype	file:	signature:(void)
-clock_setup	main.c	81;"	function	signature:(void)
+clock_setup	main.c	87;"	function	signature:(void)
 configure_peripherals	main.c	32;"	prototype	file:	signature:(void)
-convert_adc_to_voltage	main.c	264;"	function	signature:(unsigned int adcValue)
-convert_adc_to_voltage	main.c	49;"	prototype	file:	signature:(unsigned int adcValue)
+convert_adc_to_voltage	main.c	304;"	function	signature:(unsigned int adcValue)
+convert_adc_to_voltage	main.c	50;"	prototype	file:	signature:(unsigned int adcValue)
 cos	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\math.h	15;"	prototype	signature:(double x)
 cosh	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\math.h	16;"	prototype	signature:(double x)
 count	main.c	28;"	variable
@@ -2039,16 +2041,16 @@ delay_ms	delay.c	47;"	function	signature:(uint16_t ms)
 delay_ms	delay.h	10;"	prototype	signature:(uint16_t ms)
 delay_us	delay.c	58;"	function	signature:(uint16_t us)
 delay_us	delay.h	11;"	prototype	signature:(uint16_t us)
-detectPosZeroCross	main.c	155;"	function	signature:(float previousSample, float currentSample, float threshold)
-detectPosZeroCross	main.c	42;"	prototype	file:	signature:(float previousSample, float currentSample, float threshold)
-detectZeroCross	main.c	136;"	function	signature:(float previousSample, float currentSample, float threshold)
-detectZeroCross	main.c	43;"	prototype	file:	signature:(float previousSample, float currentSample, float threshold)
-detect_zero_crossing	main.c	41;"	prototype	file:	signature:(float previous_sample, float current_sample)
+detectPosZeroCross	main.c	187;"	function	signature:(float previousSample, float currentSample, float threshold)
+detectPosZeroCross	main.c	43;"	prototype	file:	signature:(float previousSample, float currentSample, float threshold)
+detectZeroCross	main.c	168;"	function	signature:(float previousSample, float currentSample, float threshold)
+detectZeroCross	main.c	44;"	prototype	file:	signature:(float previousSample, float currentSample, float threshold)
+detect_zero_crossing	main.c	42;"	prototype	file:	signature:(float previous_sample, float current_sample)
 disableInterrupts	stm8s.h	2585;"	macro
 disableInterrupts	stm8s.h	2594;"	macro
 disableInterrupts	stm8s.h	2604;"	macro
-elapsedTime	main.c	118;"	function	signature:(uint32_t start, uint32_t end)
-elapsedTime	main.c	38;"	prototype	file:	signature:(uint32_t start, uint32_t end)
+elapsedTime	main.c	150;"	function	signature:(uint32_t start, uint32_t end)
+elapsedTime	main.c	39;"	prototype	file:	signature:(uint32_t start, uint32_t end)
 enableInterrupts	stm8s.h	2584;"	macro
 enableInterrupts	stm8s.h	2593;"	macro
 enableInterrupts	stm8s.h	2603;"	macro
@@ -2063,10 +2065,10 @@ gets	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	16;"	proto
 halt	stm8s.h	2591;"	macro
 halt	stm8s.h	2600;"	macro
 halt	stm8s.h	2610;"	macro
-initialize_adc_buffer	main.c	173;"	function	signature:(float buffer[])
-initialize_adc_buffer	main.c	45;"	prototype	file:	signature:(float buffer[])
+initialize_adc_buffer	main.c	205;"	function	signature:(float buffer[])
+initialize_adc_buffer	main.c	46;"	prototype	file:	signature:(float buffer[])
 initialize_system	main.c	31;"	prototype	file:	signature:(void)
-initialize_system	main.c	70;"	function	signature:(void)
+initialize_system	main.c	75;"	function	signature:(void)
 int16_t	stm8s.h	191;"	typedef
 int32_t	stm8s.h	192;"	typedef
 int8_t	stm8s.h	190;"	typedef
@@ -2078,7 +2080,7 @@ lastEdgeTime	main.c	25;"	variable
 ldexp	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\math.h	22;"	prototype	signature:(double x, int exp)
 log	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\math.h	23;"	prototype	signature:(double x)
 log10	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\math.h	24;"	prototype	signature:(double x)
-main	main.c	55;"	function
+main	main.c	56;"	function
 micros	delay.c	76;"	function	signature:(void)
 micros	delay.h	13;"	prototype	signature:(void)
 millis	delay.c	71;"	function	signature:(void)
@@ -2087,18 +2089,18 @@ modf	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\math.h	25;"	protot
 nop	stm8s.h	2588;"	macro
 nop	stm8s.h	2597;"	macro
 nop	stm8s.h	2607;"	macro
-output_results	main.c	274;"	function	signature:(float frequency, float amplitude)
-output_results	main.c	46;"	prototype	file:	signature:(float frequency, float amplitude)
+output_results	main.c	314;"	function	signature:(float frequency, float amplitude)
+output_results	main.c	47;"	prototype	file:	signature:(float frequency, float amplitude)
 pow	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\math.h	26;"	prototype	signature:(double x, double y)
 printf	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	17;"	prototype	signature:(char *format, ...)
-process_FDR_samples	main.c	238;"	function	signature:(float buffer[])
-process_FDR_samples	main.c	51;"	prototype	file:	signature:(float buffer[])
-process_adc_signal	main.c	180;"	function	signature:(uint8_t channel, float *frequency, float *amplitude)
-process_adc_signal	main.c	48;"	prototype	file:	signature:(uint8_t channel, float *frequency, float *amplitude)
+process_FDR_samples	main.c	278;"	function	signature:(float buffer[])
+process_FDR_samples	main.c	52;"	prototype	file:	signature:(float buffer[])
+process_adc_signal	main.c	212;"	function	signature:(uint8_t channel, float *frequency, float *amplitude)
+process_adc_signal	main.c	49;"	prototype	file:	signature:(uint8_t channel, float *frequency, float *amplitude)
 putchar	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	18;"	prototype	signature:(char c)
 puts	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	19;"	prototype	signature:(char *s)
-read_ADC_Channel	main.c	123;"	function	signature:(uint8_t channel)
-read_ADC_Channel	main.c	39;"	prototype	file:	signature:(uint8_t channel)
+read_ADC_Channel	main.c	155;"	function	signature:(uint8_t channel)
+read_ADC_Channel	main.c	40;"	prototype	file:	signature:(uint8_t channel)
 rim	stm8s.h	2586;"	macro
 rim	stm8s.h	2595;"	macro
 rim	stm8s.h	2605;"	macro
