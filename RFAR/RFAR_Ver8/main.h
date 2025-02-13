@@ -22,8 +22,8 @@
 
 #define VAR_SIGNAL ADC2_CHANNEL_5
 #define FDR_SIGNAL ADC2_CHANNEL_6
-#define SET_FREQ 51    
-#define AC_AMPLITUDE_THRESHOLD 0.05  // AC threshold in Volts (20mV)        // Square pulse duration in ms
+#define SET_FREQ 5   
+#define AC_AMPLITUDE_THRESHOLD 1.1  // AC threshold in Volts (20mV)        // Square pulse duration in ms
 #define SET_FREQUENCY_ADDRESS 0x4000
 
 /** Global Variables **/
@@ -39,7 +39,7 @@ uint16_t pulse_ticks = 0;
 unsigned long start_time = 0;
 unsigned long end_time = 0;
 unsigned long last_cross_time = 0;
-volatile float set_frequency = 51;
+volatile float set_frequency = 5;
 volatile float frequency = 0.0;
 float set_freq = 0.0;
 char buffer[50] = {0};
@@ -73,7 +73,7 @@ void wait_for_negative_zero_crossing(void);
 void handle_signal_1_DC(float VAR_amplitude);
 void handle_signal_1_AC(float VAR_amplitude);
 
-bool check_FDR_amplitude(void);
+bool check_FDR_Zero(void);
 void handle_commutation_pulse(void);
 
 

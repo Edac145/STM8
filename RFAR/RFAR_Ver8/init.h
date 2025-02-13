@@ -23,7 +23,7 @@
 #define LED_RED       GPIOA, GPIO_PIN_3  // White LED connected to PA3
 
 #define SER_THYRISTOR    GPIOC, GPIO_PIN_2  // Red LED connected to PC3
-#define COM_THYRISTOR    GPIOC, GPIO_PIN_4  // Green LED connected to PE3
+#define COM_THYRISTOR    GPIOE, GPIO_PIN_6  // Green LED connected to PE3
 
 void clock_setup(void);
 void UART3_setup(void);

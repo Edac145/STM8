@@ -8,5 +8,5 @@ Filename=rfar_ver8.stp
 Dependencies=
 [Options]
 ActiveProject=rfar_ver8
-ActiveConfig=Debug
+ActiveConfig=Release
 AddSortedElements=1

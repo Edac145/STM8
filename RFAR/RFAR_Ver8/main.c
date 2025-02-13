@@ -7,18 +7,21 @@ void main() {
 	//char buf[7];
 	// Initialize system and peripherals
 	initialize_system();
-	//process_eeprom_logs(); // Example EEPROM address
   //config_mode();
 	//DS3231_SetTime(buf, 7);
 	read_set_frequency(&set_freq);
+	printf("set_Frequency: %.3f\n", set_freq);
+	set_frequency = 1;
 	//Process Signal 2 (FDR): Only amplitude is calculated
-	FDR_amplitude = process_adc_signal(FDR_SIGNAL, NULL, &FDR_amplitude);
-
-	if (FDR_amplitude > 0) { // Voltage detected on Signal 2
-		printf("FDR Voltage Exists");
-		GPIO_WriteHigh(LED_RED); // Turn on LED
-		GPIO_WriteHigh(GPIOD, GPIO_PIN_4);
-		process_VAR_signal(FDR_amplitude); // Handle Signal 1
+	while(1){
+		FDR_amplitude = process_adc_signal(FDR_SIGNAL, NULL, &FDR_amplitude);
+	
+		if (FDR_amplitude > 1.2) { // Voltage detected on Signal 2
+			printf("FDR Voltage Exists\n");
+			GPIO_WriteHigh(LED_RED); // Turn on LED
+			GPIO_WriteHigh(GPIOD, GPIO_PIN_4);
+			process_VAR_signal(FDR_amplitude); // Handle Signal 1
+		}
 	}
 }
 
@@ -44,14 +47,18 @@ float process_FDR_signal(void) {
 	while (1) {
 		VAR_amplitude = process_adc_signal(VAR_SIGNAL, NULL, &VAR_amplitude);
 		FDR_Amplitude = process_adc_signal(FDR_SIGNAL, NULL, &FDR_Amplitude);
-    sprintf(buffer, "Freq: %.3f, Field_Volt: %.3f, FDR_Volt: %.3f\n", frequency, VAR_amplitude, FDR_Amplitude);
+		
+		if ((FDR_Amplitude > 1.1) && (check_signal_dc(VAR_amplitude))) {
+			do{
+				GPIO_WriteHigh(GPIOE, GPIO_PIN_0); // Turn on LED if Signal is AC < 20 mV
+				handle_commutation_pulse(); // Execute the pulse sending
+				GPIO_WriteLow(GPIOE, GPIO_PIN_0); // Turn on LED if Signal is AC < 20 mV
+			} while (check_FDR_Zero()); // Repeat if FDR_amplitude is still non-zero
+		}
+		sprintf(buffer, "Freq: %.3f, Field_Volt: %.3f, FDR_Volt: %.3f\n", frequency, VAR_amplitude,VAR_amplitude/4.7, FDR_Amplitude);
 	  printf("%s", buffer);
 		logResults(buffer);
-		if ((FDR_Amplitude > 1.1) && (VAR_amplitude > 0.7)) {
-			do{
-				handle_commutation_pulse(); // Execute the pulse sending
-			} while (check_FDR_amplitude()); // Repeat if FDR_amplitude is still non-zero
-		}
+		output_results(frequency, VAR_amplitude, FDR_Amplitude);
 	}
 	
 	return 0; // Unreachable, but keeps function signature valid
@@ -64,40 +71,43 @@ void process_VAR_signal(float FDR_amplitude) {
 	while (1) {
 		VAR_amplitude = process_adc_signal(VAR_SIGNAL, NULL, &VAR_amplitude);
 		VAR_frequency = frequency;
-		printDateTime();
-		//sprintDateTime(buffer);
-		//printf("%s\n", buffer);
-		printf(" Frequency: %.3f, Amplitude: %.3f, Current: %.3f, FDR_Voltage: %.3f\n",
-					 VAR_frequency, VAR_amplitude, VAR_amplitude / 4.7, FDR_amplitude);
-    sprintf(buffer, "%.3f,%.3f,%.3f,%.3f,1\n", frequency, VAR_amplitude, VAR_amplitude/4.7, FDR_amplitude);
-		logResults(buffer);
-		output_results(VAR_frequency, VAR_amplitude, FDR_amplitude);
 
-		if (VAR_frequency <= SET_FREQ) {
+		if (VAR_frequency <= set_frequency) {
 			char buffer[40]; // Adjust the size as necessary
 			pulseFlag = 1;
 			printf("Frequency Below Set Frequency.\n");
 			// Format the output string
-			sprintf(buffer, "%.3f,%.3f,%.3f,%.3f,1\n", VAR_frequency, VAR_amplitude, VAR_amplitude/4.7, FDR_amplitude);
+			sprintf(buffer, "Freq: %.3f,Field_Volt: %.3f,Field_Current: %.3f,1\n", VAR_frequency, VAR_amplitude, VAR_amplitude/4.7);
 			printf("%s", buffer);
 			logResults(buffer);
+			output_results(VAR_frequency, VAR_amplitude, -1);
 			handle_Frequency_Below_Set_Freq(VAR_amplitude);
 		}
+		printDateTime();
+		//sprintDateTime(buffer);
+		//printf("%s\n", buffer);
+		printf(" Frequency: %.3f, Field_Volt: %.3f, Field_Current: %.3f, FDR_Voltage: %.3f\n",
+					 VAR_frequency, VAR_amplitude, VAR_amplitude / 4.7, FDR_amplitude);
+    sprintf(buffer, "Freq: %.3f,Field_Volt: %.3f,Field_Current: %.3f,1\n", frequency, VAR_amplitude, VAR_amplitude/4.7, FDR_amplitude);
+		output_results(VAR_frequency, VAR_amplitude, FDR_amplitude);
+		logResults(buffer);
 	}
 }
 
 void handle_Frequency_Below_Set_Freq(float VAR_amplitude) {
 	char buffer[40];
+	pulseFlag = 1;
 	GPIO_WriteHigh(LED_BLUE); 
 	GPIO_WriteHigh(GPIOD, GPIO_PIN_2); 
 	VAR_amplitude = process_adc_signal(VAR_SIGNAL, NULL, &VAR_amplitude);
-  sprintf(buffer, "%.3f,%.3f,%.3f,%.3f,1\n", frequency, VAR_amplitude, VAR_amplitude/4.7, 0);
-	printf("%s", buffer);
-	logResults(buffer);
-	
+	UART1_SendString("1\n");
 	if (check_signal_dc(VAR_amplitude)) {
 		//printDateTime();
-		printf("Signal 1 DC.\n");
+		printf("Signal 1 DC: %.3f\n", VAR_amplitude);
+		sprintf(buffer, "Freq: %.3f,Field_Volt: %.3f,Field_Current: %.3f,1\n", frequency, VAR_amplitude, VAR_amplitude/4.7);
+		printf("%s", buffer);
+		logResults(buffer);
+		output_results(frequency, VAR_amplitude, -1);
 		GPIO_WriteHigh(LED_BLUE); 
 		process_FDR_signal();
 	} else {
@@ -113,9 +123,10 @@ void handle_signal_1_AC(float VAR_amplitude) {
 	VAR_amplitude = process_adc_signal(VAR_SIGNAL, NULL, &VAR_amplitude);
 	if (VAR_amplitude < AC_AMPLITUDE_THRESHOLD) {
 		//printDateTime();
-		sprintf(buffer, "%.3f,%.3f,%.3f,%.3f,1\n", frequency, VAR_amplitude, VAR_amplitude/4.7, 0);
+		sprintf(buffer, "Freq: %.3f,Field_Volt: %.3f,Field_Current: %.3f,1\n", frequency, VAR_amplitude, VAR_amplitude/4.7);
 	  printf("%s", buffer);
 		logResults(buffer);
+		output_results(frequency, VAR_amplitude, -1);
 		printf("VarAmplitude below 10 mv.\n");
 		GPIO_WriteLow(LED_WHITE); // Turn on LED if Signal is AC < 20 mV
 		delay_ms(3000);
@@ -125,18 +136,20 @@ void handle_signal_1_AC(float VAR_amplitude) {
 			pulseFlag = 1;
 			//printDateTime();
 			GPIO_WriteHigh(GPIOD, GPIO_PIN_7);  // Turn on LED if Signal is AC < 20 ms
-			sprintf(buffer, "%.3f,%.3f,%.3f,%.3f,1\n", frequency, VAR_amplitude, VAR_amplitude/4.7, 0);
+			sprintf(buffer, "Freq: %.3f,Field_Volt: %.3f,Field_Current: %.3f,1\n", frequency, VAR_amplitude, VAR_amplitude/4.7);
 			printf("%s", buffer);
-			logResults(buffer);
-			printf("VarAmplitude Not below 10 mv.\n");
+		//	logResults(buffer);
+		//	output_results(frequency, VAR_amplitude, -1);
+			printf("VarAmplitude Above 10 mv.\n");
 			GPIO_WriteHigh(LED_WHITE);  // Turn on LED if Signal is AC < 20 ms	
 			VAR_amplitude = process_adc_signal(VAR_SIGNAL, NULL, &VAR_amplitude);
 			//handle_Frequency_Below_Set_Freq(VAR_amplitude);
 			if(check_signal_dc(VAR_amplitude)){
-				printf("Signal 1 DC(After AC).\n");
+				printf("Signal 1 DC(After AC Condition).\n");
 				GPIO_WriteHigh(LED_BLUE); 
 				process_FDR_signal();
 			}
+
 		}
 	}
 }
@@ -195,10 +208,10 @@ void output_results(float frequency, float amplitude, float FDR_Voltage) {
 	char buffer[40]; // Adjust the size as necessary
 	
 	// Format the output string
-	sprintf(buffer, "%.3f,%.3f,%.3f,%.3f,0\n", frequency, amplitude, amplitude/4.7, FDR_Voltage);
+	sprintf(buffer, "%.3f,%.3f,%.3f,%.3f\n", frequency, amplitude, amplitude/4.7, FDR_Voltage);
   
 	// Send the formatted string via UART
-	printf("%s", buffer);
+	//printf("%s", buffer);
 	UART1_SendString(buffer);
 	//EEPROM_LogData(buffer);
 }
@@ -225,17 +238,22 @@ void send_square_pulse(uint16_t duration_ms) {
 }
 
 void handle_commutation_pulse(void) {
+	uint8_t i = 0;
 	GPIO_WriteHigh(COM_THYRISTOR); // Set square pulse pin high
-	delay_ms(3000);            // Wait for the pulse duration
+	for(i = 1; i < 4; i++){
+	printf("%u ", (unsigned int)i);
+	delay_ms(1000);	// Wait for the pulse duration
+  }
 	GPIO_WriteLow(COM_THYRISTOR); // Set square pulse pin low
 	GPIO_WriteHigh(LED_ORANGE); // Turn on LED ORANGE
-	printf("Commutation Thyristor Pulse Sent\n");
+	printf("\nCommutation Thyristor Pulse Sent\n");
 }
 
-bool check_FDR_amplitude(void) {
+bool check_FDR_Zero(void) {
 	float FDR_amplitude = 0;
 	FDR_amplitude = process_adc_signal(FDR_SIGNAL, NULL, &FDR_amplitude);
 	printf("Checking FDR_Amplitude: %.2f\n", FDR_amplitude);
+	output_results(frequency, -1, FDR_amplitude);
 	return (FDR_amplitude >= 1.1); // Returns true if FDR_amplitude is non-zero
 }
 
@@ -287,13 +305,10 @@ void  config_mode(void){
 			printf("SET Command Received. Waiting for new parameter...\n");
 			UART3_ReceiveString(buffer, sizeof(buffer)); // Receive the parameter string
 			// Additional processing if needed (example: write to EEPROM)
-			printf("123456789\n");
 			//value = ConvertStringToFloat(buffer);
 			internal_EEPROM_WriteStr(0x4000, buffer); // Example address for storing string
-			//printf("success\n");
-			//printf("New Parameter: %s\n", buffer);
-			//value = ConvertStringToFloat(buffer);
-			//printf("Value: %f\n", value);
+			value = ConvertStringToFloat(buffer);
+			printf("%.2f\n", value);
 			
 		} else if (strcmp(buffer, "ready") == 0) {
 			// Handle "read" command

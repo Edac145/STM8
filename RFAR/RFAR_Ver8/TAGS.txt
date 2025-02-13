@@ -135,7 +135,7 @@ ADC2_StartConversion	stm8s_adc2.h	243;"	prototype	signature:(void)
 ADC2_TDRH_RESET_VALUE	stm8s.h	384;"	macro
 ADC2_TDRL_RESET_VALUE	stm8s.h	383;"	macro
 ADC2_TypeDef	stm8s.h	375;"	typedef	typeref:struct:ADC2_struct
-ADC2_setup	init.c	71;"	function	signature:(void)
+ADC2_setup	init.c	73;"	function	signature:(void)
 ADC2_setup	init.h	30;"	prototype	signature:(void)
 ADC2_struct	stm8s.h	364;"	struct
 ADC_MAX_VALUE	main.h	18;"	macro
@@ -642,9 +642,9 @@ CSSR	stm8s.h	492;"	member	struct:CLK_struct
 ChgBit	stm8s.h	2660;"	macro
 ClrBit	stm8s.h	2658;"	macro
 Config	stm8s.h	2179;"	member	union:__anon5::__anon6	typeref:struct:__anon5::__anon6::__anon12
-ConvertFloatToString	init.c	275;"	function	signature:(float value, char *str, uint16_t maxLength)
+ConvertFloatToString	init.c	277;"	function	signature:(float value, char *str, uint16_t maxLength)
 ConvertFloatToString	init.h	54;"	prototype	signature:(float value, char *str, uint16_t maxLength)
-ConvertStringToFloat	init.c	262;"	function	signature:(char *str)
+ConvertStringToFloat	init.c	264;"	function	signature:(char *str)
 ConvertStringToFloat	init.h	55;"	prototype	signature:(char *str)
 DB0RH	stm8s.h	274;"	member	struct:ADC1_struct
 DB0RL	stm8s.h	275;"	member	struct:ADC1_struct
@@ -1248,7 +1248,7 @@ INTERRUPT_HANDLER_TRAP	stm8s.h	2617;"	macro
 INTERRUPT_HANDLER_TRAP	stm8s.h	2622;"	macro
 INTERRUPT_HANDLER_TRAP	stm8s.h	2631;"	macro
 INTERRUPT_HANDLER_TRAP	stm8s_it.c	117;"	function
-INT_EEPROM_Setup	init.c	97;"	function	signature:(void)
+INT_EEPROM_Setup	init.c	99;"	function	signature:(void)
 INT_EEPROM_Setup	init.h	33;"	prototype	signature:(void)
 IN_RAM	stm8s.h	150;"	macro
 IN_RAM	stm8s.h	152;"	macro
@@ -1409,7 +1409,7 @@ LED_GREEN	init.h	20;"	macro
 LED_ORANGE	init.h	22;"	macro
 LED_RED	init.h	23;"	macro
 LED_WHITE	init.h	19;"	macro
-LED_Write	init.c	281;"	function	signature:(GPIO_TypeDef* GPIOx, uint16_t GPIO_PIN, uint8_t state)
+LED_Write	init.c	283;"	function	signature:(GPIO_TypeDef* GPIOx, uint16_t GPIO_PIN, uint8_t state)
 LED_Write	init.h	43;"	prototype	signature:(GPIO_TypeDef* GPIOx, uint16_t GPIO_PIN, uint8_t state)
 LOG_ENTRY_SIZE	eeprom.h	20;"	macro
 LSI_VALUE	stm8s.h	102;"	macro
@@ -2068,7 +2068,7 @@ TIM1_UpdateDisableConfig	stm8s_tim1.h	553;"	prototype	signature:(FunctionalState
 TIM1_UpdateRequestConfig	stm8s_tim1.c	827;"	function	signature:(TIM1_UpdateSource_TypeDef TIM1_UpdateSource)
 TIM1_UpdateRequestConfig	stm8s_tim1.h	554;"	prototype	signature:(TIM1_UpdateSource_TypeDef TIM1_UpdateSource)
 TIM1_UpdateSource_TypeDef	stm8s_tim1.h	402;"	typedef	typeref:enum:__anon73
-TIM1_setup	init.c	81;"	function	signature:(void)
+TIM1_setup	init.c	83;"	function	signature:(void)
 TIM1_setup	init.h	32;"	prototype	signature:(void)
 TIM1_struct	stm8s.h	586;"	struct
 TIM2	stm8s.h	2550;"	macro
@@ -2455,7 +2455,7 @@ UART1_CR5_IRLP	stm8s.h	1827;"	macro
 UART1_CR5_NACK	stm8s.h	1825;"	macro
 UART1_CR5_RESET_VALUE	stm8s.h	1768;"	macro
 UART1_CR5_SCEN	stm8s.h	1824;"	macro
-UART1_ClearBuffer	init.c	125;"	function	signature:(void)
+UART1_ClearBuffer	init.c	127;"	function	signature:(void)
 UART1_ClearBuffer	init.h	39;"	prototype	signature:(void)
 UART1_ClearFlag	stm8s_uart1.c	646;"	function	signature:(UART1_Flag_TypeDef UART1_FLAG)
 UART1_ClearFlag	stm8s_uart1.h	369;"	prototype	signature:(UART1_Flag_TypeDef UART1_FLAG)
@@ -2526,7 +2526,7 @@ UART1_ReceiveData8	stm8s_uart1.c	451;"	function	signature:(void)
 UART1_ReceiveData8	stm8s_uart1.h	360;"	prototype	signature:(void)
 UART1_ReceiveData9	stm8s_uart1.c	461;"	function	signature:(void)
 UART1_ReceiveData9	stm8s_uart1.h	361;"	prototype	signature:(void)
-UART1_ReceiveString	init.c	165;"	function	signature:(char *buffer, uint16_t max_length)
+UART1_ReceiveString	init.c	167;"	function	signature:(char *buffer, uint16_t max_length)
 UART1_ReceiveString	init.h	41;"	prototype	signature:(char *buffer, uint16_t max_length)
 UART1_ReceiverWakeUpCmd	stm8s_uart1.c	430;"	function	signature:(FunctionalState NewState)
 UART1_ReceiverWakeUpCmd	stm8s_uart1.h	359;"	prototype	signature:(FunctionalState NewState)
@@ -2557,7 +2557,7 @@ UART1_SendData8	stm8s_uart1.c	474;"	function	signature:(uint8_t Data)
 UART1_SendData8	stm8s_uart1.h	362;"	prototype	signature:(uint8_t Data)
 UART1_SendData9	stm8s_uart1.c	486;"	function	signature:(uint16_t Data)
 UART1_SendData9	stm8s_uart1.h	363;"	prototype	signature:(uint16_t Data)
-UART1_SendString	init.c	155;"	function	signature:(char *str)
+UART1_SendString	init.c	157;"	function	signature:(char *str)
 UART1_SendString	init.h	40;"	prototype	signature:(char *str)
 UART1_SetAddress	stm8s_uart1.c	511;"	function	signature:(uint8_t UART1_Address)
 UART1_SetAddress	stm8s_uart1.h	365;"	prototype	signature:(uint8_t UART1_Address)
@@ -2581,7 +2581,7 @@ UART1_WakeUpConfig	stm8s_uart1.c	416;"	function	signature:(UART1_WakeUp_TypeDef 
 UART1_WakeUpConfig	stm8s_uart1.h	358;"	prototype	signature:(UART1_WakeUp_TypeDef UART1_WakeUp)
 UART1_WakeUp_TypeDef	stm8s_uart1.h	59;"	typedef	typeref:enum:__anon86
 UART1_WordLength_TypeDef	stm8s_uart1.h	104;"	typedef	typeref:enum:__anon91
-UART1_setup	init.c	58;"	function	signature:(void)
+UART1_setup	init.c	60;"	function	signature:(void)
 UART1_setup	init.h	38;"	prototype	signature:(void)
 UART1_struct	stm8s.h	1741;"	struct
 UART2	stm8s.h	2539;"	macro
@@ -2690,7 +2690,7 @@ UART3_CR6_LHDIEN	stm8s.h	2026;"	macro
 UART3_CR6_LSF	stm8s.h	2028;"	macro
 UART3_CR6_LSLV	stm8s.h	2024;"	macro
 UART3_CR6_RESET_VALUE	stm8s.h	1973;"	macro
-UART3_ClearBuffer	init.c	119;"	function	signature:(void)
+UART3_ClearBuffer	init.c	121;"	function	signature:(void)
 UART3_ClearBuffer	init.h	35;"	prototype	signature:(void)
 UART3_ClearFlag	stm8s_uart3.c	551;"	function	signature:(UART3_Flag_TypeDef UART3_FLAG)
 UART3_ClearFlag	stm8s_uart3.h	375;"	prototype	signature:(UART3_Flag_TypeDef UART3_FLAG)
@@ -2764,7 +2764,7 @@ UART3_ReceiveData8	stm8s_uart3.c	380;"	function	signature:(void)
 UART3_ReceiveData8	stm8s_uart3.h	368;"	prototype	signature:(void)
 UART3_ReceiveData9	stm8s_uart3.c	390;"	function	signature:(void)
 UART3_ReceiveData9	stm8s_uart3.h	369;"	prototype	signature:(void)
-UART3_ReceiveString	init.c	131;"	function	signature:(char *buffer, uint16_t max_length)
+UART3_ReceiveString	init.c	133;"	function	signature:(char *buffer, uint16_t max_length)
 UART3_ReceiveString	init.h	36;"	prototype	signature:(char *buffer, uint16_t max_length)
 UART3_ReceiverWakeUpCmd	stm8s_uart3.c	358;"	function	signature:(FunctionalState NewState)
 UART3_ReceiverWakeUpCmd	stm8s_uart3.h	366;"	prototype	signature:(FunctionalState NewState)
@@ -2798,7 +2798,7 @@ UART3_WakeUpConfig	stm8s_uart3.c	343;"	function	signature:(UART3_WakeUp_TypeDef 
 UART3_WakeUpConfig	stm8s_uart3.h	367;"	prototype	signature:( UART3_WakeUp_TypeDef UART3_WakeUp)
 UART3_WakeUp_TypeDef	stm8s_uart3.h	50;"	typedef	typeref:enum:__anon95
 UART3_WordLength_TypeDef	stm8s_uart3.h	80;"	typedef	typeref:enum:__anon99
-UART3_setup	init.c	51;"	function	signature:(void)
+UART3_setup	init.c	53;"	function	signature:(void)
 UART3_setup	init.h	29;"	prototype	signature:(void)
 UART3_struct	stm8s.h	1947;"	struct
 USE_STDPERIPH_DRIVER	stm8s.h	80;"	macro
@@ -2882,31 +2882,31 @@ atoi	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdlib.h	39;"	prot
 atol	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdlib.h	40;"	prototype	signature:(char *nptr)
 bool	stm8s.h	210;"	typedef	typeref:enum:__anon1
 buffer	main.h	45;"	variable
-calc_FDR_amplitude	main.c	237;"	function	signature:(void)
+calc_FDR_amplitude	main.c	260;"	function	signature:(void)
 calc_FDR_amplitude	main.h	80;"	prototype	signature:(void)
-calculate_amplitude	main.c	139;"	function	signature:(float adc_signal[], uint32_t sample_size)
+calculate_amplitude	main.c	158;"	function	signature:(float adc_signal[], uint32_t sample_size)
 calculate_amplitude	main.h	59;"	prototype	signature:(float adc_signal[], uint32_t sample_size)
-calculate_frequency	main.c	184;"	function	signature:(unsigned long period)
+calculate_frequency	main.c	202;"	function	signature:(unsigned long period)
 calculate_frequency	main.h	62;"	prototype	signature:(unsigned long period)
 calloc	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdlib.h	41;"	prototype	signature:(unsigned int nelem, unsigned int elsize)
 ceil	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\math.h	14;"	prototype	signature:(double x)
 checkString	eeprom.c	271;"	function	signature:(const char* str)
 checkString	eeprom.h	37;"	prototype	signature:(const char* str)
-check_FDR_amplitude	main.c	230;"	function	signature:(void)
-check_FDR_amplitude	main.h	76;"	prototype	signature:(void)
+check_FDR_Zero	main.c	252;"	function	signature:(void)
+check_FDR_Zero	main.h	76;"	prototype	signature:(void)
 check_negative_zero_crossing	main.h	52;"	prototype	signature:(void)
-check_signal_dc	main.c	244;"	function	signature:(float amplitude)
+check_signal_dc	main.c	267;"	function	signature:(float amplitude)
 check_signal_dc	main.h	55;"	prototype	signature:(float amplitude)
 clock_setup	init.c	5;"	function	signature:(void)
 clock_setup	init.h	28;"	prototype	signature:(void)
-config_mode	main.c	262;"	function	signature:(void)
+config_mode	main.c	285;"	function	signature:(void)
 config_mode	main.h	66;"	prototype	signature:(void)
-convert_adc_to_voltage	main.c	179;"	function	signature:(unsigned int adcValue)
+convert_adc_to_voltage	main.c	197;"	function	signature:(unsigned int adcValue)
 convert_adc_to_voltage	main.h	61;"	prototype	signature:(unsigned int adcValue)
 cos	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\math.h	15;"	prototype	signature:(double x)
 cosh	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\math.h	16;"	prototype	signature:(double x)
 count	main.h	32;"	variable
-createFormattedLog	init.c	291;"	function	signature:(float frequency, float fieldVoltage, float fieldCurrent, float fdrVoltage, const char *message)
+createFormattedLog	init.c	293;"	function	signature:(float frequency, float fieldVoltage, float fieldCurrent, float fdrVoltage, const char *message)
 createFormattedLog	init.h	56;"	prototype	signature:(float frequency, float fieldVoltage, float fieldCurrent, float fdrVoltage, const char *message)
 delay_ms	delay.c	47;"	function	signature:(uint16_t ms)
 delay_ms	delay.h	10;"	prototype	signature:(uint16_t ms)
@@ -2921,7 +2921,7 @@ disableInterrupts	stm8s.h	2604;"	macro
 div	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdlib.h	42;"	prototype	signature:(int numer, int denom)
 div_t	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdlib.h	30;"	typedef	typeref:struct:__anon106
 eepera	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\string.h	41;"	macro
-elapsedTime	init.c	190;"	function	signature:(uint32_t start, uint32_t end)
+elapsedTime	init.c	192;"	function	signature:(uint32_t start, uint32_t end)
 elapsedTime	init.h	45;"	prototype	signature:(uint32_t start, uint32_t end)
 enableInterrupts	stm8s.h	2584;"	macro
 enableInterrupts	stm8s.h	2593;"	macro
@@ -2942,23 +2942,23 @@ gets	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	16;"	proto
 halt	stm8s.h	2591;"	macro
 halt	stm8s.h	2600;"	macro
 halt	stm8s.h	2610;"	macro
-handle_Frequency_Below_Set_Freq	main.c	87;"	function	signature:(float VAR_amplitude)
+handle_Frequency_Below_Set_Freq	main.c	97;"	function	signature:(float VAR_amplitude)
 handle_Frequency_Below_Set_Freq	main.h	71;"	prototype	signature:(float VAR_amplitude)
-handle_commutation_pulse	main.c	222;"	function	signature:(void)
+handle_commutation_pulse	main.c	240;"	function	signature:(void)
 handle_commutation_pulse	main.h	77;"	prototype	signature:(void)
-handle_signal_1_AC	main.c	108;"	function	signature:(float VAR_amplitude)
+handle_signal_1_AC	main.c	120;"	function	signature:(float VAR_amplitude)
 handle_signal_1_AC	main.h	74;"	prototype	signature:(float VAR_amplitude)
 handle_signal_1_DC	main.h	73;"	prototype	signature:(float VAR_amplitude)
 i	stm8s_it.c	45;"	variable
 initialize_adc_buffer	main.h	57;"	prototype	signature:(float buffer[])
-initialize_system	main.c	27;"	function	signature:(void)
+initialize_system	main.c	29;"	function	signature:(void)
 initialize_system	main.h	47;"	prototype	signature:(void)
 int16_t	stm8s.h	191;"	typedef
 int32_t	stm8s.h	192;"	typedef
 int8_t	stm8s.h	190;"	typedef
-internal_EEPROM_ReadStr	init.c	215;"	function	signature:(uint32_t address, char *buffer, uint16_t max_length)
+internal_EEPROM_ReadStr	init.c	217;"	function	signature:(uint32_t address, char *buffer, uint16_t max_length)
 internal_EEPROM_ReadStr	init.h	48;"	prototype	signature:(uint32_t address, char *buffer, uint16_t max_length)
-internal_EEPROM_WriteStr	init.c	208;"	function	signature:(uint32_t address, char *str)
+internal_EEPROM_WriteStr	init.c	210;"	function	signature:(uint32_t address, char *str)
 internal_EEPROM_WriteStr	init.h	49;"	prototype	signature:(uint32_t address, char *str)
 interrupt_handler	stm8_interrupt_vector.c	10;"	member	struct:interrupt_vector	file:
 interrupt_handler_t	stm8_interrupt_vector.c	6;"	typedef	file:
@@ -2975,7 +2975,7 @@ ldiv	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdlib.h	46;"	prot
 ldiv_t	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdlib.h	35;"	typedef	typeref:struct:__anon107
 log	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\math.h	23;"	prototype	signature:(double x)
 log10	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\math.h	24;"	prototype	signature:(double x)
-logResults	main.c	202;"	function	signature:(const char *logMessage)
+logResults	main.c	220;"	function	signature:(const char *logMessage)
 logResults	main.h	67;"	prototype	signature:(const char *logMessage)
 log_to_eeprom	eeprom.c	262;"	function	signature:(const char* str)
 log_to_eeprom	eeprom.h	36;"	prototype	signature:(const char* str)
@@ -2995,19 +2995,19 @@ modf	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\math.h	25;"	protot
 nop	stm8s.h	2588;"	macro
 nop	stm8s.h	2597;"	macro
 nop	stm8s.h	2607;"	macro
-output_results	main.c	189;"	function	signature:(float frequency, float amplitude, float FDR_Voltage)
+output_results	main.c	207;"	function	signature:(float frequency, float amplitude, float FDR_Voltage)
 output_results	main.h	58;"	prototype	signature:(float frequency, float amplitude, float FDR_Voltage)
 overflow_count	main.h	37;"	variable
 pow	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\math.h	26;"	prototype	signature:(double x, double y)
 prescaling_factor	stm8s_it.c	40;"	variable
-printDateTime	init.c	229;"	function	signature:(void)
+printDateTime	init.c	231;"	function	signature:(void)
 printDateTime	init.h	51;"	prototype	signature:(void)
 printf	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	17;"	prototype	signature:(char *format, ...)
-process_FDR_signal	main.c	41;"	function	signature:(void)
+process_FDR_signal	main.c	43;"	function	signature:(void)
 process_FDR_signal	main.h	69;"	prototype	signature:(void)
-process_VAR_signal	main.c	59;"	function	signature:(float FDR_amplitude)
+process_VAR_signal	main.c	67;"	function	signature:(float FDR_amplitude)
 process_VAR_signal	main.h	70;"	prototype	signature:(float FDR_amplitude)
-process_adc_signal	main.c	151;"	function	signature:(uint8_t channel, float *frequency, float *amplitude)
+process_adc_signal	main.c	170;"	function	signature:(uint8_t channel, float *frequency, float *amplitude)
 process_adc_signal	main.h	60;"	prototype	signature:(uint8_t channel, float *frequency, float *amplitude)
 process_eeprom_logs	eeprom.c	239;"	function
 process_eeprom_logs	eeprom.h	35;"	prototype	signature:(void)
@@ -3018,11 +3018,11 @@ puts	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	19;"	proto
 quot	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdlib.h	28;"	member	struct:__anon106
 quot	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdlib.h	33;"	member	struct:__anon107
 rand	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdlib.h	48;"	prototype	signature:(void)
-read_ADC_Channel	init.c	195;"	function	signature:(uint8_t channel)
+read_ADC_Channel	init.c	197;"	function	signature:(uint8_t channel)
 read_ADC_Channel	init.h	46;"	prototype	signature:(uint8_t channel)
 read_from_eeprom	eeprom.c	213;"	function	signature:(uint16_t start_addr, char* buffer, uint16_t buffer_size)
 read_from_eeprom	eeprom.h	34;"	prototype	signature:(uint16_t start_addr, char* buffer, uint16_t buffer_size)
-read_set_frequency	main.c	254;"	function	signature:(float *set_freq)
+read_set_frequency	main.c	277;"	function	signature:(float *set_freq)
 read_set_frequency	main.h	65;"	prototype	signature:(float *set_freq)
 realloc	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdlib.h	49;"	prototype	signature:(void *ptr, unsigned int size)
 rem	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdlib.h	29;"	member	struct:__anon106
@@ -3035,7 +3035,7 @@ s32	stm8s.h	201;"	typedef
 s8	stm8s.h	203;"	typedef
 scanf	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	20;"	prototype	signature:(char *format, ...)
 send_pulse_commutation	main.h	54;"	prototype	signature:(uint16_t duration_ms)
-send_square_pulse	main.c	216;"	function	signature:(uint16_t duration_ms)
+send_square_pulse	main.c	234;"	function	signature:(uint16_t duration_ms)
 send_square_pulse	main.h	53;"	prototype	signature:(uint16_t duration_ms)
 set_freq	main.h	44;"	variable
 set_frequency	main.h	42;"	variable
@@ -3048,7 +3048,7 @@ sine1_frequency	main.h	30;"	variable
 sinh	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\math.h	28;"	prototype	signature:(double x)
 size_t	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	10;"	typedef
 size_t	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdlib.h	19;"	typedef
-sprintDateTime	init.c	245;"	function	signature:(char *buffer)
+sprintDateTime	init.c	247;"	function	signature:(char *buffer)
 sprintDateTime	init.h	52;"	prototype	signature:(char *buffer)
 sprintf	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\stdio.h	22;"	prototype	signature:(char *s, char *format, ...)
 sqrt	c:\program files (x86)\cosmic\fse_compilers\cxstm8\hstm8\math.h	29;"	prototype	signature:(double x)

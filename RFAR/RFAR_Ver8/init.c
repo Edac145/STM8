@@ -45,6 +45,8 @@ void GPIO_setup(void) {
 	
   GPIO_Init (GPIOE, GPIO_PIN_1, GPIO_MODE_OUT_OD_HIZ_FAST);
   GPIO_Init (GPIOE, GPIO_PIN_2, GPIO_MODE_OUT_OD_HIZ_FAST);
+	GPIO_Init (GPIOE, GPIO_PIN_6, GPIO_MODE_OUT_PP_LOW_FAST);
+	GPIO_WriteLow(GPIOE, GPIO_PIN_6); // Set square pulse pin low
 }
 
 /** Setup UART communication at 9600 baud **/
